@@ -33,6 +33,11 @@ require("lazy").setup({
         dependencies = {"williamboman/mason.nvim", "jose-elias-alvarez/null-ls.nvim"},
     },
     "nvim-lua/plenary.nvim",
+    "ErichDonGubler/lsp_lines.nvim",
+    "lewis6991/gitsigns.nvim",
+    "j-hui/fidget.nvim",
+    {"nvim-telescope/telescope.nvim", tag = "0.1.1", dependencies = {"nvim-lua/plenary.nvim"}},
+    {"glepnir/lspsaga.nvim", event = "LspAttach", dependencies = {"nvim-tree/nvim-web-devicons", "nvim-treesitter/nvim-treesitter"}},
 })
 
 -- set options
@@ -45,6 +50,7 @@ vim.opt.clipboard:append{"unnamedplus"}
 vim.opt.list = true
 vim.opt.listchars:append "eol:↴"
 vim.opt.listchars:append "space:⋅"
+vim.opt.nrformats = "bin,hex,alpha"
 
 -- inident_blankline settings
 require("indent_blankline").setup {
@@ -54,7 +60,7 @@ require("indent_blankline").setup {
 
 -- treesitter settings
 require("nvim-treesitter.configs").setup {
-    ensure_installed = {"python", "lua", "terraform"},
+    ensure_installed = {"python", "lua", "terraform", "markdown", "markdown_inline"},
     highlight = {
         enable = true,
     }
@@ -87,6 +93,9 @@ require("mason-lspconfig").setup_handlers({
         })
     end
 })
+
+vim.diagnostic.config({virtual_text = false}) -- recommended by lsp_lines
+require("lsp_lines").setup()
 
 -- cmp settimgs
 local lspkind = require("lspkind")
@@ -140,7 +149,7 @@ cmp.setup.cmdline(":", {
     }
 })
 
--- diagonostic, formatting
+-- diagnostic, formatting
 local mason_null_ls = require("mason-null-ls")
 local null_ls = require("null-ls")
 
@@ -165,9 +174,27 @@ require("nightfox").setup({
 -- load colorscheme
 vim.cmd("colorscheme nightfox")
 
--- statusline settings
+-- statusline
 require("lualine").setup()
 
--- autopairs settings
+-- autopairs
 require("nvim-autopairs").setup()
+
+-- git
+require("gitsigns").setup()
+
+-- display nvim-lsp progress
+require("fidget").setup()
+
+-- fuzzyfinder
+local builtin = require("telescope.builtin")
+vim.keymap.set("n", "<leader>ff", builtin.find_files, {})
+vim.keymap.set("n", "<leader>fg", builtin.live_grep, {})
+vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
+vim.keymap.set("n", "<leader>fh", builtin.help_tags, {})
+
+require("telescope").setup()
+
+-- lspsaga
+require("lspsaga").setup()
 
