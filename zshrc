@@ -1,6 +1,4 @@
-# Fig pre block. Keep at the top of this file.
-[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.pre.zsh"
-### Added by Zinit's installer
+#### Added by Zinit's installer
 if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
     print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
     command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
@@ -25,8 +23,8 @@ zinit light-mode for \
 
 ### Added by User
 #### prompt theme
-zinit ice compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh'
-zinit light sindresorhus/pure
+#zinit ice compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh' --commented out as I moved to starship
+#zinit light sindresorhus/pure --commented out as I moved to starship
 
 #### command history press Ctrl+r
 zinit load robobenklein/zdharma-history-search-multi-word
@@ -61,6 +59,11 @@ alias gcloud='docker run --rm -it --volumes-from gcloud-config google/cloud-sdk 
 
 #### ls
 alias ls='ls -G'
+
+#### git-completion
+fpath=(~/.zsh/completion $fpath)
+autoload -U compinit
+compinit -u
 
 ### fzf default 
 #export FZF_DEFAULT_COMMAND='fd --type file --color=always'
@@ -115,5 +118,5 @@ alias fcd='fzf_cd'
 export PATH="/Users/takashina.jundai/.rd/bin:$PATH"
 ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
 
-# Fig post block. Keep at the bottom of this file.
-[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
+## starship
+eval "$(starship init zsh)"

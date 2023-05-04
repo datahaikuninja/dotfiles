@@ -22,11 +22,12 @@ end
 -- 'Night Owl (Gogh)'
 
 config = {
-  color_scheme = 'tokyonight_storm',
+  use_ime = true,
+  color_scheme = 'nightfox',
   tab_bar_at_bottom = true,
-  window_background_opacity = 0.8,
+  window_background_opacity = 0.9,
   font = wezterm.font('JetBrains Mono', {weight="Bold", stretch="Normal", style="Normal"}),
-  font_size = 10.0,
+  font_size = 15.0,
   keys = {
     {
       key = 'p',

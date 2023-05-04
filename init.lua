@@ -17,7 +17,7 @@ require("lazy").setup({
     "lukas-reineke/indent-blankline.nvim",
     {"nvim-treesitter/nvim-treesitter", build = ":TSUpdate"},
     "neovim/nvim-lspconfig",
-    "williamboman/mason.nvim",
+    {"williamboman/mason.nvim", build = ":MasonUpdate"},
     "williamboman/mason-lspconfig.nvim",
     "hrsh7th/nvim-cmp",
     "hrsh7th/cmp-nvim-lsp",
