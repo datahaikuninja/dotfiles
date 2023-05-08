@@ -51,6 +51,12 @@ vim.opt.list = true
 vim.opt.listchars:append "eol:↴"
 vim.opt.listchars:append "space:⋅"
 vim.opt.nrformats = "bin,hex,alpha"
+vim.opt.wildmenu = true
+vim.opt.wildmode = "full"
+
+-- set keymaps
+vim.keymap.set("c", "<C-p>", "<Up>", {noremap = true})
+vim.keymap.set("c", "<C-n>", "<Down>", {noremap = true})
 
 -- inident_blankline settings
 require("indent_blankline").setup {
@@ -142,11 +148,23 @@ cmp.setup.cmdline("/", {
         { name = 'buffer' }
     }
 })
+
+local mapping_cmdline = cmp.mapping.preset.cmdline()
+mapping_cmdline['<Tab>'] = function (fallback)
+    if cmp.visible() then
+        cmp.select_next_item()
+    else
+        fallback()
+    end
+end
+
 cmp.setup.cmdline(":", {
-    mapping = cmp.mapping.preset.cmdline(),
-    sources = {
-        { name = 'path' }
-    }
+    mapping = mapping_cmdline,
+    sources = cmp.config.sources({
+        { name = 'cmdline' }
+    }, {
+        { name = 'path'}
+    })
 })
 
 -- diagnostic, formatting

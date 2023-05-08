@@ -21,20 +21,40 @@ end
 -- 'IC_Green_PPL'
 -- 'Night Owl (Gogh)'
 
-config = {
-  use_ime = true,
-  color_scheme = 'nightfox',
-  tab_bar_at_bottom = true,
-  window_background_opacity = 0.9,
-  font = wezterm.font('JetBrains Mono', {weight="Bold", stretch="Normal", style="Normal"}),
-  font_size = 15.0,
-  keys = {
+-- enable IME in wezterm
+config.use_ime = true
+
+-- set color scheem
+config.color_scheme = 'nightfox'
+
+-- put tab bar at bottom
+config.tab_bar_at_bottom = true
+
+-- Window transparency
+config.window_background_opacity = 0.9
+
+-- fonts
+config.font = wezterm.font_with_fallback {
     {
-      key = 'p',
-      mods = 'CTRL|SHIFT',
-      action = act.PaneSelect,
+        family = 'JetBrains Mono',
+        harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' },
+        weight = "Medium",
+        stretch = "Normal",
+        style = "Normal",
     },
-  },
+   "HackGen35ConsoleNF-Bold",
+}
+
+-- font_size
+config.font_size = 20.0
+
+-- key mappings
+config.keys = {
+    {
+        key = 'p',
+        mods = 'CTRL|SHIFT',
+        action = act.PaneSelect,
+    }
 }
 
 -- and finally, return the configuration to wezterm
