@@ -38,6 +38,7 @@ require("lazy").setup({
     "j-hui/fidget.nvim",
     {"nvim-telescope/telescope.nvim", tag = "0.1.1", dependencies = {"nvim-lua/plenary.nvim"}},
     {"glepnir/lspsaga.nvim", event = "LspAttach", dependencies = {"nvim-tree/nvim-web-devicons", "nvim-treesitter/nvim-treesitter"}},
+    "zbirenbaum/copilot.lua",
 })
 
 -- set options
@@ -59,9 +60,17 @@ vim.keymap.set("c", "<C-p>", "<Up>", {noremap = true})
 vim.keymap.set("c", "<C-n>", "<Down>", {noremap = true})
 
 -- inident_blankline settings
+vim.cmd [[highlight IndentBlanklineIndent1 guifg=#4c566a blend=nocombine]]
 require("indent_blankline").setup {
     show_end_of_line = true,
     space_char_blankline = " ",
+    char_highlight_list = {
+        "IndentBlanklineIndent1",
+    },
+    space_char_highlight_list = {
+        "IndentBlanklineIndent1",
+    },
+    show_current_context = true,
 }
 
 -- treesitter settings
@@ -186,6 +195,9 @@ mason_null_ls.setup({
 require("nightfox").setup({
     options = {
         transparent = true,
+        styles = {
+            comments = "italic",
+        }
     }
 })
 
@@ -215,4 +227,11 @@ require("telescope").setup()
 
 -- lspsaga
 require("lspsaga").setup()
+
+-- github copilot
+require("copilot").setup({
+    suggestion = {
+        auto_trigger = true,
+    }
+})
 

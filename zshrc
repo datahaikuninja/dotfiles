@@ -39,7 +39,7 @@ zinit light zdharma-continuum/fast-syntax-highlighting
 zinit light asdf-vm/asdf
 
 ### PATH
-export PATH="/usr/local/bin:/opt/homebrew/bin:/opt/homebrew/opt/postgresql@12/bin:/opt/homebrew/opt/redis@6.2/bin:/opt/homebrew/Cellar/git:$PATH"
+export PATH="/usr/local/bin:/opt/homebrew/bin:/opt/homebrew/opt/postgresql@12/bin:/opt/homebrew/opt/redis@6.2/bin:/opt/homebrew/opt/mysql-client@5.7/bin:/opt/homebrew/Cellar/git:$PATH"
 
 ### for tmux settings
 typeset -U path PATH

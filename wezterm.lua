@@ -42,19 +42,44 @@ config.font = wezterm.font_with_fallback {
         stretch = "Normal",
         style = "Normal",
     },
-   "HackGen35ConsoleNF-Bold",
+    "HackGen-Regular"
 }
 
 -- font_size
-config.font_size = 20.0
+config.font_size = 24.0
+
+-- leader key
+config.leader = { key = 'o', mods = 'CTRL', timeout_milliseconds = 1000 }
 
 -- key mappings
 config.keys = {
     {
         key = 'p',
-        mods = 'CTRL|SHIFT',
+        mods = 'LEADER',
         action = act.PaneSelect,
-    }
+    },
+    {
+        mods = 'LEADER',
+        key = ',',
+        action = act.PromptInputLine {
+            description = 'Wezterm: set tab title',
+            action = wezterm.action_callback(function(window,pane,line)
+                if line then
+                    window:active_tab():set_title(line)
+                end
+            end),
+        },
+    },
+    {
+        key = '%',
+        mods = 'LEADER',
+        action = act.SplitHorizontal { cwd = '/Users/takashina.jundai/' },
+    },
+    {
+        key = '"',
+        mods = 'LEADER',
+        action = act.SplitVertical { cwd = '/Users/takashina.jundai/' },
+    },
 }
 
 -- and finally, return the configuration to wezterm
