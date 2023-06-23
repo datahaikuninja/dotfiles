@@ -58,24 +58,18 @@ vim.opt.wildmode = "full"
 -- set keymaps
 vim.keymap.set("c", "<C-p>", "<Up>", {noremap = true})
 vim.keymap.set("c", "<C-n>", "<Down>", {noremap = true})
-
--- inident_blankline settings
-vim.cmd [[highlight IndentBlanklineIndent1 guifg=#4c566a blend=nocombine]]
-require("indent_blankline").setup {
-    show_end_of_line = true,
-    space_char_blankline = " ",
-    char_highlight_list = {
-        "IndentBlanklineIndent1",
-    },
-    space_char_highlight_list = {
-        "IndentBlanklineIndent1",
-    },
-    show_current_context = true,
-}
+vim.keymap.set("n", "<ESC><ESC>", "<cmd>nohlsearch<CR>", {noremap = true})
 
 -- treesitter settings
 require("nvim-treesitter.configs").setup {
-    ensure_installed = {"python", "lua", "terraform", "markdown", "markdown_inline"},
+    ensure_installed = {
+        "python",
+        "lua",
+        "terraform",
+        "markdown",
+        "markdown_inline",
+        "javascript",
+    },
     highlight = {
         enable = true,
     }
@@ -223,7 +217,13 @@ vim.keymap.set("n", "<leader>fg", builtin.live_grep, {})
 vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
 vim.keymap.set("n", "<leader>fh", builtin.help_tags, {})
 
-require("telescope").setup()
+require("telescope").setup({
+    defaults = {
+        preview = {
+            ls_short = true,
+        },
+    }
+})
 
 -- lspsaga
 require("lspsaga").setup()
@@ -234,4 +234,19 @@ require("copilot").setup({
         auto_trigger = true,
     }
 })
+
+-- indent_blankline settings
+-- vim.cmd [[highlight IndentBlanklineChar guifg=#c94f6d gui=nocombine]]
+ vim.cmd [[highlight IndentBlanklineSpaceChar guifg=#60728a gui=nocombine]]
+require("indent_blankline").setup {
+    show_end_of_line = true,
+    space_char_blankline = " ",
+--    char_highlight_list = {
+--        "IndentBlanklineChar",
+--    },
+    space_char_highlight_list = {
+        "IndentBlanklineSpaceChar",
+    },
+--    show_current_context = true,
+}
 

@@ -34,3 +34,8 @@ hs.hotkey.bind({"cmd", "ctrl"}, "w", function()
   hotkey(appName)
 end)
 
+--VSCode hotkey
+hs.hotkey.bind({"cmd", "ctrl"}, "v", function()
+  local appName = "Visual Studio Code"
+  hotkey(appName)
+end)
