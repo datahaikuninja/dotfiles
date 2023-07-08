@@ -35,7 +35,7 @@ require("lazy").setup({
     "nvim-lua/plenary.nvim",
     "ErichDonGubler/lsp_lines.nvim",
     "lewis6991/gitsigns.nvim",
-    "j-hui/fidget.nvim",
+    {"j-hui/fidget.nvim", tag = "legacy"},
     {"nvim-telescope/telescope.nvim", tag = "0.1.1", dependencies = {"nvim-lua/plenary.nvim"}},
     {"glepnir/lspsaga.nvim", event = "LspAttach", dependencies = {"nvim-tree/nvim-web-devicons", "nvim-treesitter/nvim-treesitter"}},
     "zbirenbaum/copilot.lua",
@@ -99,6 +99,19 @@ require("mason-lspconfig").setup_handlers({
         require("lspconfig")[server_name].setup({
             on_attach = on_attach,
             capabilities = capabilities,
+            settings = {
+                -- configure plugins in pylsp
+                pylsp = {
+                    configurationSources = {"flake8", "pycodestyle"},
+                    plugins = {
+                        pycodestyle = {enabled = false},
+                        flake8 = {
+                            enabled = true,
+                            maxLineLength = 120,
+                        },
+                    }
+                }
+            }
         })
     end
 })
@@ -176,7 +189,7 @@ local null_ls = require("null-ls")
 
 null_ls.setup({
     sources = {
-        null_ls.builtins.diagnostics.flake8,
+        -- null_ls.builtins.diagnostics.flake8,
     }
 })
 
@@ -250,3 +263,9 @@ require("indent_blankline").setup {
 --    show_current_context = true,
 }
 
+-- disable auto commenting
+vim.api.nvim_create_autocmd("FileType", {
+    group = vim.api.nvim_create_augroup("turn_off_auto_commenting", {}),
+    pattern = "*",
+    command = [[setlocal fo-=cro]]
+})
