@@ -54,6 +54,7 @@ vim.opt.listchars:append "space:⋅"
 vim.opt.nrformats = "bin,hex,alpha"
 vim.opt.wildmenu = true
 vim.opt.wildmode = "full"
+vim.opt.ignorecase = true
 
 -- set keymaps
 vim.keymap.set("c", "<C-p>", "<Up>", {noremap = true})

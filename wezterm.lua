@@ -42,7 +42,10 @@ config.font = wezterm.font_with_fallback {
         stretch = "Normal",
         style = "Normal",
     },
-    "HackGen-Regular"
+    {
+        family = "HackGen",
+        weight = "Regular",
+    },
 }
 
 -- font_size
