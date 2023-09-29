@@ -39,7 +39,7 @@ zinit light zdharma-continuum/fast-syntax-highlighting
 zinit light asdf-vm/asdf
 
 ### PATH
-export PATH="/usr/local/bin:/opt/homebrew/bin:/opt/homebrew/opt/postgresql@12/bin:/opt/homebrew/opt/redis@6.2/bin:/opt/homebrew/opt/mysql-client@5.7/bin:/opt/homebrew/Cellar/git:$PATH"
+export PATH="/usr/local/bin:/opt/homebrew/bin:/opt/homebrew/opt/postgresql@12/bin:/opt/homebrew/opt/redis@6.2/bin:/opt/homebrew/opt/mysql-client@5.7/bin:/opt/homebrew/Cellar/git:/Users/takashina.jundai/go/bin:$PATH"
 
 ### for tmux settings
 typeset -U path PATH
@@ -59,6 +59,10 @@ alias gcloud='docker run --rm -it --volumes-from gcloud-config google/cloud-sdk 
 
 #### ls
 alias ls='ls -G'
+
+#### vi, vim, nvim
+alias vi='nvim'
+alias vim='nvim'
 
 #### git-completion
 fpath=(~/.zsh/completion $fpath)

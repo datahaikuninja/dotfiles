@@ -76,12 +76,12 @@ config.keys = {
     {
         key = '%',
         mods = 'LEADER',
-        action = act.SplitHorizontal { cwd = '/Users/takashina.jundai/' },
+        action = act.SplitHorizontal {},
     },
     {
         key = '"',
         mods = 'LEADER',
-        action = act.SplitVertical { cwd = '/Users/takashina.jundai/' },
+        action = act.SplitVertical {},
     },
     --workspace
     {
