@@ -1,0 +1,34 @@
+{
+  "title": "right_opt to esc for vi",
+  "rules": [
+    {
+      "description": "Change right_opt to esc while using terminal app",
+      "manipulators":
+      [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "right_option"
+          },
+          "to": [
+            {
+              "key_code": "escape"
+            },
+            {
+              "key_code": "japanese_eisuu"
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": [
+                "^com\\.github\\.wez\\.wezterm$"
+              ]
+            }
+          ],
+          "description": "right_opt to esc when using wezterm"
+        }
+      ]
+    }
+  ]
+}
