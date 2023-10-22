@@ -14,7 +14,7 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
     "EdenEast/nightfox.nvim",
-    "lukas-reineke/indent-blankline.nvim",
+    {"lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {}},
     {"nvim-treesitter/nvim-treesitter", build = ":TSUpdate"},
     "neovim/nvim-lspconfig",
     {"williamboman/mason.nvim", build = ":MasonUpdate"},
@@ -55,12 +55,12 @@ if not vim.g.vscode then
     vim.opt.wildmenu = true
     vim.opt.wildmode = "full"
     vim.opt.ignorecase = true
-    
+
     -- set keymaps
     vim.keymap.set("c", "<C-p>", "<Up>", {noremap = true})
     vim.keymap.set("c", "<C-n>", "<Down>", {noremap = true})
     vim.keymap.set("n", "<ESC><ESC>", "<cmd>nohlsearch<CR>", {noremap = true})
-    
+
     -- treesitter settings
     require("nvim-treesitter.configs").setup {
         ensure_installed = {
@@ -76,7 +76,7 @@ if not vim.g.vscode then
             enable = true,
         }
     }
-    
+
     -- lsp settings
     local on_attach = function(client, bufnr)
         local set = vim.keymap.set
@@ -91,9 +91,9 @@ if not vim.g.vscode then
         set("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>")
         set("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>")
     end
-    
+
     local capabilities = require("cmp_nvim_lsp").default_capabilities()
-    
+
     require("mason").setup()
     require("mason-lspconfig").setup({
         ensure_installed = {
@@ -125,13 +125,13 @@ if not vim.g.vscode then
             })
         end
     })
-    
+
     vim.diagnostic.config({virtual_text = false})
-    
+
     -- cmp settimgs
     local lspkind = require("lspkind")
     local cmp = require("cmp")
-    
+
     cmp.setup({
         snippet = {
             expand = function(args)
@@ -166,14 +166,14 @@ if not vim.g.vscode then
             })
         }
     })
-    
+
     cmp.setup.cmdline("/", {
         mapping = cmp.mapping.preset.cmdline(),
         sources = {
             { name = 'buffer' }
         }
     })
-    
+
     local mapping_cmdline = cmp.mapping.preset.cmdline()
     mapping_cmdline['<Tab>'] = function (fallback)
         if cmp.visible() then
@@ -182,7 +182,7 @@ if not vim.g.vscode then
             fallback()
         end
     end
-    
+
     cmp.setup.cmdline(":", {
         mapping = mapping_cmdline,
         sources = cmp.config.sources({
@@ -191,23 +191,23 @@ if not vim.g.vscode then
             { name = 'path'}
         })
     })
-    
+
     -- diagnostic, formatting
     local mason_null_ls = require("mason-null-ls")
     local null_ls = require("null-ls")
-    
+
     null_ls.setup({
         sources = {
             -- null_ls.builtins.diagnostics.flake8,  -- flake8 is built in pylsp
         },
         diagnostics_format = "[#{c}] #{m} (#{s})"
     })
-    
+
     mason_null_ls.setup({
         ensure_installed = nil,
         automatic_installation = true,
     })
-    
+
     -- colorscheme settings
     require("nightfox").setup({
         options = {
@@ -217,29 +217,29 @@ if not vim.g.vscode then
             }
         }
     })
-    
+
     -- load colorscheme
     vim.cmd("colorscheme nightfox")
-    
+
     -- statusline
     require("lualine").setup()
-    
+
     -- autopairs
     require("nvim-autopairs").setup()
-    
+
     -- git
     require("gitsigns").setup()
-    
+
     -- display nvim-lsp progress
     require("fidget").setup()
-    
+
     -- fuzzyfinder
     local builtin = require("telescope.builtin")
     vim.keymap.set("n", "<leader>ff", builtin.find_files, {})
     vim.keymap.set("n", "<leader>fg", builtin.live_grep, {})
     vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
     vim.keymap.set("n", "<leader>fh", builtin.help_tags, {})
-    
+
     require("telescope").setup({
         defaults = {
             preview = {
@@ -247,32 +247,26 @@ if not vim.g.vscode then
             },
         }
     })
-    
+
     -- lspsaga
     require("lspsaga").setup()
-    
+
     -- github copilot
     require("copilot").setup({
         suggestion = {
             auto_trigger = true,
         }
     })
-    
+
     -- indent_blankline settings
-    -- vim.cmd [[highlight IndentBlanklineChar guifg=#c94f6d gui=nocombine]]
-     vim.cmd [[highlight IndentBlanklineSpaceChar guifg=#60728a gui=nocombine]]
-    require("indent_blankline").setup {
-        show_end_of_line = true,
-        space_char_blankline = " ",
-    --    char_highlight_list = {
-    --        "IndentBlanklineChar",
-    --    },
-        space_char_highlight_list = {
-            "IndentBlanklineSpaceChar",
+    require("ibl").setup ({
+        indent = {
+            char = "▏",
+            -- highlight = highlight
         },
-    --    show_current_context = true,
-    }
-    
+        scope = { enabled = false }
+    })
+
     -- disable auto commenting
     vim.api.nvim_create_autocmd("FileType", {
         group = vim.api.nvim_create_augroup("turn_off_auto_commenting", {}),
