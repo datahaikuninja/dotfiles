@@ -49,7 +49,7 @@ config.font = wezterm.font_with_fallback {
 }
 
 -- font_size
-config.font_size = 24.0
+config.font_size = 20.0
 
 -- leader key
 config.leader = { key = '/', mods = 'CTRL', timeout_milliseconds = 1000 }

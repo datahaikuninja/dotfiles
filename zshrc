@@ -118,9 +118,5 @@ function fzf_cd() {
 }
 alias fcd='fzf_cd'
 
-### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/takashina.jundai/.rd/bin:$PATH"
-### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
-
 ## starship
 eval "$(starship init zsh)"
