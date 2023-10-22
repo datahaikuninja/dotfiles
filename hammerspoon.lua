@@ -12,7 +12,7 @@ end
 
 --1password hotkey
 hs.hotkey.bind({"cmd", "ctrl"}, "t", function()
-  local appName = "1Password 7"
+  local appName = "1Password"
   hotkey(appName)
 end)
 
