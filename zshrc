@@ -36,10 +36,10 @@ zinit light zsh-users/zsh-autosuggestions
 zinit light zdharma-continuum/fast-syntax-highlighting
 
 #### asdf(version control system)
-zinit light asdf-vm/asdf
+#zinit light asdf-vm/asdf --commented out as I moved to homebrew
 
 ### PATH
-export PATH="/usr/local/bin:/opt/homebrew/bin:/opt/homebrew/Cellar/git:/Users/takashina.jundai/.asdf/shims/python:/usr/local/go/bin:$PATH"
+export PATH="/usr/local/bin:/opt/homebrew/bin:/opt/homebrew/Cellar/git:/${HOME}/.asdf/shims/python:/usr/local/go/bin:$PATH"
 
 ### for tmux settings
 typeset -U path PATH
@@ -120,3 +120,6 @@ alias fcd='fzf_cd'
 
 ## starship
 eval "$(starship init zsh)"
+
+## asdf
+. /opt/homebrew/opt/asdf/libexec/asdf.sh
