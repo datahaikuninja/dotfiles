@@ -55,6 +55,20 @@ vim.opt.ignorecase = true
 vim.keymap.set("c", "<C-p>", "<Up>", {noremap = true})
 vim.keymap.set("c", "<C-n>", "<Down>", {noremap = true})
 vim.keymap.set("n", "<ESC><ESC>", "<cmd>nohlsearch<CR>", {noremap = true})
+vim.keymap.set("n", "tv", "<cmd>vsplit term://zsh<CR>", {noremap = true, silent = true})
+vim.keymap.set("n", "th", "<cmd>split term://zsh<CR>", {noremap = true, silent = true})
+vim.keymap.set("t", "<ESC>", "<C-\\><C-n>", {noremap = true})
+
+-- terminal emulator settings
+-- open terminal in insert mode
+vim.api.nvim_create_autocmd("TermOpen", {
+    command = [[startinsert]],
+})
+
+-- disable line numbers in terminal
+vim.api.nvim_create_autocmd("TermOpen", {
+    command = [[setlocal nonumber norelativenumber]],
+})
 
 -- treesitter settings
 require("nvim-treesitter.configs").setup {
@@ -115,13 +129,45 @@ require("mason-lspconfig").setup_handlers({
                             maxLineLength = 120,
                         },
                     }
-                }
-            }
+                },
+                gopls = {
+                    analyses = {
+                        unusedparams = true,
+                    },
+                    staticcheck = true,
+                    gofumpt = true,
+                },
+            },
         })
     end
 })
 
 vim.diagnostic.config({virtual_text = false})
+
+-- go-fmt on save
+-- https://github.com/golang/tools/blob/master/gopls/doc/vim.md#neovim-imports
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*.go",
+  callback = function()
+    local params = vim.lsp.util.make_range_params()
+    params.context = {only = {"source.organizeImports"}}
+    -- buf_request_sync defaults to a 1000ms timeout. Depending on your
+    -- machine and codebase, you may want longer. Add an additional
+    -- argument after params if you find that you have to write the file
+    -- twice for changes to be saved.
+    -- E.g., vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, 3000)
+    local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params)
+    for cid, res in pairs(result or {}) do
+      for _, r in pairs(res.result or {}) do
+        if r.edit then
+          local enc = (vim.lsp.get_client_by_id(cid) or {}).offset_encoding or "utf-16"
+          vim.lsp.util.apply_workspace_edit(r.edit, enc)
+        end
+      end
+    end
+    vim.lsp.buf.format({async = false})
+  end
+})
 
 -- cmp settimgs
 local lspkind = require("lspkind")
