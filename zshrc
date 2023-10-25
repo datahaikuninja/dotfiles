@@ -64,6 +64,9 @@ alias ls='ls -G'
 alias vi='nvim'
 alias vim='nvim'
 
+#### dotfiles
+alias dotfiles="cd ${HOME}/ghq/mine/github.com/datahaikuninja/dotfiles"
+
 #### git-completion
 fpath=(~/.zsh/completion $fpath)
 autoload -U compinit
