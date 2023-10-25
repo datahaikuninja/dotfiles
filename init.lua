@@ -28,10 +28,6 @@ require("lazy").setup({
     "onsails/lspkind.nvim",
     {"nvim-lualine/lualine.nvim", dependencies = {"nvim-tree/nvim-web-devicons"}},
     "windwp/nvim-autopairs",
-    {"jay-babu/mason-null-ls.nvim",
-        event = {"BufReadPre", "BufNewFile"},
-        dependencies = {"williamboman/mason.nvim", "jose-elias-alvarez/null-ls.nvim"},
-    },
     "nvim-lua/plenary.nvim",
     "lewis6991/gitsigns.nvim",
     {"j-hui/fidget.nvim", tag = "legacy"},
@@ -40,237 +36,245 @@ require("lazy").setup({
     "zbirenbaum/copilot.lua",
 })
 
-if not vim.g.vscode then
-    -- set options
-    vim.opt.number = true
-    vim.opt.termguicolors = true
-    vim.opt.expandtab = true
-    vim.opt.tabstop = 4
-    vim.opt.shiftwidth = 4
-    vim.opt.clipboard:append{"unnamedplus"}
-    vim.opt.list = true
-    vim.opt.listchars:append "eol:↴"
-    vim.opt.listchars:append "space:⋅"
-    vim.opt.nrformats = "bin,hex,alpha"
-    vim.opt.wildmenu = true
-    vim.opt.wildmode = "full"
-    vim.opt.ignorecase = true
+-- set options
+vim.opt.number = true
+vim.opt.termguicolors = true
+vim.opt.expandtab = true
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.clipboard:append{"unnamedplus"}
+vim.opt.list = true
+vim.opt.listchars:append "eol:↴"
+vim.opt.listchars:append "space:⋅"
+vim.opt.nrformats = "bin,hex,alpha"
+vim.opt.wildmenu = true
+vim.opt.wildmode = "full"
+vim.opt.ignorecase = true
 
-    -- set keymaps
-    vim.keymap.set("c", "<C-p>", "<Up>", {noremap = true})
-    vim.keymap.set("c", "<C-n>", "<Down>", {noremap = true})
-    vim.keymap.set("n", "<ESC><ESC>", "<cmd>nohlsearch<CR>", {noremap = true})
+-- set keymaps
+vim.keymap.set("c", "<C-p>", "<Up>", {noremap = true})
+vim.keymap.set("c", "<C-n>", "<Down>", {noremap = true})
+vim.keymap.set("n", "<ESC><ESC>", "<cmd>nohlsearch<CR>", {noremap = true})
 
-    -- treesitter settings
-    require("nvim-treesitter.configs").setup {
-        ensure_installed = {
-            "python",
-            "lua",
-            "terraform",
-            "markdown",
-            "markdown_inline",
-            "javascript",
-            "go",
-        },
-        highlight = {
-            enable = true,
-        }
+-- treesitter settings
+require("nvim-treesitter.configs").setup {
+    ensure_installed = {
+        "python",
+        "lua",
+        "terraform",
+        "markdown",
+        "markdown_inline",
+        "javascript",
+        "go",
+    },
+    highlight = {
+        enable = true,
     }
+}
 
-    -- lsp settings
-    local on_attach = function(client, bufnr)
-        local set = vim.keymap.set
-        set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>")
-        set("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>")
-        set("n", "<C-m>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
-        set("n", "gy", "<cmd>lua vim.lsp.buf.type_definition()<CR>")
-        set("n", "rn", "<cmd>lua vim.lsp.buf.rename()<CR>")
-        set("n", "ma", "<cmd>lua vim.lsp.buf.code_action()<CR>")
-        set("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>")
-        set("n", "<space>e", "<cmd>lua vim.diagnostic.open_float()<CR>")
-        set("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>")
-        set("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>")
-    end
+-- lsp settings
+local on_attach = function(client, bufnr)
+    local set = vim.keymap.set
+    set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>")
+    set("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>")
+    set("n", "<C-m>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
+    set("n", "gy", "<cmd>lua vim.lsp.buf.type_definition()<CR>")
+    set("n", "rn", "<cmd>lua vim.lsp.buf.rename()<CR>")
+    set("n", "ma", "<cmd>lua vim.lsp.buf.code_action()<CR>")
+    set("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>")
+    set("n", "<space>e", "<cmd>lua vim.diagnostic.open_float()<CR>")
+    set("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>")
+    set("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>")
+end
 
-    local capabilities = require("cmp_nvim_lsp").default_capabilities()
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-    require("mason").setup()
-    require("mason-lspconfig").setup({
-        ensure_installed = {
-            "lua_ls",
-            "pylsp",
-            "terraformls",
-            "tflint",
-            "gopls",
-        }
-    })
-    require("mason-lspconfig").setup_handlers({
-        function(server_name)
-            require("lspconfig")[server_name].setup({
-                on_attach = on_attach,
-                capabilities = capabilities,
-                settings = {
-                    -- configure plugins in pylsp
-                    pylsp = {
-                        configurationSources = {"flake8", "pycodestyle"},
-                        plugins = {
-                            pycodestyle = {enabled = false},
-                            flake8 = {
-                                enabled = true,
-                                maxLineLength = 120,
-                            },
-                        }
+require("mason").setup()
+require("mason-lspconfig").setup({
+    ensure_installed = {
+        "lua_ls",
+        "pylsp",
+        "terraformls",
+        "tflint",
+        "gopls",
+    }
+})
+require("mason-lspconfig").setup_handlers({
+    function(server_name)
+        require("lspconfig")[server_name].setup({
+            on_attach = on_attach,
+            capabilities = capabilities,
+            settings = {
+                -- configure plugins in pylsp
+                pylsp = {
+                    configurationSources = {"flake8", "pycodestyle"},
+                    plugins = {
+                        pycodestyle = {enabled = false},
+                        flake8 = {
+                            enabled = true,
+                            maxLineLength = 120,
+                        },
                     }
                 }
-            })
-        end
-    })
-
-    vim.diagnostic.config({virtual_text = false})
-
-    -- cmp settimgs
-    local lspkind = require("lspkind")
-    local cmp = require("cmp")
-
-    cmp.setup({
-        snippet = {
-            expand = function(args)
-                vim.fn["vsnip#anonymous"](args.body)
-            end,
-        },
-        window = {
-            completion = cmp.config.window.bordered(),
-            documentation = cmp.config.window.bordered(),
-        },
-        sources = {
-            { name = "nvim_lsp" },
-            { name = "vsnip" },
-            { name = "buffer" },
-            { name = "path" },
-        },
-        mapping = cmp.mapping.preset.insert({
-            ["<C-p>"] = cmp.mapping.select_prev_item(),
-            ["<C-n>"] = cmp.mapping.select_next_item(),
-            ["<C-l>"] = cmp.mapping.complete(),
-            ["<C-e>"] = cmp.mapping.abort(),
-            ["<C-y>"] = cmp.mapping.confirm({ select = true }),
-        }),
-        experimental = {
-            ghost_text = false
-        },
-        formatting = {
-            format = lspkind.cmp_format({
-                mode = 'symbol',
-                maxwidth = 50,
-                ellipsis_char = '...',
-            })
-        }
-    })
-
-    cmp.setup.cmdline("/", {
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = {
-            { name = 'buffer' }
-        }
-    })
-
-    local mapping_cmdline = cmp.mapping.preset.cmdline()
-    mapping_cmdline['<Tab>'] = function (fallback)
-        if cmp.visible() then
-            cmp.select_next_item()
-        else
-            fallback()
-        end
-    end
-
-    cmp.setup.cmdline(":", {
-        mapping = mapping_cmdline,
-        sources = cmp.config.sources({
-            { name = 'cmdline' }
-        }, {
-            { name = 'path'}
-        })
-    })
-
-    -- diagnostic, formatting
-    local mason_null_ls = require("mason-null-ls")
-    local null_ls = require("null-ls")
-
-    null_ls.setup({
-        sources = {
-            -- null_ls.builtins.diagnostics.flake8,  -- flake8 is built in pylsp
-        },
-        diagnostics_format = "[#{c}] #{m} (#{s})"
-    })
-
-    mason_null_ls.setup({
-        ensure_installed = nil,
-        automatic_installation = true,
-    })
-
-    -- colorscheme settings
-    require("nightfox").setup({
-        options = {
-            transparent = true,
-            styles = {
-                comments = "italic",
             }
-        }
-    })
+        })
+    end
+})
 
-    -- load colorscheme
-    vim.cmd("colorscheme nightfox")
+vim.diagnostic.config({virtual_text = false})
 
-    -- statusline
-    require("lualine").setup()
+-- cmp settimgs
+local lspkind = require("lspkind")
+local cmp = require("cmp")
 
-    -- autopairs
-    require("nvim-autopairs").setup()
+cmp.setup({
+    snippet = {
+        expand = function(args)
+            vim.fn["vsnip#anonymous"](args.body)
+        end,
+    },
+    window = {
+        completion = cmp.config.window.bordered(),
+        documentation = cmp.config.window.bordered(),
+    },
+    sources = {
+        { name = "nvim_lsp" },
+        { name = "vsnip" },
+        { name = "buffer" },
+        { name = "path" },
+    },
+    mapping = cmp.mapping.preset.insert({
+        ["<C-p>"] = cmp.mapping.select_prev_item(),
+        ["<C-n>"] = cmp.mapping.select_next_item(),
+        ["<C-l>"] = cmp.mapping.complete(),
+        ["<C-e>"] = cmp.mapping.abort(),
+        ["<C-y>"] = cmp.mapping.confirm({ select = true }),
+    }),
+    experimental = {
+        ghost_text = false
+    },
+    formatting = {
+        format = lspkind.cmp_format({
+            mode = 'symbol',
+            maxwidth = 50,
+            ellipsis_char = '...',
+        })
+    }
+})
 
-    -- git
-    require("gitsigns").setup()
+cmp.setup.cmdline("/", {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+        { name = 'buffer' }
+    }
+})
 
-    -- display nvim-lsp progress
-    require("fidget").setup()
-
-    -- fuzzyfinder
-    local builtin = require("telescope.builtin")
-    vim.keymap.set("n", "<leader>ff", builtin.find_files, {})
-    vim.keymap.set("n", "<leader>fg", builtin.live_grep, {})
-    vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
-    vim.keymap.set("n", "<leader>fh", builtin.help_tags, {})
-
-    require("telescope").setup({
-        defaults = {
-            preview = {
-                ls_short = true,
-            },
-        }
-    })
-
-    -- lspsaga
-    require("lspsaga").setup()
-
-    -- github copilot
-    require("copilot").setup({
-        suggestion = {
-            auto_trigger = true,
-        }
-    })
-
-    -- indent_blankline settings
-    require("ibl").setup ({
-        indent = {
-            char = "▏",
-            -- highlight = highlight
-        },
-        scope = { enabled = false }
-    })
-
-    -- disable auto commenting
-    vim.api.nvim_create_autocmd("FileType", {
-        group = vim.api.nvim_create_augroup("turn_off_auto_commenting", {}),
-        pattern = "*",
-        command = [[setlocal fo-=cro]]
-    })
+local mapping_cmdline = cmp.mapping.preset.cmdline()
+mapping_cmdline['<Tab>'] = function (fallback)
+    if cmp.visible() then
+        cmp.select_next_item()
+    else
+        fallback()
+    end
 end
+
+cmp.setup.cmdline(":", {
+    mapping = mapping_cmdline,
+    sources = cmp.config.sources({
+        { name = 'cmdline' }
+    }, {
+        { name = 'path'}
+    })
+})
+
+-- diagnostic, formatting
+-- remove mason-null-ls and null-ls
+
+-- colorscheme settings
+require("nightfox").setup({
+    options = {
+        transparent = true,
+        styles = {
+            comments = "italic",
+        }
+    }
+})
+
+-- load colorscheme
+vim.cmd("colorscheme nightfox")
+
+-- statusline
+require("lualine").setup({
+    options = {
+        section_separators = "",
+        globalstatus = true
+    }
+})
+
+-- autopairs
+require("nvim-autopairs").setup()
+
+-- git
+require("gitsigns").setup({
+    signs = {
+        add = { text = "+" },
+    },
+    numhl = true, -- Toggle with `:Gitsigns toggle_numhl`
+
+    on_attach = function(bufnr)
+        local gs = package.loaded.gitsigns
+
+        local function map(mode, l, r, opts)
+            opts = opts or {}
+            opts.buffer = bufnr
+            vim.keymap.set(mode, l, r, opts)
+        end
+
+        -- Actions
+        map("n", "<leader>hp", gs.preview_hunk)
+        map("n", "<leader>hn", gs.next_hunk)
+    end
+})
+
+-- display nvim-lsp progress
+require("fidget").setup()
+
+-- fuzzyfinder
+local builtin = require("telescope.builtin")
+vim.keymap.set("n", "<leader>ff", builtin.find_files, {})
+vim.keymap.set("n", "<leader>fg", builtin.live_grep, {})
+vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
+vim.keymap.set("n", "<leader>fh", builtin.help_tags, {})
+
+require("telescope").setup({
+    defaults = {
+        preview = {
+            ls_short = true,
+        },
+    }
+})
+
+-- lspsaga
+require("lspsaga").setup()
+
+-- github copilot
+require("copilot").setup({
+    suggestion = {
+        auto_trigger = true,
+    }
+})
+
+-- indent_blankline settings
+require("ibl").setup ({
+    indent = {
+        char = "▏",
+    },
+    scope = { enabled = false }
+})
+
+-- disable auto commenting
+vim.api.nvim_create_autocmd("FileType", {
+    group = vim.api.nvim_create_augroup("turn_off_auto_commenting", {}),
+    pattern = "*",
+    command = [[setlocal fo-=cro]]
+})
