@@ -95,3 +95,11 @@ python3 -m pip install --upgrade pip
 python3 -m pip instal pynvim
 
 ```
+
+## git-completion
+```shell
+mkdir -p ~/.zsh/completion
+curl -O https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash
+curl -O https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.zsh
+mv git-completion.zsh _git
+```
