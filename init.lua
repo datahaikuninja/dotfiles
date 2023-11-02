@@ -31,7 +31,8 @@ require("lazy").setup({
     "nvim-lua/plenary.nvim",
     "lewis6991/gitsigns.nvim",
     {"j-hui/fidget.nvim", tag = "legacy"},
-    {"nvim-telescope/telescope.nvim", tag = "0.1.1", dependencies = {"nvim-lua/plenary.nvim"}},
+    {"nvim-telescope/telescope.nvim", tag = "0.1.4", dependencies = {"nvim-lua/plenary.nvim"}},
+    {"nvim-telescope/telescope-file-browser.nvim", dependencies = {"nvim-telescope/telescope.nvim"}},
     {"glepnir/lspsaga.nvim", event = "LspAttach", dependencies = {"nvim-tree/nvim-web-devicons", "nvim-treesitter/nvim-treesitter"}},
     "zbirenbaum/copilot.lua",
 })
@@ -39,9 +40,9 @@ require("lazy").setup({
 -- set options
 vim.opt.number = true
 vim.opt.termguicolors = true
-vim.opt.expandtab = true
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
+-- vim.opt.expandtab = true
+-- vim.opt.tabstop = 4
+-- vim.opt.shiftwidth = 4
 vim.opt.clipboard:append{"unnamedplus"}
 vim.opt.list = true
 vim.opt.listchars:append "eol:↴"
@@ -50,6 +51,24 @@ vim.opt.nrformats = "bin,hex,alpha"
 vim.opt.wildmenu = true
 vim.opt.wildmode = "full"
 vim.opt.ignorecase = true
+
+-- use hard tabs for golang
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "*.go",
+    command = [[setlocal noexpandtab]],
+})
+
+-- use soft tabs, 4 spaces for python
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "*.py",
+    command = [[setlocal expandtab tabstop=4 shiftwidth=0]],
+})
+
+-- use soft tabs, 2 spaces
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = {"*.tf", "*.js"},
+    command = [[setlocal expandtab tabstop=2 shiftwidth=0]],
+})
 
 -- set keymaps
 vim.keymap.set("c", "<C-p>", "<Up>", {noremap = true})
@@ -239,7 +258,7 @@ cmp.setup.cmdline(":", {
 -- colorscheme settings
 require("nightfox").setup({
     options = {
-        transparent = true,
+        transparent = false,
         styles = {
             comments = "italic",
         }
@@ -297,8 +316,23 @@ require("telescope").setup({
         preview = {
             ls_short = true,
         },
+    },
+    extensions = {
+        file_browser = {
+            theme = "ivy",
+            hijack_netrw = false,
+        }
     }
 })
+
+require("telescope").load_extension "file_browser"
+
+vim.api.nvim_set_keymap(
+  "n",
+  "<space>fb",
+  ":Telescope file_browser<CR>",
+  { noremap = true }
+)
 
 -- lspsaga
 require("lspsaga").setup()
