@@ -32,9 +32,10 @@ chsh -s /opt/homebrew/bin/zsh
 
 ## ghq
 gitリポジトリを管理するghqをセットアップする。
-本リポジトリのgitconfigをホームディレクトリに配置する。
+本リポジトリの`gitconfig.sample`を参考に、.`.gitconfig`をホームディレクトリに配置する。
 ```shell
 touch ~/.gitconfig
+mkdir -p ~/ghq/mine
 ghq install https://github.com/datahaikuninja/dotfiles.git
 
 ```
@@ -43,15 +44,20 @@ gitが使えるようになったので、各種configファイルのシンボ�
 
 ```shell
 # hammerspoon
+# 先にHammerspoonを起動する
+open /Applications/Hammerspoon.app
+mkdir ~/.hammerspoon
 cd ~/.hammerspoon/
 ln -snvf ~/ghq/mine/github.com/datahaikuninja/dotfiles/hammerspoon.lua init.lua
 
 # Neovim
-cd ~/.config/
-mkdir nvim
-ln -snvf ~/ghq/mine/github.com/datahaikuninja/dotfiles/init.lua
+mkdir -p ~/.config/nvim
+cd ~/.config/nvim
+ln -snvf ~/ghq/mine/github.com/datahaikuninja/dotfiles/init.lua init.lua
 
 # Karabiner-elements
+# 先にKarabiner-elementsを起動する
+open /Applications/Karabiner-Elements.app
 cd ~/.config/karabiner/assets/complex_modifications/
 ln -snvf ~/ghq/mine/github.com/datahaikuninja/dotfiles/right_opt_to_esc_for_vi.json right_opt_to_esc_for_vi.json
 ln -snvf ~/ghq/mine/github.com/datahaikuninja/dotfiles/left_ctrl_and_hjkl_to_arrow_keys_unless_wezterm.json left_ctrl_and_hjkl_to_arrow_keys_unless_wezterm.json
@@ -60,6 +66,11 @@ ln -snvf ~/ghq/mine/github.com/datahaikuninja/dotfiles/left_ctrl_and_hjkl_to_arr
 cd ~/
 ln -snvf ~/ghq/mine/github.com/datahaikuninja/dotfiles/zshrc .zshrc
 source ~/.zshrc
+
+# WezTerm
+cd ~/
+ln -snvf ~/ghq/mine/github.com/datahaikuninja/dotfiles/wezterm.lua .wezterm.lua
+open /Applications/WezTerm.app
 
 ```
 
@@ -103,3 +114,13 @@ curl -O https://raw.githubusercontent.com/git/git/master/contrib/completion/git-
 curl -O https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.zsh
 mv git-completion.zsh _git
 ```
+
+## Go
+[公式](https://go.dev/doc/install)からインストールする。
+
+## Neovim
+ここまで済ませたらNeovimを起動して各種プラグインを自動的にインストールする。
+```
+nvim
+```
+
