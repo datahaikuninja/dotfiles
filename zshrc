@@ -52,7 +52,7 @@ eval "$(direnv hook zsh)"
 
 ### alias
 #### AWS CLI Docker
-alias aws='docker run --rm -i -v ~/.aws:/root/.aws -v $(pwd):/aws amazon/aws-cli'
+alias aws='docker run --rm -i -v ~/.aws:/root/.aws public.ecr.aws/aws-cli/aws-cli'
 
 #### google/cloud-sdk
 alias gcloud='docker run --rm -it --volumes-from gcloud-config google/cloud-sdk gcloud'
