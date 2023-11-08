@@ -66,7 +66,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 -- use soft tabs, 2 spaces
 vim.api.nvim_create_autocmd("FileType", {
-    pattern = {"*.tf", "*.js"},
+    pattern = {"terraform", "*.tf", "*.js"},
     command = [[setlocal expandtab tabstop=2 shiftwidth=0]],
 })
 
