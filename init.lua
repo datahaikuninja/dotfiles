@@ -61,7 +61,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 -- use soft tabs, 4 spaces for python
 vim.api.nvim_create_autocmd("FileType", {
-    pattern = "*.py",
+    pattern = {"*.py", "*.lua", "lua"},
     command = [[setlocal expandtab tabstop=4 shiftwidth=0]],
 })
 
@@ -314,6 +314,15 @@ vim.keymap.set("n", "<leader>fh", builtin.help_tags, {})
 
 require("telescope").setup({
     defaults = {
+        layout_strategy = "vertical",
+        layout_config = {
+            horizontal = {preview_cutoff = 0},
+            vertical = {
+                height = function(_, _, max_lines) return max_lines end,
+                preview_cutoff = 0,
+                preview_height = 8,
+            },
+        },
         preview = {
             ls_short = true,
         },
