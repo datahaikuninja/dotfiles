@@ -35,6 +35,7 @@ require("lazy").setup({
     {"nvim-telescope/telescope-file-browser.nvim", dependencies = {"nvim-telescope/telescope.nvim"}},
     {"glepnir/lspsaga.nvim", event = "LspAttach", dependencies = {"nvim-tree/nvim-web-devicons", "nvim-treesitter/nvim-treesitter"}},
     "zbirenbaum/copilot.lua",
+    {"sankantsu/telescope-zenn.nvim", dependencies = {"nvim-telescope/telescope.nvim",}},
 })
 
 -- set options
