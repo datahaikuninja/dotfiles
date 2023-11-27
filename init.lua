@@ -36,6 +36,21 @@ require("lazy").setup({
     {"glepnir/lspsaga.nvim", event = "LspAttach", dependencies = {"nvim-tree/nvim-web-devicons", "nvim-treesitter/nvim-treesitter"}},
     "zbirenbaum/copilot.lua",
     {"sankantsu/telescope-zenn.nvim", dependencies = {"nvim-telescope/telescope.nvim",}},
+    {"SmiteshP/nvim-navic", dependencies = "neovim/nvim-lspconfig"},
+    {"SmiteshP/nvim-navbuddy",
+        dev = false,
+        dependencies = {
+            "neovim/nvim-lspconfig",
+            "SmiteshP/nvim-navic",
+            "MunifTanjim/nui.nvim",
+            -- "numToStr/Comment.nvim",        -- Optional
+            "nvim-telescope/telescope.nvim",
+        },
+    },
+    {"mvllow/modes.nvim", tag = "v0.2.0"},
+    "vim-denops/denops.vim",
+    "vim-denops/denops-helloworld.vim",
+    "vim-skk/skkeleton",
 })
 
 -- set options
@@ -189,6 +204,24 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end
 })
 
+-- breadcrumb
+require('nvim-navic').setup {
+    lsp = {
+        auto_attach = true,
+    },
+    highlight = true,
+}
+
+require('nvim-navbuddy').setup {
+    window = {
+        size = { height = "40%", width = "100%" },
+        position = { row = "100%", col = "50%" },
+    },
+    lsp = {
+        auto_attach = true,
+    },
+}
+
 -- cmp settimgs
 local lspkind = require("lspkind")
 local cmp = require("cmp")
@@ -253,6 +286,20 @@ cmp.setup.cmdline(":", {
     })
 })
 
+require("modes").setup({
+    colors = {
+        copy = "#f5c359",
+        delete = "#c75c6a",
+        insert = "#78ccc5",
+        visual = "#9745be",
+    },
+    line_opacity = 0.15,
+    set_cursor = true,
+    set_cursorline = true,
+    set_number = true,
+    ignore_filetypes = {'NvimTree', 'TelescopePrompt'},
+})
+
 -- diagnostic, formatting
 -- remove mason-null-ls and null-ls
 
@@ -271,6 +318,21 @@ vim.cmd("colorscheme nightfox")
 
 -- statusline
 require("lualine").setup({
+    sections = {
+        lualine_a = {},
+        lualine_b = {"branch", "diagnostics"},
+        lualine_c = {
+            "filename",
+            {
+                "navic",
+                color_correction = nil,
+                navic_opts = nil
+            },
+        },
+        lualine_x = {"Filetype"},
+        lualine_y = {},
+        lualine_z = {},
+    },
     options = {
         section_separators = "",
         globalstatus = true
@@ -329,8 +391,9 @@ require("telescope").setup({
     },
     extensions = {
         file_browser = {
-            theme = "ivy",
+            -- theme = "ivy",
             hijack_netrw = false,
+            display_stat = false,
         }
     }
 })
@@ -345,7 +408,11 @@ vim.api.nvim_set_keymap(
 )
 
 -- lspsaga
-require("lspsaga").setup()
+require("lspsaga").setup({
+    symbol_in_winbar = {
+        enable = false,
+    }
+})
 
 -- github copilot
 require("copilot").setup({
@@ -368,3 +435,10 @@ vim.api.nvim_create_autocmd("FileType", {
     pattern = "*",
     command = [[setlocal fo-=cro]]
 })
+
+--skk
+vim.cmd[[
+    call skkeleton#config({ 'globalJisyo': '~/.skk/SKK-JISYO.L' })
+    imap <C-j> <Plug>(skkeleton-enable)
+    cmap <C-j> <Plug>(skkeleton-enable)
+]]
