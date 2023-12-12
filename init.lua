@@ -49,7 +49,6 @@ require("lazy").setup({
     },
     {"mvllow/modes.nvim", tag = "v0.2.0"},
     "vim-denops/denops.vim",
-    "vim-denops/denops-helloworld.vim",
     "vim-skk/skkeleton",
 })
 
@@ -288,12 +287,12 @@ cmp.setup.cmdline(":", {
 
 require("modes").setup({
     colors = {
-        copy = "#f5c359",
-        delete = "#c75c6a",
-        insert = "#78ccc5",
-        visual = "#9745be",
+        copy = "#D3B461",
+        delete = "#BB385A",
+        insert = "#6FA589",
+        visual = "#8A5FCC",
     },
-    line_opacity = 0.15,
+    line_opacity = 0.3,
     set_cursor = true,
     set_cursorline = true,
     set_number = true,
@@ -306,7 +305,7 @@ require("modes").setup({
 -- colorscheme settings
 require("nightfox").setup({
     options = {
-        transparent = false,
+        transparent = true,
         styles = {
             comments = "italic",
         }
