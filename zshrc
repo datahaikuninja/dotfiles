@@ -39,7 +39,7 @@ zinit light zdharma-continuum/fast-syntax-highlighting
 #zinit light asdf-vm/asdf --commented out as I moved to homebrew
 
 ### PATH
-export PATH="/usr/local/bin:/opt/homebrew/bin:/opt/homebrew/Cellar/git:/${HOME}/.asdf/shims/python:/usr/local/go/bin:$PATH"
+export PATH="/usr/local/bin:/opt/homebrew/bin:/opt/homebrew/Cellar/git:/${HOME}/.asdf/shims/python:/usr/local/go/bin:/opt/homebrew/opt/mysql-client@8.0/bin:$PATH"
 
 ### for tmux settings
 typeset -U path PATH
