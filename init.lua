@@ -50,6 +50,7 @@ require("lazy").setup({
     {"mvllow/modes.nvim", tag = "v0.2.0"},
     "vim-denops/denops.vim",
     "vim-skk/skkeleton",
+    "aznhe21/actions-preview.nvim",
 })
 
 -- set options
@@ -85,7 +86,7 @@ vim.api.nvim_create_autocmd("FileType", {
     command = [[setlocal expandtab tabstop=2 shiftwidth=0]],
 })
 
--- set keymaps
+-- set general keymaps
 vim.keymap.set("c", "<C-p>", "<Up>", {noremap = true})
 vim.keymap.set("c", "<C-n>", "<Down>", {noremap = true})
 vim.keymap.set("n", "<ESC><ESC>", "<cmd>nohlsearch<CR>", {noremap = true})
@@ -120,19 +121,30 @@ require("nvim-treesitter.configs").setup {
     }
 }
 
--- lsp settings
+-- lspsaga
+vim.opt.signcolumn = "yes"
+require("lspsaga").setup({
+    symbol_in_winbar = {
+        enable = false,
+    },
+    lightbulb = {
+        sign = true,
+    },
+})
+
 local on_attach = function(client, bufnr)
+    -- keymaps for lsp
     local set = vim.keymap.set
-    set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>")
-    set("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>")
-    set("n", "<C-m>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
-    set("n", "gy", "<cmd>lua vim.lsp.buf.type_definition()<CR>")
-    set("n", "rn", "<cmd>lua vim.lsp.buf.rename()<CR>")
-    set("n", "ma", "<cmd>lua vim.lsp.buf.code_action()<CR>")
-    set("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>")
-    set("n", "<space>e", "<cmd>lua vim.diagnostic.open_float()<CR>")
-    set("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>")
-    set("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>")
+    set("n", "gd", "<cmd>Lspsaga peek_definition<CR>")
+    set("n", "K", "<cmd>Lspsaga hover_doc<CR>")
+    -- set("n", "<C-m>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
+    set("n", "gt", "<cmd>Lspsaga peek_type_definition<CR>")
+    set("n", "rn", "<cmd>Lspsaga rename<CR>")
+    -- set("n", "ma", "<cmd>lua vim.lsp.buf.code_action()<CR>") -- replace by actions-preview
+    set("n", "gr", "<cmd>Lspsaga finder<CR>")
+    set("n", "<space>e", "<cmd>Lspsaga show_line_diagnostic<CR>")
+    set("n", "[d", "<cmd>Lspsaga diagnostic_jump_prev<CR>")
+    set("n", "]d", "<cmd>Lspsaga diagnostic_jump_next<CR>")
 end
 
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -240,6 +252,7 @@ cmp.setup({
         { name = "vsnip" },
         { name = "buffer" },
         { name = "path" },
+        { name = "nvim_lsp_signature_help" },
     },
     mapping = cmp.mapping.preset.insert({
         ["<C-p>"] = cmp.mapping.select_prev_item(),
@@ -368,6 +381,7 @@ require("fidget").setup()
 
 -- fuzzyfinder
 local builtin = require("telescope.builtin")
+-- keymaps for telescope
 vim.keymap.set("n", "<leader>ff", builtin.find_files, {})
 vim.keymap.set("n", "<leader>fg", builtin.live_grep, {})
 vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
@@ -398,20 +412,13 @@ require("telescope").setup({
 })
 
 require("telescope").load_extension "file_browser"
-
+-- keymap for telescope-file-browser
 vim.api.nvim_set_keymap(
   "n",
   "<space>fb",
   ":Telescope file_browser<CR>",
   { noremap = true }
 )
-
--- lspsaga
-require("lspsaga").setup({
-    symbol_in_winbar = {
-        enable = false,
-    }
-})
 
 -- github copilot
 require("copilot").setup({
@@ -441,3 +448,22 @@ vim.cmd[[
     imap <C-j> <Plug>(skkeleton-enable)
     cmap <C-j> <Plug>(skkeleton-enable)
 ]]
+
+-- actions-preview
+require("actions-preview").setup({
+    telescope = {
+        sorting_strategy = "ascending",
+        layout_strategy = "vertical",
+        layout_config = {
+            width = 0.8,
+            height = 0.9,
+            prompt_position = "top",
+            preview_cutoff = 20,
+            preview_height = function(_, _, max_lines)
+              return max_lines - 15
+            end,
+        },
+      },
+})
+-- keymap for actions-preview
+vim.keymap.set({ "v", "n" }, "gf", require("actions-preview").code_actions)

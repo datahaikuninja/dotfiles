@@ -39,7 +39,7 @@ zinit light zdharma-continuum/fast-syntax-highlighting
 #zinit light asdf-vm/asdf --commented out as I moved to homebrew
 
 ### PATH
-export PATH="/usr/local/bin:/opt/homebrew/bin:/opt/homebrew/Cellar/git:/${HOME}/.asdf/shims/python:/usr/local/go/bin:/opt/homebrew/opt/mysql-client@8.0/bin:$PATH"
+export PATH="/usr/local/bin:/opt/homebrew/bin:/opt/homebrew/Cellar/git:/${HOME}/.asdf/shims/python:/usr/local/go/bin:/opt/homebrew/opt/mysql-client@8.0/bin:/opt/homebrew/opt/mysql-client@5.7/bin:$PATH"
 
 ### for tmux settings
 typeset -U path PATH
@@ -66,6 +66,12 @@ alias vim='nvim'
 
 #### dotfiles
 alias dotfiles="cd ${HOME}/ghq/mine/github.com/datahaikuninja/dotfiles"
+
+#### mysql57
+alias mysql57='/opt/homebrew/opt/mysql-client@5.7/bin/mysql'
+
+#### mysql80
+alias mysql80='/opt/homebrew/opt/mysql-client@8.0/bin/mysql'
 
 #### git-completion
 fpath=(~/.zsh/completion $fpath)
