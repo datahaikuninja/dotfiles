@@ -14,7 +14,7 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
     "EdenEast/nightfox.nvim",
-    {"lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {}},
+    {"lukas-reineke/indent-blankline.nvim"},
     {"nvim-treesitter/nvim-treesitter", build = ":TSUpdate"},
     "neovim/nvim-lspconfig",
     {"williamboman/mason.nvim", build = ":MasonUpdate"},
@@ -430,9 +430,9 @@ require("copilot").setup({
 -- indent_blankline settings
 require("ibl").setup ({
     indent = {
-        char = "▏",
+        char = "▎",
     },
-    scope = { enabled = false }
+    scope = { enabled = true }
 })
 
 -- disable auto commenting
