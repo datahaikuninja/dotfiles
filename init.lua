@@ -51,6 +51,7 @@ require("lazy").setup({
     "vim-denops/denops.vim",
     "vim-skk/skkeleton",
     "aznhe21/actions-preview.nvim",
+    "rhysd/clever-f.vim",
 })
 
 -- set options
@@ -467,3 +468,8 @@ require("actions-preview").setup({
 })
 -- keymap for actions-preview
 vim.keymap.set({ "v", "n" }, "gf", require("actions-preview").code_actions)
+
+-- clever-f
+vim.g.clever_f_smart_case = 1
+vim.g.clever_f_use_migemo = 1
+vim.g.clever_f_fix_key_direction = 1
