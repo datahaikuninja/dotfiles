@@ -54,7 +54,7 @@ config.font_size = 20.0
 -- leader key
 config.leader = { key = '/', mods = 'CTRL', timeout_milliseconds = 1000 }
 
--- key mappings
+
 config.keys = {
     {
         key = 'p',
