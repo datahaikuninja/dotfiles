@@ -85,6 +85,25 @@ config.keys = {
     },
     --workspace
     {
+        -- Create new workspace
+        mods = 'LEADER',
+        key = 'c',
+        action = act.PromptInputLine {
+          description = "(wezterm) Create new workspace:",
+          action = wezterm.action_callback(function(window, pane, line)
+            if line then
+              window:perform_action(
+                act.SwitchToWorkspace {
+                  name = line,
+                },
+                pane
+              )
+            end
+          end),
+        },
+    },
+    {
+        -- switch workspace
         key = 's',
         mods = 'LEADER',
         action = act.ShowLauncherArgs { flags = 'WORKSPACES' },
