@@ -273,12 +273,12 @@ cmp.setup({
     }
 })
 
-cmp.setup.cmdline("/", {
-    mapping = cmp.mapping.preset.cmdline(),
-    sources = {
-        { name = 'buffer' }
-    }
-})
+-- cmp.setup.cmdline("/", {
+--     mapping = cmp.mapping.preset.cmdline(),
+--     sources = {
+--         { name = 'buffer' }
+--     }
+-- })
 
 local mapping_cmdline = cmp.mapping.preset.cmdline()
 mapping_cmdline['<Tab>'] = function (fallback)
