@@ -11,25 +11,25 @@ function hotkey(appName)
 end
 
 --1password hotkey
-hs.hotkey.bind({"cmd", "ctrl"}, "t", function()
+hs.hotkey.bind({ "cmd", "ctrl" }, "t", function()
   local appName = "1Password"
   hotkey(appName)
 end)
 
---Google Chrome hotkey  
-hs.hotkey.bind({"cmd", "ctrl"}, "c", function()
+--Google Chrome hotkey
+hs.hotkey.bind({ "cmd", "ctrl" }, "c", function()
   local appName = "Google Chrome"
   hotkey(appName)
 end)
 
---Slack hotkey  
-hs.hotkey.bind({"cmd", "ctrl"}, "s", function()
+--Slack hotkey
+hs.hotkey.bind({ "cmd", "ctrl" }, "s", function()
   local appName = "Slack"
   hotkey(appName)
 end)
 
---WezTerm hotkey  
-hs.hotkey.bind({"cmd", "ctrl"}, "w", function()
+--WezTerm hotkey
+hs.hotkey.bind({ "cmd", "ctrl" }, "w", function()
   local appName = "WezTerm"
   hotkey(appName)
 end)
