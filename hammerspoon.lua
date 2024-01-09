@@ -35,7 +35,15 @@ hs.hotkey.bind({"cmd", "ctrl"}, "w", function()
 end)
 
 --VSCode hotkey
-hs.hotkey.bind({"cmd", "ctrl"}, "v", function()
-  local appName = "Visual Studio Code"
-  hotkey(appName)
+-- hs.hotkey.bind({ "cmd", "ctrl" }, "v", function()
+--   local appName = "Visual Studio Code"
+--   hotkey(appName)
+-- end)
+
+-- Set IME to Alphanumeric when terminal app focused
+hs.window.filter.default:subscribe(hs.window.filter.windowFocused, function(window, appName, event)
+  local terminal = "WezTerm"
+  if appName == terminal then
+    hs.keycodes.setMethod("Alphanumeric (Google)")
+  end
 end)
