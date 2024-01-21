@@ -132,3 +132,7 @@ eval "$(starship init zsh)"
 
 ## asdf
 . /opt/homebrew/opt/asdf/libexec/asdf.sh
+
+## terragrunt: eanble tab completion
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /opt/homebrew/bin/terragrunt terragrunt
