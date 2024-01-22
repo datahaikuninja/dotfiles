@@ -1,5 +1,5 @@
 ## Homebrew
-Homebrewが使えないと何もできない。CUI/GUIアプリケーションの管理はHomebrewに寄せている。
+Homebrewが使えないと何もできないから、CUI/GUIアプリケーションの管理はHomebrewに寄せている。
 
 1. Homebrewをインストールする。
 ```shell
