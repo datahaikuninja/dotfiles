@@ -96,7 +96,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 -- use soft tabs, 2 spaces
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "terraform", "*.tf", "*.js", "sh", "*.lua", "lua", "hcl" },
+  pattern = { "terraform", "*.tf", "*.js", "sh", "*.lua", "lua", "hcl", "jsonnet" },
   command = [[setlocal expandtab tabstop=2 shiftwidth=0]],
 })
 
@@ -130,6 +130,7 @@ require("nvim-treesitter.configs").setup({
     "javascript",
     "go",
     "hcl",
+    "jsonnet",
   },
   highlight = {
     enable = true,
