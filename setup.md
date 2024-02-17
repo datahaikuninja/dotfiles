@@ -67,6 +67,10 @@ cd ~/
 ln -snvf ~/ghq/mine/github.com/datahaikuninja/dotfiles/zshrc .zshrc
 source ~/.zshrc
 
+# Starship
+cd ~/.config
+ln -snvf ~/ghq/mine/github.com/datahaikuninja/dotfiles/starsip.toml starship.toml
+
 # WezTerm
 cd ~/
 ln -snvf ~/ghq/mine/github.com/datahaikuninja/dotfiles/wezterm.lua .wezterm.lua
