@@ -96,7 +96,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 -- use soft tabs, 2 spaces
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "terraform", "*.tf", "*.js", "sh", "*.lua", "lua", "hcl", "jsonnet" },
+  pattern = { "terraform", "*.tf", "*.js", "sh", "*.lua", "lua", "hcl", "jsonnet", "markdown" },
   command = [[setlocal expandtab tabstop=2 shiftwidth=0]],
 })
 
@@ -464,6 +464,11 @@ vim.api.nvim_set_keymap("n", "<space>fb", ":Telescope file_browser<CR>", { norem
 require("copilot").setup({
   suggestion = {
     auto_trigger = true,
+  },
+  filetypes = {
+    "yaml",
+    "markdown",
+    "gitcommit",
   },
 })
 
