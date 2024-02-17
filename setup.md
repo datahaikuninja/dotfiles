@@ -69,7 +69,7 @@ source ~/.zshrc
 
 # Starship
 cd ~/.config
-ln -snvf ~/ghq/mine/github.com/datahaikuninja/dotfiles/starsip.toml starship.toml
+ln -snvf ~/ghq/mine/github.com/datahaikuninja/dotfiles/starship.toml starship.toml
 
 # WezTerm
 cd ~/
