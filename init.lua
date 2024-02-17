@@ -47,6 +47,7 @@ require("lazy").setup({
     dependencies = { "nvim-tree/nvim-web-devicons", "nvim-treesitter/nvim-treesitter" },
   },
   "zbirenbaum/copilot.lua",
+  "zbirenbaum/copilot-cmp",
   { "sankantsu/telescope-zenn.nvim", dependencies = { "nvim-telescope/telescope.nvim" } },
   { "SmiteshP/nvim-navic", dependencies = "neovim/nvim-lspconfig" },
   {
@@ -292,6 +293,7 @@ cmp.setup({
     documentation = cmp.config.window.bordered(),
   },
   sources = {
+    { name = "copilot", group_index = 2 },
     { name = "nvim_lsp" },
     { name = "vsnip" },
     { name = "buffer" },
@@ -312,6 +314,9 @@ cmp.setup({
     format = lspkind.cmp_format({
       mode = "symbol",
       maxwidth = 50,
+      symbol_map = {
+        Copilot = "",
+      },
       ellipsis_char = "...",
     }),
   },
@@ -462,8 +467,11 @@ vim.api.nvim_set_keymap("n", "<space>fb", ":Telescope file_browser<CR>", { norem
 
 -- github copilot
 require("copilot").setup({
+  panel = {
+    enabled = false,
+  },
   suggestion = {
-    auto_trigger = true,
+    enabled = false,
   },
   filetypes = {
     "yaml",
@@ -471,6 +479,8 @@ require("copilot").setup({
     "gitcommit",
   },
 })
+
+require("copilot_cmp").setup()
 
 -- indent_blankline settings
 require("ibl").setup({
