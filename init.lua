@@ -92,13 +92,13 @@ vim.api.nvim_create_autocmd("FileType", {
 -- use soft tabs, 4 spaces for python
 vim.api.nvim_create_autocmd("FileType", {
   pattern = { "*.py" },
-  command = [[setlocal expandtab tabstop=4 shiftwidth=0]],
+  command = [[setlocal expandtab tabstop=4 shiftwidth=4]],
 })
 
 -- use soft tabs, 2 spaces
 vim.api.nvim_create_autocmd("FileType", {
   pattern = { "terraform", "*.tf", "*.js", "sh", "*.lua", "lua", "hcl", "jsonnet", "markdown" },
-  command = [[setlocal expandtab tabstop=2 shiftwidth=0]],
+  command = [[setlocal expandtab tabstop=2 shiftwidth=2]],
 })
 
 -- set general keymaps
@@ -293,10 +293,10 @@ cmp.setup({
     documentation = cmp.config.window.bordered(),
   },
   sources = {
-    { name = "copilot", group_index = 2 },
+    { name = "copilot", keyword_length = 2 },
     { name = "nvim_lsp" },
     { name = "vsnip" },
-    { name = "buffer" },
+    { name = "buffer", keyword_length = 3 },
     { name = "path" },
     { name = "nvim_lsp_signature_help" },
   },
@@ -305,7 +305,9 @@ cmp.setup({
     ["<C-n>"] = cmp.mapping.select_next_item(),
     ["<C-l>"] = cmp.mapping.complete(),
     ["<C-e>"] = cmp.mapping.abort(),
-    ["<C-y>"] = cmp.mapping.confirm({ select = true }),
+    ["<CR>"] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace }),
+    ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+    ["<C-f>"] = cmp.mapping.scroll_docs(4),
   }),
   experimental = {
     ghost_text = false,
