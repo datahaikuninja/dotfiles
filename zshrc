@@ -55,7 +55,8 @@ eval "$(direnv hook zsh)"
 # alias aws='docker run --rm -i -v ~/.aws:/root/.aws public.ecr.aws/aws-cli/aws-cli'
 
 #### google/cloud-sdk
-alias gcloud='docker run --rm -it --volumes-from gcloud-config google/cloud-sdk gcloud'
+# alias gcloud='docker run --rm -it --volumes-from gcloud-config google/cloud-sdk gcloud'
+alias gcloud="${HOME}/google-cloud-sdk/bin/gcloud"
 
 #### ls
 alias ls='ls -G'
@@ -136,3 +137,9 @@ eval "$(starship init zsh)"
 ## terragrunt: eanble tab completion
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /opt/homebrew/bin/terragrunt terragrunt
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f "${HOME}/google-cloud-sdk/path.zsh.inc" ]; then . "${HOME}/google-cloud-sdk/path.zsh.inc"; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f "${HOME}/google-cloud-sdk/completion.zsh.inc" ]; then . "${HOME}/google-cloud-sdk/completion.zsh.inc"; fi
