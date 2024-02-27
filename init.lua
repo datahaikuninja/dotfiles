@@ -250,6 +250,12 @@ local null_ls = require("null-ls")
 null_ls.setup({
   sources = {
     null_ls.builtins.formatting.stylua,
+    null_ls.builtins.diagnostics.golangci_lint.with({
+      condition = function(utils)
+        return utils.root_has_file({ "go.mod" }) and utils.root_has_file({ ".golangci.yml" })
+      end,
+      extra_args = { "--config=$ROOT/.golangci.yml" },
+    }),
   },
 })
 
