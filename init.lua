@@ -14,7 +14,7 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   "EdenEast/nightfox.nvim",
-  { "lukas-reineke/indent-blankline.nvim" },
+  --  { "lukas-reineke/indent-blankline.nvim" },
   { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
   "neovim/nvim-lspconfig",
   { "williamboman/mason.nvim", build = ":MasonUpdate" },
@@ -66,6 +66,7 @@ require("lazy").setup({
   "vim-skk/skkeleton",
   "aznhe21/actions-preview.nvim",
   "rhysd/clever-f.vim",
+  { "shellRaining/hlchunk.nvim", event = { "UIEnter" } },
 })
 
 -- set options
@@ -491,12 +492,15 @@ require("copilot").setup({
 require("copilot_cmp").setup()
 
 -- indent_blankline settings
-require("ibl").setup({
-  indent = {
-    char = "▎",
-  },
-  scope = { enabled = true },
-})
+-- require("ibl").setup({
+--   indent = {
+--     char = "▎",
+--   },
+--   scope = { enabled = true },
+-- })
+
+-- hlchunk
+require("hlchunk").setup({})
 
 -- disable auto commenting
 vim.api.nvim_create_autocmd("FileType", {
