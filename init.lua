@@ -83,6 +83,12 @@ vim.opt.nrformats = "bin,hex,alpha"
 vim.opt.wildmenu = true
 vim.opt.wildmode = "full"
 vim.opt.ignorecase = true
+vim.g.mapleader = ","
+
+-- clever-f
+vim.g.clever_f_smart_case = 1
+vim.g.clever_f_use_migemo = 1
+vim.g.clever_f_fix_key_direction = 1
 
 -- use hard tabs for golang
 vim.api.nvim_create_autocmd("FileType", {
@@ -535,8 +541,3 @@ require("actions-preview").setup({
 })
 -- keymap for actions-preview
 vim.keymap.set({ "v", "n" }, "gf", require("actions-preview").code_actions)
-
--- clever-f
-vim.g.clever_f_smart_case = 1
-vim.g.clever_f_use_migemo = 1
-vim.g.clever_f_fix_key_direction = 1
