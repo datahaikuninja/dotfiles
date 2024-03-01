@@ -76,6 +76,10 @@ cd ~/
 ln -snvf ~/ghq/mine/github.com/datahaikuninja/dotfiles/wezterm.lua .wezterm.lua
 open /Applications/WezTerm.app
 
+# lazygit
+cd ~/Library/Application\ Support/lazygit
+ln -snvf ~/ghq/mine/github.com/datahaikuninja/dotfiles/lazygit.yml config.yml
+
 ```
 
 ## asdf
