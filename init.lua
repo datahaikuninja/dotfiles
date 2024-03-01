@@ -67,6 +67,7 @@ require("lazy").setup({
   "aznhe21/actions-preview.nvim",
   "rhysd/clever-f.vim",
   { "shellRaining/hlchunk.nvim", event = { "UIEnter" } },
+  { "akinsho/toggleterm.nvim", version = "*", config = true },
 })
 
 -- set options
@@ -83,6 +84,7 @@ vim.opt.nrformats = "bin,hex,alpha"
 vim.opt.wildmenu = true
 vim.opt.wildmode = "full"
 vim.opt.ignorecase = true
+vim.opt.hidden = true
 vim.g.mapleader = ","
 
 -- clever-f
@@ -126,6 +128,21 @@ vim.api.nvim_create_autocmd("TermOpen", {
 vim.api.nvim_create_autocmd("TermOpen", {
   command = [[setlocal nonumber norelativenumber]],
 })
+
+-- toggleterm
+require("toggleterm").setup({})
+local Terminal = require("toggleterm.terminal").Terminal
+local lazygit = Terminal:new({
+  cmd = "lazygit",
+  dir = "git_dir",
+  direction = "float",
+  float_opts = { border = "single", width = 120, height = 25 },
+})
+function _lazygit_toggle()
+  lazygit:toggle()
+end
+
+vim.api.nvim_set_keymap("n", "lg", "<cmd>lua _lazygit_toggle()<CR>", { noremap = true, silent = true })
 
 -- treesitter settings
 require("nvim-treesitter.configs").setup({
