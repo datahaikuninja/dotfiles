@@ -142,7 +142,7 @@ function _lazygit_toggle()
   lazygit:toggle()
 end
 
-vim.api.nvim_set_keymap("n", "lg", "<cmd>lua _lazygit_toggle()<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>lg", "<cmd>lua _lazygit_toggle()<CR>", { noremap = true, silent = true })
 
 -- treesitter settings
 require("nvim-treesitter.configs").setup({
@@ -170,7 +170,7 @@ require("lspsaga").setup({
   },
   lightbulb = {
     sign = false,
-    virtual_text = true,
+    virtual_text = false,
   },
 })
 
