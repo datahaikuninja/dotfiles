@@ -48,7 +48,7 @@ typeset -U path PATH
 alias tmux='tmux -2'
 
 ### direnv
-export EDITOR=code
+export EDITOR=nvim
 eval "$(direnv hook zsh)"
 
 ### alias
