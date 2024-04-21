@@ -78,6 +78,12 @@ require("lazy").setup({
       -- { "nvim-telescope/telescope-fzy-native.nvim" },
     },
   },
+  {
+    "stevearc/oil.nvim",
+    opts = {},
+    -- Optional dependencies
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+  },
 })
 
 -- set options
@@ -549,3 +555,7 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = "*",
   command = [[setlocal fo-=cro]],
 })
+
+-- filer
+require("oil").setup()
+vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
