@@ -62,7 +62,6 @@ require("lazy").setup({
     },
   },
   { "mvllow/modes.nvim", tag = "v0.2.0" },
-  "aznhe21/actions-preview.nvim",
   { "shellRaining/hlchunk.nvim", event = { "UIEnter" } },
   { "akinsho/toggleterm.nvim", version = "*", config = true },
 })
@@ -527,21 +526,3 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = "*",
   command = [[setlocal fo-=cro]],
 })
--- actions-preview
-require("actions-preview").setup({
-  telescope = {
-    sorting_strategy = "ascending",
-    layout_strategy = "vertical",
-    layout_config = {
-      width = 0.8,
-      height = 0.9,
-      prompt_position = "top",
-      preview_cutoff = 20,
-      preview_height = function(_, _, max_lines)
-        return max_lines - 15
-      end,
-    },
-  },
-})
--- keymap for actions-preview
-vim.keymap.set({ "v", "n" }, "gf", require("actions-preview").code_actions)
