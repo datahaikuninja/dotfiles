@@ -62,8 +62,6 @@ require("lazy").setup({
     },
   },
   { "mvllow/modes.nvim", tag = "v0.2.0" },
-  "vim-denops/denops.vim",
-  "vim-skk/skkeleton",
   "aznhe21/actions-preview.nvim",
   { "shellRaining/hlchunk.nvim", event = { "UIEnter" } },
   { "akinsho/toggleterm.nvim", version = "*", config = true },
@@ -529,14 +527,6 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = "*",
   command = [[setlocal fo-=cro]],
 })
-
---skk
-vim.cmd([[
-    call skkeleton#config({ 'globalDictionaries': ['~/.skk/SKK-JISYO.L'] })
-    imap <C-j> <Plug>(skkeleton-enable)
-    cmap <C-j> <Plug>(skkeleton-enable)
-]])
-
 -- actions-preview
 require("actions-preview").setup({
   telescope = {
