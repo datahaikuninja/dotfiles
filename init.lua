@@ -509,14 +509,6 @@ require("copilot").setup({
 
 require("copilot_cmp").setup()
 
--- indent_blankline settings
--- require("ibl").setup({
---   indent = {
---     char = "▎",
---   },
---   scope = { enabled = true },
--- })
-
 -- hlchunk
 require("hlchunk").setup({})
 
