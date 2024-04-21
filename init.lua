@@ -64,6 +64,20 @@ require("lazy").setup({
   { "mvllow/modes.nvim", tag = "v0.2.0" },
   { "shellRaining/hlchunk.nvim", event = { "UIEnter" } },
   { "akinsho/toggleterm.nvim", version = "*", config = true },
+  {
+    "danielfalk/smart-open.nvim",
+    branch = "0.2.x",
+    config = function()
+      require("telescope").load_extension("smart_open")
+    end,
+    dependencies = {
+      "kkharji/sqlite.lua",
+      -- Only required if using match_algorithm fzf
+      -- { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+      -- Optional.  If installed, native fzy will be used when match_algorithm is fzy
+      -- { "nvim-telescope/telescope-fzy-native.nvim" },
+    },
+  },
 })
 
 -- set options
@@ -503,6 +517,11 @@ require("telescope").setup({
 require("telescope").load_extension("file_browser")
 -- keymap for telescope-file-browser
 vim.api.nvim_set_keymap("n", "<space>fb", ":Telescope file_browser<CR>", { noremap = true })
+
+-- keymap for smart-open
+vim.keymap.set("n", "<leader><leader>", function()
+  require("telescope").extensions.smart_open.smart_open()
+end, { noremap = true, silent = true })
 
 -- github copilot
 require("copilot").setup({
