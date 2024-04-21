@@ -14,6 +14,7 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   "EdenEast/nightfox.nvim",
+  { "folke/tokyonight.nvim", lazy = false, priority = 1000, opts = {} },
   { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
   "neovim/nvim-lspconfig",
   { "williamboman/mason.nvim", build = ":MasonUpdate" },
@@ -384,18 +385,30 @@ require("modes").setup({
   ignore_filetypes = { "NvimTree", "TelescopePrompt" },
 })
 
--- colorscheme settings
-require("nightfox").setup({
-  options = {
-    transparent = true,
-    styles = {
-      comments = "italic",
-    },
+-- colorscheme: night
+-- require("nightfox").setup({
+--   options = {
+--     transparent = true,
+--     styles = {
+--       comments = "italic",
+--     },
+--   },
+-- })
+
+-- load colorscheme: nightfox
+-- vim.cmd("colorscheme nightfox")
+
+-- colorscheme: tokyonight
+require("tokyonight").setup({
+  style = "moon",
+  transparent = true,
+  styles = {
+    comments = { italic = true },
   },
 })
 
--- load colorscheme
-vim.cmd("colorscheme nightfox")
+-- load colorscheme: tokyonight
+vim.cmd("colorscheme tokyonight")
 
 -- statusline
 require("lualine").setup({
