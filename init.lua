@@ -65,7 +65,6 @@ require("lazy").setup({
   "vim-denops/denops.vim",
   "vim-skk/skkeleton",
   "aznhe21/actions-preview.nvim",
-  "rhysd/clever-f.vim",
   { "shellRaining/hlchunk.nvim", event = { "UIEnter" } },
   { "akinsho/toggleterm.nvim", version = "*", config = true },
 })
@@ -86,11 +85,6 @@ vim.opt.wildmode = "full"
 vim.opt.ignorecase = true
 vim.opt.hidden = true
 vim.g.mapleader = ","
-
--- clever-f
-vim.g.clever_f_smart_case = 1
-vim.g.clever_f_use_migemo = 1
-vim.g.clever_f_fix_key_direction = 1
 
 -- use hard tabs for golang
 vim.api.nvim_create_autocmd("FileType", {
