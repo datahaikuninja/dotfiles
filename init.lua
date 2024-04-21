@@ -127,7 +127,7 @@ local lazygit = Terminal:new({
   cmd = "lazygit",
   dir = "git_dir",
   direction = "float",
-  float_opts = { border = "single", width = 120, height = 25 },
+  float_opts = { border = "single" },
 })
 function _lazygit_toggle()
   lazygit:toggle()
