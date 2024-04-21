@@ -245,6 +245,9 @@ require("mason-lspconfig").setup_handlers({
 
 vim.diagnostic.config({ virtual_text = false })
 
+-- avoid increasing LSP log filesize
+vim.lsp.set_log_level("off")
+
 -- go-fmt on save
 -- https://github.com/golang/tools/blob/master/gopls/doc/vim.md#neovim-imports
 vim.api.nvim_create_autocmd("BufWritePre", {
