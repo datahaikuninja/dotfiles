@@ -25,7 +25,7 @@ end
 config.use_ime = true
 
 -- set color scheem
-config.color_scheme = "nightfox"
+config.color_scheme = "Tokyo Night"
 
 -- put tab bar at bottom
 config.tab_bar_at_bottom = false
