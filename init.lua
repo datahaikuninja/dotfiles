@@ -14,7 +14,6 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   "EdenEast/nightfox.nvim",
-  --  { "lukas-reineke/indent-blankline.nvim" },
   { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
   "neovim/nvim-lspconfig",
   { "williamboman/mason.nvim", build = ":MasonUpdate" },
