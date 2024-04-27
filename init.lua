@@ -27,6 +27,7 @@ require("lazy").setup({
   "hrsh7th/vim-vsnip",
   "hrsh7th/cmp-vsnip",
   "hrsh7th/cmp-cmdline",
+  "hrsh7th/cmp-nvim-lsp-signature-help",
   "onsails/lspkind.nvim",
   { "nvim-lualine/lualine.nvim", dependencies = { "nvim-tree/nvim-web-devicons" } },
   "windwp/nvim-autopairs",
