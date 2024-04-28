@@ -48,6 +48,7 @@ symbol = " "
 
 [gcloud]
 symbol = "󱇶 "
+style = "bold yellow"
 format = 'on [$symbol$account(@$domain)(\($project\))]($style) '
 
 [git_branch]
