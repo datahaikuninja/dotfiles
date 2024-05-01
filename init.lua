@@ -140,20 +140,10 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.keymap.set("c", "<C-p>", "<Up>", { noremap = true })
 vim.keymap.set("c", "<C-n>", "<Down>", { noremap = true })
 vim.keymap.set("n", "<ESC><ESC>", "<cmd>nohlsearch<CR>", { noremap = true })
-vim.keymap.set("n", "tv", "<cmd>vsplit term://zsh<CR>", { noremap = true, silent = true })
-vim.keymap.set("n", "th", "<cmd>split term://zsh<CR>", { noremap = true, silent = true })
 vim.keymap.set("t", "<ESC>", "<C-\\><C-n>", { noremap = true })
 
--- terminal emulator settings
--- open terminal in insert mode
-vim.api.nvim_create_autocmd("TermOpen", {
-  command = [[startinsert]],
 })
 
--- disable line numbers in terminal
-vim.api.nvim_create_autocmd("TermOpen", {
-  command = [[setlocal nonumber norelativenumber]],
-})
 
 -- toggleterm
 require("toggleterm").setup({})
