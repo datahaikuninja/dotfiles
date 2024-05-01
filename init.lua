@@ -602,7 +602,9 @@ vim.keymap.set("n", "<leader>o", "<cmd>Octo<CR>", { noremap = true })
 
 -- end settings for Git and GitHub
 
+-- starts settings for filer
 
--- filer
 require("oil").setup()
-vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+vim.keymap.set("n", "-", "<cmd>Oil<CR>", { desc = "Open parent directory" })
+
+-- end settings for filer
