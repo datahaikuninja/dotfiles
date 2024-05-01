@@ -423,19 +423,6 @@ cmp.setup.cmdline(":", {
   }),
 })
 
-require("modes").setup({
-  colors = {
-    copy = "#D3B461",
-    delete = "#BB385A",
-    insert = "#6FA589",
-    visual = "#8A5FCC",
-  },
-  line_opacity = 0.3,
-  set_cursor = true,
-  set_cursorline = true,
-  set_number = true,
-  ignore_filetypes = { "NvimTree", "TelescopePrompt" },
-})
 
 -- colorscheme: night
 -- require("nightfox").setup({
@@ -462,7 +449,8 @@ require("tokyonight").setup({
 -- load colorscheme: tokyonight
 vim.cmd("colorscheme tokyonight")
 
--- statusline
+-- starts settings for statusline
+
 require("lualine").setup({
   sections = {
     lualine_a = {},
@@ -488,35 +476,24 @@ require("lualine").setup({
 -- autopairs
 require("nvim-autopairs").setup()
 
--- git
-require("gitsigns").setup({
-  signs = {
-    add = { text = "+" },
+-- for minimalistic statusline
+require("modes").setup({
+  colors = {
+    copy = "#D3B461",
+    delete = "#BB385A",
+    insert = "#6FA589",
+    visual = "#8A5FCC",
   },
-  numhl = true, -- Toggle with `:Gitsigns toggle_numhl`
-
-  on_attach = function(bufnr)
-    local gs = package.loaded.gitsigns
-
-    local function map(mode, l, r, opts)
-      opts = opts or {}
-      opts.buffer = bufnr
-      vim.keymap.set(mode, l, r, opts)
-    end
-
-    -- Actions
-    map("n", "<leader>hp", gs.preview_hunk)
-    map("n", "<leader>hn", gs.next_hunk)
-    map("n", "<leader>hs", gs.stage_hunk)
-    map("n", "<leader>hr", gs.reset_hunk)
-    map("n", "<leader>hS", gs.stage_buffer)
-    map("n", "<leader>hR", gs.reset_buffer)
-    map("n", "<leader>tb", gs.toggle_current_line_blame)
-  end,
+  line_opacity = 0.3,
+  set_cursor = true,
+  set_cursorline = true,
+  set_number = true,
+  ignore_filetypes = { "NvimTree", "TelescopePrompt" },
 })
 
 -- display nvim-lsp progress
 require("fidget").setup()
+-- end settings for statusline
 
 -- fuzzyfinder
 local builtin = require("telescope.builtin")
