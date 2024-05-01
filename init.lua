@@ -497,7 +497,8 @@ require("modes").setup({
 require("fidget").setup()
 -- end settings for statusline
 
--- fuzzyfinder
+-- starts settings for fuzzyfinder
+
 local builtin = require("telescope.builtin")
 -- keymaps for telescope
 vim.keymap.set("n", "<leader>ff", builtin.find_files, {})
@@ -522,23 +523,14 @@ require("telescope").setup({
       ls_short = true,
     },
   },
-  extensions = {
-    file_browser = {
-      -- theme = "ivy",
-      hijack_netrw = false,
-      display_stat = false,
-    },
-  },
+  --extensions = {},
 })
 
-require("telescope").load_extension("file_browser")
--- keymap for telescope-file-browser
-vim.api.nvim_set_keymap("n", "<space>fb", ":Telescope file_browser<CR>", { noremap = true })
-
--- keymap for smart-open
 vim.keymap.set("n", "<leader><leader>", function()
   require("telescope").extensions.smart_open.smart_open()
 end, { noremap = true, silent = true })
+
+-- ends settings for fuzzyfinder
 
 -- github copilot
 require("copilot").setup({
