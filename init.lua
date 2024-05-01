@@ -174,7 +174,8 @@ vim.api.nvim_set_keymap("n", "<leader>tt", ":ToggleTerm direction=tab<CR>", { no
 
 -- ends settigs for teminal
 
--- treesitter settings
+-- starts settigs for treesitter
+
 require("nvim-treesitter.configs").setup({
   ensure_installed = {
     "python",
@@ -192,7 +193,10 @@ require("nvim-treesitter.configs").setup({
   },
 })
 
--- lspsaga
+require("hlchunk").setup({})
+
+-- end settings for treesitter
+
 vim.opt.signcolumn = "yes"
 require("lspsaga").setup({
   symbol_in_winbar = {
