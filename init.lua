@@ -197,6 +197,12 @@ require("hlchunk").setup({})
 
 -- end settings for treesitter
 
+-- starts settings for LSP
+
+require("neodev").setup({
+  library = { plugins = { "nvim-dap-ui" }, types = true },
+})
+
 vim.opt.signcolumn = "yes"
 require("lspsaga").setup({
   symbol_in_winbar = {
@@ -328,6 +334,9 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end,
 })
 
+-- display nvim-lsp progress
+require("fidget").setup()
+
 -- breadcrumb
 require("nvim-navic").setup({
   lsp = {
@@ -346,7 +355,7 @@ require("nvim-navbuddy").setup({
   },
 })
 
--- cmp settimgs
+-- ends settings for LSP
 local lspkind = require("lspkind")
 local cmp = require("cmp")
 
