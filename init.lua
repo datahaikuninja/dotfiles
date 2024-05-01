@@ -427,7 +427,8 @@ cmp.setup.cmdline(":", {
 
 -- ends settings for completion
 
--- colorscheme: night
+-- starts settings for colorscheme
+
 -- require("nightfox").setup({
 --   options = {
 --     transparent = true,
@@ -436,11 +437,8 @@ cmp.setup.cmdline(":", {
 --     },
 --   },
 -- })
-
--- load colorscheme: nightfox
 -- vim.cmd("colorscheme nightfox")
 
--- colorscheme: tokyonight
 require("tokyonight").setup({
   style = "moon",
   transparent = true,
@@ -449,8 +447,9 @@ require("tokyonight").setup({
   },
 })
 
--- load colorscheme: tokyonight
 vim.cmd("colorscheme tokyonight")
+
+-- end settings for colorscheme
 
 -- starts settings for statusline
 
