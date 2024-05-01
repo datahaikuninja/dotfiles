@@ -356,6 +356,8 @@ require("nvim-navbuddy").setup({
 })
 
 -- ends settings for LSP
+-- starts settings for completion
+
 local lspkind = require("lspkind")
 local cmp = require("cmp")
 
@@ -423,6 +425,7 @@ cmp.setup.cmdline(":", {
   }),
 })
 
+-- ends settings for completion
 
 -- colorscheme: night
 -- require("nightfox").setup({
