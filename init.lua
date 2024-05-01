@@ -101,7 +101,9 @@ require("lazy").setup({
   },
 })
 
--- set options
+-- starts general settings for Neovim
+-- e.g. appearance, blank, brackets, keymaps, autocmd ..
+
 vim.opt.number = true
 vim.opt.termguicolors = true
 -- vim.opt.expandtab = true
@@ -117,6 +119,11 @@ vim.opt.wildmode = "full"
 vim.opt.ignorecase = true
 vim.opt.hidden = true
 vim.g.mapleader = ","
+
+vim.keymap.set("c", "<C-p>", "<Up>", { noremap = true })
+vim.keymap.set("c", "<C-n>", "<Down>", { noremap = true })
+vim.keymap.set("n", "<ESC><ESC>", "<cmd>nohlsearch<CR>", { noremap = true })
+vim.keymap.set("t", "<ESC>", "<C-\\><C-n>", { noremap = true })
 
 -- use hard tabs for golang
 vim.api.nvim_create_autocmd("FileType", {
@@ -136,13 +143,17 @@ vim.api.nvim_create_autocmd("FileType", {
   command = [[setlocal expandtab tabstop=2 shiftwidth=2]],
 })
 
--- set general keymaps
-vim.keymap.set("c", "<C-p>", "<Up>", { noremap = true })
-vim.keymap.set("c", "<C-n>", "<Down>", { noremap = true })
-vim.keymap.set("n", "<ESC><ESC>", "<cmd>nohlsearch<CR>", { noremap = true })
-vim.keymap.set("t", "<ESC>", "<C-\\><C-n>", { noremap = true })
-
+-- disable auto commenting
+vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup("turn_off_auto_commenting", {}),
+  pattern = "*",
+  command = [[setlocal fo-=cro]],
 })
+
+-- autopairs
+require("nvim-autopairs").setup()
+
+-- ends general settings for Neovim
 
 -- starts settings for terminal
 
