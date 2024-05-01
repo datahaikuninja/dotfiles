@@ -575,8 +575,6 @@ require("modes").setup({
   ignore_filetypes = { "NvimTree", "TelescopePrompt" },
 })
 
--- display nvim-lsp progress
-require("fidget").setup()
 -- end settings for statusline
 
 -- starts settings for fuzzyfinder
@@ -658,9 +656,6 @@ require("copilot").setup({
 })
 
 require("copilot_cmp").setup()
-
--- hlchunk
-require("hlchunk").setup({})
 
 require("octo").setup({
   enable_builtin = true,
