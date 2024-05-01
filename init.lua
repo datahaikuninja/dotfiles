@@ -100,6 +100,15 @@ require("lazy").setup({
     },
   },
   {
+    "rcarriga/nvim-dap-ui",
+    dependencies = {
+      "mfussenegger/nvim-dap",
+      "nvim-neotest/nvim-nio",
+      "jay-babu/mason-nvim-dap.nvim",
+    },
+  },
+  { "folke/neodev.nvim", opts = {} }, -- highly recommended to use nvim-dap-ui
+  {
     "pwntester/octo.nvim",
     dependencies = {
       "nvim-lua/plenary.nvim",
@@ -365,6 +374,73 @@ require("nvim-navbuddy").setup({
 })
 
 -- ends settings for LSP
+
+-- starts settings for DAP
+
+require("mason-nvim-dap").setup({
+  ensure_installed = { "delve" },
+  handlers = {
+    function(config)
+      require("mason-nvim-dap").default_setup(config)
+    end,
+  },
+})
+
+vim.keymap.set("n", "<F5>", function()
+  require("dap").continue()
+end)
+vim.keymap.set("n", "<F6>", function()
+  require("dap").terminate()
+end)
+vim.keymap.set("n", "<F10>", function()
+  require("dap").step_over()
+end)
+vim.keymap.set("n", "<F11>", function()
+  require("dap").step_into()
+end)
+vim.keymap.set("n", "<F12>", function()
+  require("dap").step_out()
+end)
+vim.keymap.set("n", "<Leader>b", function()
+  require("dap").toggle_breakpoint()
+end)
+vim.keymap.set("n", "<Leader>B", function()
+  require("dap").set_breakpoint()
+end)
+vim.keymap.set("n", "<Leader>lp", function()
+  require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
+end)
+vim.keymap.set("n", "<Leader>dr", function()
+  require("dap").repl.open()
+end)
+vim.keymap.set("n", "<Leader>dl", function()
+  require("dap").run_last()
+end)
+vim.keymap.set({ "n", "v" }, "<Leader>dh", function()
+  require("dap.ui.widgets").hover()
+end)
+vim.keymap.set({ "n", "v" }, "<Leader>dp", function()
+  require("dap.ui.widgets").preview()
+end)
+vim.keymap.set("n", "<Leader>df", function()
+  local widgets = require("dap.ui.widgets")
+  widgets.centered_float(widgets.frames)
+end)
+vim.keymap.set("n", "<Leader>ds", function()
+  local widgets = require("dap.ui.widgets")
+  widgets.centered_float(widgets.scopes)
+end)
+vim.keymap.set("n", "<leader>d", function()
+  require("dapui").toggle()
+end)
+vim.keymap.set("n", "<leader>df", function()
+  require("dapui").eval()
+end)
+
+require("dapui").setup({})
+
+-- end settings for DAP
+
 -- starts settings for completion
 
 local lspkind = require("lspkind")
