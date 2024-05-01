@@ -560,9 +560,6 @@ require("lualine").setup({
   },
 })
 
--- autopairs
-require("nvim-autopairs").setup()
-
 -- for minimalistic statusline
 require("modes").setup({
   colors = {
@@ -665,11 +662,6 @@ require("copilot_cmp").setup()
 -- hlchunk
 require("hlchunk").setup({})
 
--- disable auto commenting
-vim.api.nvim_create_autocmd("FileType", {
-  group = vim.api.nvim_create_augroup("turn_off_auto_commenting", {}),
-  pattern = "*",
-  command = [[setlocal fo-=cro]],
 require("octo").setup({
   enable_builtin = true,
 })
