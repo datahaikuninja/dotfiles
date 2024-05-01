@@ -144,14 +144,14 @@ vim.keymap.set("t", "<ESC>", "<C-\\><C-n>", { noremap = true })
 
 })
 
+-- starts settings for terminal
 
--- toggleterm
 require("toggleterm").setup({})
 local Terminal = require("toggleterm.terminal").Terminal
 local lazygit = Terminal:new({
   cmd = "lazygit",
   dir = "git_dir",
-  direction = "float",
+  direction = "tab",
   float_opts = { border = "single" },
 })
 function _lazygit_toggle()
@@ -159,7 +159,9 @@ function _lazygit_toggle()
 end
 
 vim.api.nvim_set_keymap("n", "<leader>lg", "<cmd>lua _lazygit_toggle()<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<leader>tf", ":ToggleTerm direction=float<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<leader>tt", ":ToggleTerm direction=tab<CR>", { noremap = true })
+
+-- ends settigs for teminal
 
 -- treesitter settings
 require("nvim-treesitter.configs").setup({
