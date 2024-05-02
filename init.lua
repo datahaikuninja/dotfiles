@@ -117,6 +117,11 @@ require("lazy").setup({
     },
     cmd = "Octo",
   },
+  {
+    "kylechui/nvim-surround",
+    version = "*", -- Use for stability; omit to use `main` branch for the latest features
+    event = "VeryLazy",
+  },
 })
 
 -- starts general settings for Neovim
@@ -170,6 +175,9 @@ vim.api.nvim_create_autocmd("FileType", {
 
 -- autopairs
 require("nvim-autopairs").setup()
+
+-- :h nvim-surround.usage
+require("nvim-surround").setup()
 
 -- ends general settings for Neovim
 
