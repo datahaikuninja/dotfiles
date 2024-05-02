@@ -99,9 +99,29 @@ require("lazy").setup({
       { "<c-s>", mode = { "c" },           function() require("flash").toggle() end,            desc = "Toggle Flash Search" },
     },
   },
+  {
+    "rcarriga/nvim-dap-ui",
+    dependencies = {
+      "mfussenegger/nvim-dap",
+      "nvim-neotest/nvim-nio",
+      "jay-babu/mason-nvim-dap.nvim",
+    },
+  },
+  { "folke/neodev.nvim", opts = {} }, -- highly recommended to use nvim-dap-ui
+  {
+    "pwntester/octo.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim",
+      "nvim-tree/nvim-web-devicons",
+    },
+    cmd = "Octo",
+  },
 })
 
--- set options
+-- starts general settings for Neovim
+-- e.g. appearance, blank, brackets, keymaps, autocmd ..
+
 vim.opt.number = true
 vim.opt.termguicolors = true
 -- vim.opt.expandtab = true
@@ -117,6 +137,11 @@ vim.opt.wildmode = "full"
 vim.opt.ignorecase = true
 vim.opt.hidden = true
 vim.g.mapleader = ","
+
+vim.keymap.set("c", "<C-p>", "<Up>", { noremap = true })
+vim.keymap.set("c", "<C-n>", "<Down>", { noremap = true })
+vim.keymap.set("n", "<ESC><ESC>", "<cmd>nohlsearch<CR>", { noremap = true })
+vim.keymap.set("t", "<ESC>", "<C-\\><C-n>", { noremap = true })
 
 -- use hard tabs for golang
 vim.api.nvim_create_autocmd("FileType", {
@@ -136,32 +161,26 @@ vim.api.nvim_create_autocmd("FileType", {
   command = [[setlocal expandtab tabstop=2 shiftwidth=2]],
 })
 
--- set general keymaps
-vim.keymap.set("c", "<C-p>", "<Up>", { noremap = true })
-vim.keymap.set("c", "<C-n>", "<Down>", { noremap = true })
-vim.keymap.set("n", "<ESC><ESC>", "<cmd>nohlsearch<CR>", { noremap = true })
-vim.keymap.set("n", "tv", "<cmd>vsplit term://zsh<CR>", { noremap = true, silent = true })
-vim.keymap.set("n", "th", "<cmd>split term://zsh<CR>", { noremap = true, silent = true })
-vim.keymap.set("t", "<ESC>", "<C-\\><C-n>", { noremap = true })
-
--- terminal emulator settings
--- open terminal in insert mode
-vim.api.nvim_create_autocmd("TermOpen", {
-  command = [[startinsert]],
+-- disable auto commenting
+vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup("turn_off_auto_commenting", {}),
+  pattern = "*",
+  command = [[setlocal fo-=cro]],
 })
 
--- disable line numbers in terminal
-vim.api.nvim_create_autocmd("TermOpen", {
-  command = [[setlocal nonumber norelativenumber]],
-})
+-- autopairs
+require("nvim-autopairs").setup()
 
--- toggleterm
+-- ends general settings for Neovim
+
+-- starts settings for terminal
+
 require("toggleterm").setup({})
 local Terminal = require("toggleterm.terminal").Terminal
 local lazygit = Terminal:new({
   cmd = "lazygit",
   dir = "git_dir",
-  direction = "float",
+  direction = "tab",
   float_opts = { border = "single" },
 })
 function _lazygit_toggle()
@@ -169,9 +188,12 @@ function _lazygit_toggle()
 end
 
 vim.api.nvim_set_keymap("n", "<leader>lg", "<cmd>lua _lazygit_toggle()<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<leader>tf", ":ToggleTerm direction=float<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<leader>tt", ":ToggleTerm direction=tab<CR>", { noremap = true })
 
--- treesitter settings
+-- ends settigs for teminal
+
+-- starts settigs for treesitter
+
 require("nvim-treesitter.configs").setup({
   ensure_installed = {
     "python",
@@ -189,7 +211,16 @@ require("nvim-treesitter.configs").setup({
   },
 })
 
--- lspsaga
+require("hlchunk").setup({})
+
+-- end settings for treesitter
+
+-- starts settings for LSP
+
+require("neodev").setup({
+  library = { plugins = { "nvim-dap-ui" }, types = true },
+})
+
 vim.opt.signcolumn = "yes"
 require("lspsaga").setup({
   symbol_in_winbar = {
@@ -321,6 +352,9 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end,
 })
 
+-- display nvim-lsp progress
+require("fidget").setup()
+
 -- breadcrumb
 require("nvim-navic").setup({
   lsp = {
@@ -339,7 +373,76 @@ require("nvim-navbuddy").setup({
   },
 })
 
--- cmp settimgs
+-- ends settings for LSP
+
+-- starts settings for DAP
+
+require("mason-nvim-dap").setup({
+  ensure_installed = { "delve" },
+  handlers = {
+    function(config)
+      require("mason-nvim-dap").default_setup(config)
+    end,
+  },
+})
+
+vim.keymap.set("n", "<F5>", function()
+  require("dap").continue()
+end)
+vim.keymap.set("n", "<F6>", function()
+  require("dap").terminate()
+end)
+vim.keymap.set("n", "<F10>", function()
+  require("dap").step_over()
+end)
+vim.keymap.set("n", "<F11>", function()
+  require("dap").step_into()
+end)
+vim.keymap.set("n", "<F12>", function()
+  require("dap").step_out()
+end)
+vim.keymap.set("n", "<Leader>b", function()
+  require("dap").toggle_breakpoint()
+end)
+vim.keymap.set("n", "<Leader>B", function()
+  require("dap").set_breakpoint()
+end)
+vim.keymap.set("n", "<Leader>lp", function()
+  require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
+end)
+vim.keymap.set("n", "<Leader>dr", function()
+  require("dap").repl.open()
+end)
+vim.keymap.set("n", "<Leader>dl", function()
+  require("dap").run_last()
+end)
+vim.keymap.set({ "n", "v" }, "<Leader>dh", function()
+  require("dap.ui.widgets").hover()
+end)
+vim.keymap.set({ "n", "v" }, "<Leader>dp", function()
+  require("dap.ui.widgets").preview()
+end)
+vim.keymap.set("n", "<Leader>df", function()
+  local widgets = require("dap.ui.widgets")
+  widgets.centered_float(widgets.frames)
+end)
+vim.keymap.set("n", "<Leader>ds", function()
+  local widgets = require("dap.ui.widgets")
+  widgets.centered_float(widgets.scopes)
+end)
+vim.keymap.set("n", "<leader>d", function()
+  require("dapui").toggle()
+end)
+vim.keymap.set("n", "<leader>df", function()
+  require("dapui").eval()
+end)
+
+require("dapui").setup({})
+
+-- end settings for DAP
+
+-- starts settings for completion
+
 local lspkind = require("lspkind")
 local cmp = require("cmp")
 
@@ -407,21 +510,10 @@ cmp.setup.cmdline(":", {
   }),
 })
 
-require("modes").setup({
-  colors = {
-    copy = "#D3B461",
-    delete = "#BB385A",
-    insert = "#6FA589",
-    visual = "#8A5FCC",
-  },
-  line_opacity = 0.3,
-  set_cursor = true,
-  set_cursorline = true,
-  set_number = true,
-  ignore_filetypes = { "NvimTree", "TelescopePrompt" },
-})
+-- ends settings for completion
 
--- colorscheme: night
+-- starts settings for colorscheme
+
 -- require("nightfox").setup({
 --   options = {
 --     transparent = true,
@@ -430,11 +522,8 @@ require("modes").setup({
 --     },
 --   },
 -- })
-
--- load colorscheme: nightfox
 -- vim.cmd("colorscheme nightfox")
 
--- colorscheme: tokyonight
 require("tokyonight").setup({
   style = "moon",
   transparent = true,
@@ -443,10 +532,12 @@ require("tokyonight").setup({
   },
 })
 
--- load colorscheme: tokyonight
 vim.cmd("colorscheme tokyonight")
 
--- statusline
+-- end settings for colorscheme
+
+-- starts settings for statusline
+
 require("lualine").setup({
   sections = {
     lualine_a = {},
@@ -469,10 +560,60 @@ require("lualine").setup({
   },
 })
 
--- autopairs
-require("nvim-autopairs").setup()
+-- for minimalistic statusline
+require("modes").setup({
+  colors = {
+    copy = "#D3B461",
+    delete = "#BB385A",
+    insert = "#6FA589",
+    visual = "#8A5FCC",
+  },
+  line_opacity = 0.3,
+  set_cursor = true,
+  set_cursorline = true,
+  set_number = true,
+  ignore_filetypes = { "NvimTree", "TelescopePrompt" },
+})
 
--- git
+-- end settings for statusline
+
+-- starts settings for fuzzyfinder
+
+local builtin = require("telescope.builtin")
+-- keymaps for telescope
+vim.keymap.set("n", "<leader>ff", builtin.find_files, {})
+vim.keymap.set("n", "<leader>fg", builtin.live_grep, {})
+vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
+vim.keymap.set("n", "<leader>fh", builtin.help_tags, {})
+
+require("telescope").setup({
+  defaults = {
+    layout_strategy = "vertical",
+    layout_config = {
+      horizontal = { preview_cutoff = 0 },
+      vertical = {
+        height = function(_, _, max_lines)
+          return max_lines
+        end,
+        preview_cutoff = 0,
+        preview_height = 8,
+      },
+    },
+    preview = {
+      ls_short = true,
+    },
+  },
+  --extensions = {},
+})
+
+vim.keymap.set("n", "<leader><leader>", function()
+  require("telescope").extensions.smart_open.smart_open()
+end, { noremap = true, silent = true })
+
+-- ends settings for fuzzyfinder
+
+-- starts settings for Git and GitHub
+
 require("gitsigns").setup({
   signs = {
     add = { text = "+" },
@@ -499,52 +640,6 @@ require("gitsigns").setup({
   end,
 })
 
--- display nvim-lsp progress
-require("fidget").setup()
-
--- fuzzyfinder
-local builtin = require("telescope.builtin")
--- keymaps for telescope
-vim.keymap.set("n", "<leader>ff", builtin.find_files, {})
-vim.keymap.set("n", "<leader>fg", builtin.live_grep, {})
-vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
-vim.keymap.set("n", "<leader>fh", builtin.help_tags, {})
-
-require("telescope").setup({
-  defaults = {
-    layout_strategy = "vertical",
-    layout_config = {
-      horizontal = { preview_cutoff = 0 },
-      vertical = {
-        height = function(_, _, max_lines)
-          return max_lines
-        end,
-        preview_cutoff = 0,
-        preview_height = 8,
-      },
-    },
-    preview = {
-      ls_short = true,
-    },
-  },
-  extensions = {
-    file_browser = {
-      -- theme = "ivy",
-      hijack_netrw = false,
-      display_stat = false,
-    },
-  },
-})
-
-require("telescope").load_extension("file_browser")
--- keymap for telescope-file-browser
-vim.api.nvim_set_keymap("n", "<space>fb", ":Telescope file_browser<CR>", { noremap = true })
-
--- keymap for smart-open
-vim.keymap.set("n", "<leader><leader>", function()
-  require("telescope").extensions.smart_open.smart_open()
-end, { noremap = true, silent = true })
-
 -- github copilot
 require("copilot").setup({
   panel = {
@@ -562,16 +657,17 @@ require("copilot").setup({
 
 require("copilot_cmp").setup()
 
--- hlchunk
-require("hlchunk").setup({})
-
--- disable auto commenting
-vim.api.nvim_create_autocmd("FileType", {
-  group = vim.api.nvim_create_augroup("turn_off_auto_commenting", {}),
-  pattern = "*",
-  command = [[setlocal fo-=cro]],
+require("octo").setup({
+  enable_builtin = true,
 })
+vim.cmd([[hi OctoEditable guibg=none]])
+vim.keymap.set("n", "<leader>o", "<cmd>Octo<CR>", { noremap = true })
 
--- filer
+-- end settings for Git and GitHub
+
+-- starts settings for filer
+
 require("oil").setup()
-vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+vim.keymap.set("n", "-", "<cmd>Oil<CR>", { desc = "Open parent directory" })
+
+-- end settings for filer
