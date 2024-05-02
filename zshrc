@@ -39,7 +39,7 @@ zinit light zdharma-continuum/fast-syntax-highlighting
 #zinit light asdf-vm/asdf --commented out as I moved to homebrew
 
 ### PATH
-export PATH="/usr/local/bin:/opt/homebrew/bin:/opt/homebrew/Cellar/git:${HOME}/.asdf/shims/python:${HOME}/sdk/go1.21.9/bin:/usr/local/go/bin:${HOME}/go/bin:/opt/homebrew/opt/mysql-client@8.0/bin:/opt/homebrew/opt/mysql-client@5.7/bin:$PATH"
+export PATH="/usr/local/bin:/opt/homebrew/bin:/opt/homebrew/Cellar/git:${HOME}/.asdf/shims/python:${HOME}/sdk/go1.21.9/bin:/usr/local/go/bin:${HOME}/go/bin:/Applications/WezTerm.app/Contents/MacOS/wezterm:/opt/homebrew/opt/mysql-client@8.0/bin:/opt/homebrew/opt/mysql-client@5.7/bin:$PATH"
 
 
 ### for tmux settings
@@ -52,6 +52,9 @@ export EDITOR=nvim
 eval "$(direnv hook zsh)"
 
 ### alias
+#### WezTerm
+alias wezterm="/Applications/WezTerm.app/Contents/MacOS/wezterm"
+
 #### AWS CLI Docker
 # alias aws='docker run --rm -i -v ~/.aws:/root/.aws public.ecr.aws/aws-cli/aws-cli'
 
