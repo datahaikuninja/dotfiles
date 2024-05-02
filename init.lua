@@ -173,6 +173,30 @@ require("nvim-autopairs").setup()
 
 -- ends general settings for Neovim
 
+-- starts settings for colorscheme
+
+-- require("nightfox").setup({
+--   options = {
+--     transparent = true,
+--     styles = {
+--       comments = "italic",
+--     },
+--   },
+-- })
+-- vim.cmd("colorscheme nightfox")
+
+require("tokyonight").setup({
+  style = "moon",
+  transparent = true,
+  styles = {
+    comments = { italic = true },
+  },
+})
+
+vim.cmd("colorscheme tokyonight")
+
+-- end settings for colorscheme
+
 -- starts settings for terminal
 
 require("toggleterm").setup({})
@@ -511,30 +535,6 @@ cmp.setup.cmdline(":", {
 })
 
 -- ends settings for completion
-
--- starts settings for colorscheme
-
--- require("nightfox").setup({
---   options = {
---     transparent = true,
---     styles = {
---       comments = "italic",
---     },
---   },
--- })
--- vim.cmd("colorscheme nightfox")
-
-require("tokyonight").setup({
-  style = "moon",
-  transparent = true,
-  styles = {
-    comments = { italic = true },
-  },
-})
-
-vim.cmd("colorscheme tokyonight")
-
--- end settings for colorscheme
 
 -- starts settings for statusline
 
