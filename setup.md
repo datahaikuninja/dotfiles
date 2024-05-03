@@ -80,6 +80,10 @@ open /Applications/WezTerm.app
 cd ~/Library/Application\ Support/lazygit
 ln -snvf ~/ghq/mine/github.com/datahaikuninja/dotfiles/lazygit.yml config.yml
 
+# gh-dash
+cd ~/.config/gh-dash/
+ln -snvf ~/ghq/mine/github.com/datahaikuninja/dotfiles/gh-dash.yml config.yml
+
 ```
 
 ## asdf
