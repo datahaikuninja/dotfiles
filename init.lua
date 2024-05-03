@@ -33,6 +33,7 @@ require("lazy").setup({
   "windwp/nvim-autopairs",
   "nvim-lua/plenary.nvim",
   "lewis6991/gitsigns.nvim",
+  "sindrets/diffview.nvim",
   { "j-hui/fidget.nvim", tag = "legacy" },
   {
     "nvim-telescope/telescope.nvim",
@@ -658,6 +659,8 @@ require("gitsigns").setup({
     map("n", "<leader>tb", gs.toggle_current_line_blame)
   end,
 })
+
+require("diffview").setup()
 
 -- github copilot
 require("copilot").setup({
