@@ -51,10 +51,23 @@ keybindings:
   prs:
     - key: C
       command: |-
-        tmux new-session -d -c {{.RepoPath}} -s {{.RepoName}}#{{.PrNumber}} 'gh pr checkout {{.PrNumber}} && nvim -c ":Octo pr edit {{.PrNumber}}"' \; attach
+        /Applications/WezTerm.app/Contents/MacOS/wezterm cli spawn --cwd {{.RepoPath}} -- \
+        bash -c '/Applications/WezTerm.app/Contents/MacOS/wezterm cli set-tab-title {{.RepoName}}#{{.PrNumber}} &&'\
+        'gh pr checkout {{.PrNumber}} &&'\
+        'nvim -c '\
+        '  ":Octo pr edit {{.PrNumber}}"'\
+        > /dev/null 2>&1
+        #tmux new-session -d -c {{.RepoPath}} -s {{.RepoName}}#{{.PrNumber}} 'gh pr checkout {{.PrNumber}} && nvim -c ":Octo pr edit {{.PrNumber}}"' \; attach
     - key: d
       command: |-
-        tmux new-session -d -c {{.RepoPath}} -s {{.RepoName}}#{{.PrNumber}} 'gh pr checkout {{.PrNumber}} && nvim -c ":DiffviewOpen origin/$(gh pr status --json baseRefName -q '.currentBranch.baseRefName')...{{.HeadRefName}}"' \; attach
+        /Applications/WezTerm.app/Contents/MacOS/wezterm cli spawn --cwd {{.RepoPath}} -- \
+        bash -c '/Applications/WezTerm.app/Contents/MacOS/wezterm cli set-tab-title {{.RepoName}}#{{.PrNumber}} &&'\
+        'gh pr checkout {{.PrNumber}} &&'\
+        'nvim -c '\
+        '  ":execute '"'"'DiffviewOpen origin/$(gh pr status --json baseRefName -q .currentBranch.baseRefName)...{{.HeadRefName}}'"'"\
+        '   | :tabonly"' \
+        > /dev/null 2>&1
+        # tmux new-session -d -c {{.RepoPath}} -s {{.RepoName}}#{{.PrNumber}} 'gh pr checkout {{.PrNumber}} && nvim -c ":DiffviewOpen origin/$(gh pr status --json baseRefName -q '.currentBranch.baseRefName')...{{.HeadRefName}}"' \; attach >/dev/null 2>&1
 repoPaths:
   datahaikuninja/*: "$HOME/ghq/mine/github.com/datahaikuninja/*"
 theme:
