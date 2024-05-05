@@ -94,6 +94,16 @@ compinit -u
 export FZF_DEFAULT_OPTS='--height 75% --multi --layout=reverse --border --ansi'
 
 ### function
+#### ghq list -p + fzf
+function moveRepo() {
+	local selected
+	selected=$(ghq list -p | fzf --query="$1" --no-multi --no-select-1 --no-exit-0)
+    if [[ -n $selected ]]; then
+        cd "$selected"
+    fi
+}
+alias repo='moveRepo'
+
 #### fzf git add
 function fzf_git_add() {
     local selected
