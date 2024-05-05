@@ -69,6 +69,12 @@ alias ls='ls -G'
 alias vi='nvim'
 alias vim='nvim'
 
+#### lazygit
+alias lg='lazygit'
+
+#### gh-dash
+alias ghd='gh dash'
+
 #### dotfiles
 alias dotfiles="cd ${HOME}/ghq/mine/github.com/datahaikuninja/dotfiles"
 
