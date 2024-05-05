@@ -176,7 +176,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 -- use soft tabs, 2 spaces
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "terraform", "*.tf", "*.js", "sh", "*.lua", "lua", "hcl", "jsonnet", "markdown" },
+  pattern = { "terraform", "*.tf", "javascript", "sh", "*.lua", "lua", "hcl", "jsonnet", "markdown" },
   command = [[setlocal expandtab tabstop=2 shiftwidth=2]],
 })
 
@@ -303,6 +303,8 @@ require("mason-lspconfig").setup({
     "terraformls",
     "tflint",
     "gopls",
+    "biome",
+    "tsserver",
   },
 })
 require("mason-lspconfig").setup_handlers({
@@ -345,12 +347,25 @@ require("mason-lspconfig").setup_handlers({
       },
     })
   end,
+  -- enable after nevim 0.10.0
+  --["biome"] = function()
+  --  require("lspconfig").biome.setup({
+  --    on_attach = on_attach,
+  --    capabilities = capabilities,
+  --  })
+  --end,
+  ["tsserver"] = function()
+    require("lspconfig").tsserver.setup({
+      on_attach = on_attach,
+      capabilities = capabilities,
+    })
+  end,
 })
 
 vim.diagnostic.config({ virtual_text = false })
 
 -- avoid increasing LSP log filesize
-vim.lsp.set_log_level("off")
+vim.lsp.set_log_level(vim.log.levels.ERROR)
 
 -- go-fmt on save
 -- https://github.com/golang/tools/blob/master/gopls/doc/vim.md#neovim-imports
