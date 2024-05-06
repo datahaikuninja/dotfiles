@@ -170,7 +170,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 -- use soft tabs, 4 spaces for python
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "*.py" },
+  pattern = { "python", "rust" },
   command = [[setlocal expandtab tabstop=4 shiftwidth=4]],
 })
 
@@ -251,6 +251,7 @@ require("nvim-treesitter.configs").setup({
     "go",
     "hcl",
     "jsonnet",
+    "rust",
   },
   highlight = {
     enable = true,
@@ -305,6 +306,7 @@ require("mason-lspconfig").setup({
     "gopls",
     "biome",
     "tsserver",
+    "rust_analyzer",
   },
 })
 require("mason-lspconfig").setup_handlers({
@@ -345,6 +347,16 @@ require("mason-lspconfig").setup_handlers({
           gofumpt = true,
         },
       },
+    })
+  end,
+  -- see:
+  -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#rust_analyzer
+  -- https://github.com/rust-lang/rust-analyzer/blob/master/docs/user/generated_config.adoc
+  -- https://rust-analyzer.github.io/manual.html#nvim-lsp
+  ["rust_analyzer"] = function()
+    require("lspconfig").rust_analyzer.setup({
+      on_attach = on_attach,
+      capabilities = capabilities,
     })
   end,
   -- enable after nevim 0.10.0
@@ -389,6 +401,14 @@ vim.api.nvim_create_autocmd("BufWritePre", {
       end
     end
     vim.lsp.buf.format({ async = false })
+  end,
+})
+
+vim.api.nvim_create_autocmd("BufWritePost", {
+  pattern = "*.rs",
+  callback = function()
+    vim.fn.system({ "rustfmt", vim.fn.expand("%") })
+    vim.cmd(":edit %")
   end,
 })
 
@@ -539,6 +559,16 @@ cmp.setup({
   },
   formatting = {
     format = lspkind.cmp_format({
+      -- workaround to long label details.
+      -- see: https://github.com/hrsh7th/nvim-cmp/issues/1154#issuecomment-1872926479
+      before = function(entry, vim_item)
+        local m = vim_item.menu and vim_item.menu or ""
+        local len = 15
+        if #m > len then
+          vim_item.menu = string.sub(m, 1, len) .. "..."
+        end
+        return vim_item
+      end,
       mode = "symbol",
       maxwidth = 50,
       symbol_map = {
