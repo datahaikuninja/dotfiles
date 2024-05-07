@@ -70,6 +70,7 @@ keybindings:
         # tmux new-session -d -c {{.RepoPath}} -s {{.RepoName}}#{{.PrNumber}} 'gh pr checkout {{.PrNumber}} && nvim -c ":DiffviewOpen origin/$(gh pr status --json baseRefName -q '.currentBranch.baseRefName')...{{.HeadRefName}}"' \; attach >/dev/null 2>&1
 repoPaths:
   datahaikuninja/*: "$HOME/ghq/mine/github.com/datahaikuninja/*"
+  adtech-tver/*: "$HOME/ghq/github.com/adtech-tver/*"
 theme:
   ui:
     table:
