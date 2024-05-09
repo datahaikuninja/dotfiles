@@ -42,7 +42,6 @@ require("lazy").setup({
       "nvim-lua/plenary.nvim",
     },
   },
-  { "nvim-telescope/telescope-file-browser.nvim", dependencies = { "nvim-telescope/telescope.nvim" } },
   {
     "glepnir/lspsaga.nvim",
     event = "LspAttach",
@@ -77,20 +76,6 @@ require("lazy").setup({
   { "mvllow/modes.nvim", tag = "v0.2.0" },
   { "shellRaining/hlchunk.nvim", event = { "UIEnter" } },
   { "akinsho/toggleterm.nvim", version = "*", config = true },
-  {
-    "danielfalk/smart-open.nvim",
-    branch = "0.2.x",
-    config = function()
-      require("telescope").load_extension("smart_open")
-    end,
-    dependencies = {
-      "kkharji/sqlite.lua",
-      -- Only required if using match_algorithm fzf
-      -- { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
-      -- Optional.  If installed, native fzy will be used when match_algorithm is fzy
-      -- { "nvim-telescope/telescope-fzy-native.nvim" },
-    },
-  },
   {
     "stevearc/oil.nvim",
     opts = {},
@@ -672,10 +657,6 @@ require("telescope").setup({
   },
   --extensions = {},
 })
-
-vim.keymap.set("n", "<leader><leader>", function()
-  require("telescope").extensions.smart_open.smart_open()
-end, { noremap = true, silent = true })
 
 -- ends settings for fuzzyfinder
 
