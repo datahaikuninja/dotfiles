@@ -119,6 +119,7 @@ require("lazy").setup({
     version = "*", -- Use for stability; omit to use `main` branch for the latest features
     event = "VeryLazy",
   },
+  { "numToStr/Comment.nvim", opts = {}, lazy = false },
 })
 
 -- starts general settings for Neovim
@@ -177,6 +178,9 @@ require("nvim-autopairs").setup()
 
 -- :h nvim-surround.usage
 require("nvim-surround").setup()
+
+-- easy commentout
+require("Comment").setup()
 
 -- ends general settings for Neovim
 
