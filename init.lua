@@ -43,6 +43,10 @@ require("lazy").setup({
     },
   },
   {
+    "nvim-telescope/telescope-frecency.nvim",
+    dependencies = { "nvim-telescope/telescope.nvim", "nvim-tree/nvim-web-devicons" },
+  },
+  {
     "glepnir/lspsaga.nvim",
     event = "LspAttach",
     dependencies = { "nvim-tree/nvim-web-devicons", "nvim-treesitter/nvim-treesitter" },
@@ -661,6 +665,9 @@ require("telescope").setup({
   },
   --extensions = {},
 })
+
+require("telescope").load_extension("frecency")
+vim.keymap.set("n", "<leader><leader>", "<Cmd>Telescope frecency workspace=CWD<CR>")
 
 -- ends settings for fuzzyfinder
 
