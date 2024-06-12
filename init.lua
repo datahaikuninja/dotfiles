@@ -251,7 +251,14 @@ require("nvim-treesitter.configs").setup({
   },
 })
 
-require("hlchunk").setup({})
+require("hlchunk").setup({
+  chunk = {
+    enable = true,
+  },
+  indent = {
+    enable = true,
+  },
+})
 
 -- end settings for treesitter
 
