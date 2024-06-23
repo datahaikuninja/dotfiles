@@ -357,6 +357,13 @@ require("mason-lspconfig").setup_handlers({
     require("lspconfig").rust_analyzer.setup({
       on_attach = on_attach,
       capabilities = capabilities,
+      settings = {
+        ["rust-analyzer"] = {
+          check = {
+            command = "clippy",
+          },
+        },
+      },
     })
   end,
   -- enable after nevim 0.10.0
