@@ -124,6 +124,7 @@ require("lazy").setup({
     event = "VeryLazy",
   },
   { "numToStr/Comment.nvim", opts = {}, lazy = false },
+  { "jbyuki/instant.nvim" },
 })
 
 -- starts general settings for Neovim
@@ -772,6 +773,9 @@ require("octo").setup({
 })
 vim.cmd([[hi OctoEditable guibg=none]])
 vim.keymap.set("n", "<leader>o", "<cmd>Octo<CR>", { noremap = true })
+
+-- live share server/client
+vim.g.instant_username = "datahaikuninja"
 
 -- end settings for Git and GitHub
 
