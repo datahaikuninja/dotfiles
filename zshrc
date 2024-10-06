@@ -39,7 +39,7 @@ zinit light zdharma-continuum/fast-syntax-highlighting
 #zinit light asdf-vm/asdf --commented out as I moved to homebrew
 
 ### PATH
-export PATH="/usr/local/bin:/opt/homebrew/bin:/opt/homebrew/Cellar/git:${HOME}/.asdf/shims/python:${HOME}/sdk/go1.21.12/bin:${HOME}/go/bin:${HOME}/.cargo/bin:/Applications/WezTerm.app/Contents/MacOS/wezterm:/opt/homebrew/opt/mysql-client@8.0/bin:/opt/homebrew/opt/mysql-client@5.7/bin:${HOME}/.asdf/shims/ruby:$PATH"
+export PATH="/usr/local/bin:/opt/homebrew/bin:/opt/homebrew/Cellar/git:${HOME}/.asdf/shims/python:${HOME}/sdk/go1.22.7/bin:${HOME}/go/bin:${HOME}/.cargo/bin:/Applications/WezTerm.app/Contents/MacOS/wezterm:/opt/homebrew/opt/mysql-client@8.0/bin:/opt/homebrew/opt/mysql-client@5.7/bin:${HOME}/.asdf/shims/ruby:$PATH"
 
 
 ### for tmux settings
