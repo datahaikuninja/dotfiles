@@ -280,7 +280,7 @@ local on_attach = function(client, bufnr)
   -- keymaps for lsp
   local set = vim.keymap.set
   set("n", "gd", "<cmd>Lspsaga peek_definition<CR>")
-  set("n", "gk", "<cmd>Lspsaga hover_doc<CR>")
+  set("n", "gK", "<cmd>Lspsaga hover_doc<CR>")
   -- set("n", "<C-m>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
   set("n", "gt", "<cmd>Lspsaga peek_type_definition<CR>")
   set("n", "gn", "<cmd>Lspsaga rename<CR>")
