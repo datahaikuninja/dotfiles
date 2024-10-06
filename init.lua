@@ -301,8 +301,6 @@ require("mason-lspconfig").setup({
     "terraformls",
     "tflint",
     "gopls",
-    "biome",
-    "tsserver",
     "rust_analyzer",
   },
 })
@@ -363,19 +361,6 @@ require("mason-lspconfig").setup_handlers({
           },
         },
       },
-    })
-  end,
-  -- enable after nevim 0.10.0
-  --["biome"] = function()
-  --  require("lspconfig").biome.setup({
-  --    on_attach = on_attach,
-  --    capabilities = capabilities,
-  --  })
-  --end,
-  ["tsserver"] = function()
-    require("lspconfig").tsserver.setup({
-      on_attach = on_attach,
-      capabilities = capabilities,
     })
   end,
 })
