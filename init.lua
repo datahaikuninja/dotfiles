@@ -149,6 +149,16 @@ vim.keymap.set("t", "<ESC>", "<C-\\><C-n>", { noremap = true })
 
 vim.keymap.set("n", "<C-t>", "<cmd>tabprevious<CR>", { silent = true })
 
+-- utility function
+-- Converts the immediately preceding word to uppercase
+vim.keymap.set("i", "<C-u>", function()
+  local line = vim.fn.getline(".")
+  local col = vim.fn.getpos(".")[3]
+  local substring = line:sub(1, col - 1)
+  local result = vim.fn.matchstr(substring, [[\v<(\k(<)@!)*$]])
+  return "<C-w>" .. result:upper()
+end, { expr = true })
+
 -- use hard tabs for golang
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "*.go",
