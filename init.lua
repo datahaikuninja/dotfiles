@@ -77,6 +77,11 @@ require("lazy").setup({
   { "shellRaining/hlchunk.nvim", event = { "UIEnter" } },
   { "akinsho/toggleterm.nvim", version = "*", config = true },
   {
+    "chomosuke/term-edit.nvim",
+    lazy = "toggleterm", -- or ft = 'toggleterm' if you use toggleterm.nvim
+    version = "1.*",
+  },
+  {
     "stevearc/oil.nvim",
     opts = {},
     -- Optional dependencies
@@ -236,6 +241,17 @@ end
 vim.api.nvim_set_keymap("n", "<leader>lg", "<cmd>lua _lazygit_toggle()<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<leader>tt", ":ToggleTerm direction=tab<CR>", { noremap = true })
 
+require("term-edit").setup({
+  -- Mandatory option:
+  -- Set this to a lua pattern that would match the end of your prompt.
+  -- Or a table of multiple lua patterns where at least one would match the
+  -- end of your prompt at any given time.
+  -- For most bash/zsh user this is '%$ '.
+  -- For most powershell/fish user this is '> '.
+  -- For most windows cmd user this is '>'.
+  prompt_end = "%$ ",
+  -- How to write lua patterns: https://www.lua.org/pil/20.2.html
+})
 -- ends settigs for teminal
 
 -- starts settigs for treesitter
