@@ -365,7 +365,7 @@ require("mason-lspconfig").setup_handlers({
             unusedparams = true,
           },
           staticcheck = true,
-          gofumpt = true,
+          gofumpt = false,
         },
       },
     })
