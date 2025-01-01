@@ -139,6 +139,7 @@ require("lazy").setup({
   },
   { "numToStr/Comment.nvim", opts = {}, lazy = false },
   { "jbyuki/instant.nvim" },
+  { "maxandron/goplements.nvim", ft = "go", opts = {} },
 })
 
 -- starts general settings for Neovim
@@ -377,7 +378,7 @@ require("mason-lspconfig").setup_handlers({
             unusedparams = true,
           },
           staticcheck = true,
-          gofumpt = true,
+          gofumpt = false,
         },
       },
     })
@@ -489,6 +490,9 @@ require("nvim-navbuddy").setup({
     auto_attach = true,
   },
 })
+
+-- visualizes Go struct and interface implementations.
+require("goplements").setup({})
 
 -- ends settings for LSP
 
