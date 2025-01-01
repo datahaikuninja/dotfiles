@@ -51,11 +51,11 @@ require("lazy").setup({
   "zbirenbaum/copilot-cmp",
   {
     "CopilotC-Nvim/CopilotChat.nvim",
-    branch = "canary",
     dependencies = {
       { "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
       { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
     },
+    build = "make tiktoken",
     opts = {
       debug = true, -- Enable debugging
     },
@@ -258,6 +258,7 @@ require("nvim-treesitter.configs").setup({
     "hcl",
     "jsonnet",
     "rust",
+    "diff",
   },
   highlight = {
     enable = true,
@@ -740,7 +741,14 @@ require("copilot").setup({
 
 require("copilot_cmp").setup()
 
-require("CopilotChat").setup({})
+require("CopilotChat").setup({
+  window = {
+    layout = "float",
+    width = 0.9,
+    height = 0.9,
+    border = "rounded",
+  },
+})
 -- Quick chat with your buffer
 function CopilotChatBuffer()
   local input = vim.fn.input("Quick Chat: ")
