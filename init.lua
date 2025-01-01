@@ -801,6 +801,8 @@ end
 
 vim.keymap.set("n", "<leader>cch", "<cmd>lua ShowCopilotChatHelpPrompt()<cr>", { noremap = true, silent = true })
 
+vim.keymap.set("n", "<leader>cct", "<cmd>CopilotChatToggle<cr>", { noremap = true, silent = true })
+
 require("octo").setup({
   enable_builtin = true,
 })
