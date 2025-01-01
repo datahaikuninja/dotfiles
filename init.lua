@@ -88,6 +88,13 @@ require("lazy").setup({
     dependencies = { "nvim-tree/nvim-web-devicons" },
   },
   {
+    "stevearc/quicker.nvim",
+    event = "FileType qf",
+    ---@module "quicker"
+    ---@type quicker.SetupOptions
+    opts = {},
+  },
+  {
     "folke/flash.nvim",
     event = "VeryLazy",
     ---@type Flash.Config
@@ -146,6 +153,7 @@ vim.opt.wildmode = "full"
 vim.opt.ignorecase = true
 vim.opt.hidden = true
 vim.g.mapleader = ","
+vim.opt.grepprg = "rg --vimgrep"
 
 vim.keymap.set("c", "<C-p>", "<Up>", { noremap = true })
 vim.keymap.set("c", "<C-n>", "<Down>", { noremap = true })
@@ -671,6 +679,7 @@ vim.keymap.set("n", "<leader>ff", builtin.find_files, {})
 vim.keymap.set("n", "<leader>fg", builtin.live_grep, {})
 vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
 vim.keymap.set("n", "<leader>fh", builtin.help_tags, {})
+vim.keymap.set("n", "<leader>fq", builtin.quickfix, {})
 
 require("telescope").setup({
   defaults = {
@@ -719,6 +728,7 @@ require("gitsigns").setup({
     map("n", "<leader>hS", gs.stage_buffer)
     map("n", "<leader>hR", gs.reset_buffer)
     map("n", "<leader>tb", gs.toggle_current_line_blame)
+    map("n", "<leader>hq", gs.setqflist)
   end,
 })
 
@@ -791,3 +801,32 @@ require("oil").setup()
 vim.keymap.set("n", "-", "<cmd>Oil<CR>", { desc = "Open parent directory" })
 
 -- end settings for filer
+
+-- starts settings for quickfix
+
+vim.keymap.set("n", "<leader>q", function()
+  require("quicker").toggle()
+end, { desc = "Toggle quickfix" })
+vim.keymap.set("n", "<leader>l", function()
+  require("quicker").toggle({ loclist = true })
+end, { desc = "Toggle loclist" })
+
+require("quicker").setup({
+  keys = {
+    {
+      ">",
+      function()
+        require("quicker").expand({ before = 2, after = 2, add_to_existing = true })
+      end,
+      desc = "Expand quickfix context",
+    },
+    {
+      "<",
+      function()
+        require("quicker").collapse()
+      end,
+      desc = "Collapse quickfix context",
+    },
+  },
+})
+-- end settings for quickfix
