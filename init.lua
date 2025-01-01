@@ -13,7 +13,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-  "EdenEast/nightfox.nvim",
   { "folke/tokyonight.nvim", lazy = false, priority = 1000, opts = {} },
   { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
   "neovim/nvim-lspconfig",
@@ -202,18 +201,8 @@ require("Comment").setup()
 
 -- starts settings for colorscheme
 
--- require("nightfox").setup({
---   options = {
---     transparent = true,
---     styles = {
---       comments = "italic",
---     },
---   },
--- })
--- vim.cmd("colorscheme nightfox")
-
 require("tokyonight").setup({
-  style = "moon",
+  style = "night",
   transparent = true,
   styles = {
     comments = { italic = true },
