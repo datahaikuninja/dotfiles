@@ -13,7 +13,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-  "EdenEast/nightfox.nvim",
   { "folke/tokyonight.nvim", lazy = false, priority = 1000, opts = {} },
   { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
   "neovim/nvim-lspconfig",
@@ -30,6 +29,7 @@ require("lazy").setup({
   "hrsh7th/cmp-nvim-lsp-signature-help",
   "onsails/lspkind.nvim",
   { "nvim-lualine/lualine.nvim", dependencies = { "nvim-tree/nvim-web-devicons" } },
+  { "alvarosevilla95/luatab.nvim" },
   "windwp/nvim-autopairs",
   "nvim-lua/plenary.nvim",
   "lewis6991/gitsigns.nvim",
@@ -51,11 +51,11 @@ require("lazy").setup({
   "zbirenbaum/copilot-cmp",
   {
     "CopilotC-Nvim/CopilotChat.nvim",
-    branch = "canary",
     dependencies = {
       { "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
       { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
     },
+    build = "make tiktoken",
     opts = {
       debug = true, -- Enable debugging
     },
@@ -88,10 +88,23 @@ require("lazy").setup({
     dependencies = { "nvim-tree/nvim-web-devicons" },
   },
   {
+    "stevearc/quicker.nvim",
+    event = "FileType qf",
+    ---@module "quicker"
+    ---@type quicker.SetupOptions
+    opts = {},
+  },
+  {
     "folke/flash.nvim",
     event = "VeryLazy",
     ---@type Flash.Config
-    opts = {},
+    opts = {
+      modes = {
+        search = {
+          enabled = true,
+        },
+      },
+    },
     -- stylua: ignore
     keys = {
       { "s",     mode = { "n", "x", "o" }, function() require("flash").jump() end,              desc = "Flash" },
@@ -126,6 +139,7 @@ require("lazy").setup({
   },
   { "numToStr/Comment.nvim", opts = {}, lazy = false },
   { "jbyuki/instant.nvim" },
+  { "maxandron/goplements.nvim", ft = "go", opts = {} },
 })
 
 -- starts general settings for Neovim
@@ -146,6 +160,7 @@ vim.opt.wildmode = "full"
 vim.opt.ignorecase = true
 vim.opt.hidden = true
 vim.g.mapleader = ","
+vim.opt.grepprg = "rg --vimgrep"
 
 vim.keymap.set("c", "<C-p>", "<Up>", { noremap = true })
 vim.keymap.set("c", "<C-n>", "<Down>", { noremap = true })
@@ -202,18 +217,8 @@ require("Comment").setup()
 
 -- starts settings for colorscheme
 
--- require("nightfox").setup({
---   options = {
---     transparent = true,
---     styles = {
---       comments = "italic",
---     },
---   },
--- })
--- vim.cmd("colorscheme nightfox")
-
 require("tokyonight").setup({
-  style = "moon",
+  style = "night",
   transparent = true,
   styles = {
     comments = { italic = true },
@@ -268,6 +273,7 @@ require("nvim-treesitter.configs").setup({
     "hcl",
     "jsonnet",
     "rust",
+    "diff",
   },
   highlight = {
     enable = true,
@@ -293,6 +299,13 @@ require("neodev").setup({
 
 vim.opt.signcolumn = "yes"
 require("lspsaga").setup({
+  definition = {
+    width = 0.9,
+    height = 0.8,
+  },
+  finder = {
+    layout = "normal",
+  },
   symbol_in_winbar = {
     enable = false,
   },
@@ -365,7 +378,7 @@ require("mason-lspconfig").setup_handlers({
             unusedparams = true,
           },
           staticcheck = true,
-          gofumpt = true,
+          gofumpt = false,
         },
       },
     })
@@ -477,6 +490,9 @@ require("nvim-navbuddy").setup({
     auto_attach = true,
   },
 })
+
+-- visualizes Go struct and interface implementations.
+require("goplements").setup({})
 
 -- ends settings for LSP
 
@@ -627,6 +643,10 @@ cmp.setup.cmdline(":", {
 
 -- ends settings for completion
 
+-- starts settings for tabline
+require("luatab").setup({})
+-- ends settings for tabline
+
 -- starts settings for statusline
 
 require("lualine").setup({
@@ -676,6 +696,7 @@ vim.keymap.set("n", "<leader>ff", builtin.find_files, {})
 vim.keymap.set("n", "<leader>fg", builtin.live_grep, {})
 vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
 vim.keymap.set("n", "<leader>fh", builtin.help_tags, {})
+vim.keymap.set("n", "<leader>fq", builtin.quickfix, {})
 
 require("telescope").setup({
   defaults = {
@@ -687,7 +708,7 @@ require("telescope").setup({
           return max_lines
         end,
         preview_cutoff = 0,
-        preview_height = 8,
+        preview_height = 20,
       },
     },
     preview = {
@@ -723,7 +744,8 @@ require("gitsigns").setup({
     map("n", "<leader>hr", gs.reset_hunk)
     map("n", "<leader>hS", gs.stage_buffer)
     map("n", "<leader>hR", gs.reset_buffer)
-    map("n", "<leader>tb", gs.toggle_current_line_blame)
+    map("n", "<leader>hb", gs.toggle_current_line_blame)
+    map("n", "<leader>hq", gs.setqflist)
   end,
 })
 
@@ -746,7 +768,14 @@ require("copilot").setup({
 
 require("copilot_cmp").setup()
 
-require("CopilotChat").setup({})
+require("CopilotChat").setup({
+  window = {
+    layout = "float",
+    width = 0.9,
+    height = 0.9,
+    border = "rounded",
+  },
+})
 -- Quick chat with your buffer
 function CopilotChatBuffer()
   local input = vim.fn.input("Quick Chat: ")
@@ -772,6 +801,8 @@ end
 
 vim.keymap.set("n", "<leader>cch", "<cmd>lua ShowCopilotChatHelpPrompt()<cr>", { noremap = true, silent = true })
 
+vim.keymap.set("n", "<leader>cct", "<cmd>CopilotChatToggle<cr>", { noremap = true, silent = true })
+
 require("octo").setup({
   enable_builtin = true,
 })
@@ -789,3 +820,32 @@ require("oil").setup()
 vim.keymap.set("n", "-", "<cmd>Oil<CR>", { desc = "Open parent directory" })
 
 -- end settings for filer
+
+-- starts settings for quickfix
+
+vim.keymap.set("n", "<leader>q", function()
+  require("quicker").toggle()
+end, { desc = "Toggle quickfix" })
+vim.keymap.set("n", "<leader>l", function()
+  require("quicker").toggle({ loclist = true })
+end, { desc = "Toggle loclist" })
+
+require("quicker").setup({
+  keys = {
+    {
+      ">",
+      function()
+        require("quicker").expand({ before = 2, after = 2, add_to_existing = true })
+      end,
+      desc = "Expand quickfix context",
+    },
+    {
+      "<",
+      function()
+        require("quicker").collapse()
+      end,
+      desc = "Collapse quickfix context",
+    },
+  },
+})
+-- end settings for quickfix
