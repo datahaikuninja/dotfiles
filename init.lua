@@ -29,6 +29,7 @@ require("lazy").setup({
   "hrsh7th/cmp-nvim-lsp-signature-help",
   "onsails/lspkind.nvim",
   { "nvim-lualine/lualine.nvim", dependencies = { "nvim-tree/nvim-web-devicons" } },
+  { "alvarosevilla95/luatab.nvim" },
   "windwp/nvim-autopairs",
   "nvim-lua/plenary.nvim",
   "lewis6991/gitsigns.nvim",
@@ -615,6 +616,10 @@ cmp.setup.cmdline(":", {
 })
 
 -- ends settings for completion
+
+-- starts settings for tabline
+require("luatab").setup({})
+-- ends settings for tabline
 
 -- starts settings for statusline
 
