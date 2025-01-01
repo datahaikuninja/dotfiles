@@ -708,7 +708,7 @@ require("telescope").setup({
           return max_lines
         end,
         preview_cutoff = 0,
-        preview_height = 8,
+        preview_height = 20,
       },
     },
     preview = {
