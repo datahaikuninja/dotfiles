@@ -733,7 +733,7 @@ require("gitsigns").setup({
     map("n", "<leader>hr", gs.reset_hunk)
     map("n", "<leader>hS", gs.stage_buffer)
     map("n", "<leader>hR", gs.reset_buffer)
-    map("n", "<leader>tb", gs.toggle_current_line_blame)
+    map("n", "<leader>hb", gs.toggle_current_line_blame)
     map("n", "<leader>hq", gs.setqflist)
   end,
 })
