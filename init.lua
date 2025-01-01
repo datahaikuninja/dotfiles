@@ -298,6 +298,13 @@ require("neodev").setup({
 
 vim.opt.signcolumn = "yes"
 require("lspsaga").setup({
+  definition = {
+    width = 0.9,
+    height = 0.8,
+  },
+  finder = {
+    layout = "normal",
+  },
   symbol_in_winbar = {
     enable = false,
   },
