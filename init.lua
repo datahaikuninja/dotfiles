@@ -325,7 +325,9 @@ local on_attach = function(client, bufnr)
   set("n", "gn", "<cmd>Lspsaga rename<CR>")
   -- set("n", "ma", "<cmd>lua vim.lsp.buf.code_action()<CR>") -- replace by actions-preview
   set("n", "gr", "<cmd>Lspsaga finder<CR>")
-  set("n", "<space>e", "<cmd>Lspsaga show_line_diagnostics<CR>")
+  set("n", "<space>l", "<cmd>Lspsaga show_line_diagnostics<CR>")
+  set("n", "<space>b", "<cmd>Lspsaga show_buf_diagnostics<CR>")
+  set("n", "<space>w", "<cmd>Lspsaga show_workspace_diagnostics ++normal<CR>")
   set("n", "[d", "<cmd>Lspsaga diagnostic_jump_prev<CR>")
   set("n", "]d", "<cmd>Lspsaga diagnostic_jump_next<CR>")
 end
