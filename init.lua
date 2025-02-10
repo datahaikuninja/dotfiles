@@ -406,7 +406,7 @@ require("mason-lspconfig").setup_handlers({
   end,
 })
 
-vim.diagnostic.config({ virtual_text = false })
+vim.diagnostic.config({ virtual_text = false, severity_sort = true })
 
 -- avoid increasing LSP log filesize
 vim.lsp.set_log_level(vim.log.levels.ERROR)
