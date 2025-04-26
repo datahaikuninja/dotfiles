@@ -13,37 +13,37 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-  { "folke/tokyonight.nvim", lazy = false, priority = 1000, opts = {} },
-  { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
-  "neovim/nvim-lspconfig",
-  { "williamboman/mason.nvim", build = ":MasonUpdate" },
-  "williamboman/mason-lspconfig.nvim",
-  "nvimtools/none-ls.nvim",
-  "hrsh7th/nvim-cmp",
-  "hrsh7th/cmp-nvim-lsp",
-  "hrsh7th/cmp-buffer",
-  "hrsh7th/cmp-path",
-  "hrsh7th/vim-vsnip",
-  "hrsh7th/cmp-vsnip",
-  "hrsh7th/cmp-cmdline",
-  "hrsh7th/cmp-nvim-lsp-signature-help",
-  "onsails/lspkind.nvim",
-  { "nvim-lualine/lualine.nvim", dependencies = { "nvim-tree/nvim-web-devicons" } },
-  { "alvarosevilla95/luatab.nvim" },
+  { "folke/tokyonight.nvim", lazy = false, priority = 1000, opts = {} }, -- moved
+  { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" }, -- moved
+  "neovim/nvim-lspconfig", -- moved
+  { "williamboman/mason.nvim", build = ":MasonUpdate" }, -- moved
+  "williamboman/mason-lspconfig.nvim", -- moved
+  "nvimtools/none-ls.nvim", -- moved
+  "hrsh7th/nvim-cmp", -- moved
+  "hrsh7th/cmp-nvim-lsp", -- moved
+  "hrsh7th/cmp-buffer", -- moved
+  "hrsh7th/cmp-path", -- moved
+  "hrsh7th/vim-vsnip", -- moved
+  "hrsh7th/cmp-vsnip", -- moved
+  "hrsh7th/cmp-cmdline", -- moved
+  "hrsh7th/cmp-nvim-lsp-signature-help", -- moved
+  "onsails/lspkind.nvim", -- moved
+  { "nvim-lualine/lualine.nvim", dependencies = { "nvim-tree/nvim-web-devicons" } }, --moved
+  { "alvarosevilla95/luatab.nvim" }, --moved
   "windwp/nvim-autopairs",
-  "nvim-lua/plenary.nvim",
+  "nvim-lua/plenary.nvim", --unnecessary
   "lewis6991/gitsigns.nvim",
   "sindrets/diffview.nvim",
-  { "j-hui/fidget.nvim", tag = "legacy" },
+  { "j-hui/fidget.nvim", tag = "legacy" }, --moved
   {
-    "nvim-telescope/telescope.nvim",
+    "nvim-telescope/telescope.nvim", --moved
     tag = "0.1.4",
     dependencies = {
       "nvim-lua/plenary.nvim",
     },
   },
   {
-    "glepnir/lspsaga.nvim",
+    "glepnir/lspsaga.nvim", --moved
     event = "LspAttach",
     dependencies = { "nvim-tree/nvim-web-devicons", "nvim-treesitter/nvim-treesitter" },
   },
@@ -61,9 +61,9 @@ require("lazy").setup({
     },
   },
   { "sankantsu/telescope-zenn.nvim", dependencies = { "nvim-telescope/telescope.nvim" } },
-  { "SmiteshP/nvim-navic", dependencies = "neovim/nvim-lspconfig" },
+  { "SmiteshP/nvim-navic", dependencies = "neovim/nvim-lspconfig" }, --moved
   {
-    "SmiteshP/nvim-navbuddy",
+    "SmiteshP/nvim-navbuddy", --moved
     dev = false,
     dependencies = {
       "neovim/nvim-lspconfig",
@@ -73,29 +73,29 @@ require("lazy").setup({
       "nvim-telescope/telescope.nvim",
     },
   },
-  { "mvllow/modes.nvim", tag = "v0.2.0" },
-  { "shellRaining/hlchunk.nvim", event = { "UIEnter" } },
-  { "akinsho/toggleterm.nvim", version = "*", config = true },
+  { "mvllow/modes.nvim", tag = "v0.2.0" }, --moved
+  { "shellRaining/hlchunk.nvim", event = { "UIEnter" } }, --moved
+  { "akinsho/toggleterm.nvim", version = "*", config = true }, --moved
   {
-    "chomosuke/term-edit.nvim",
+    "chomosuke/term-edit.nvim", --moved
     lazy = "toggleterm", -- or ft = 'toggleterm' if you use toggleterm.nvim
     version = "1.*",
   },
   {
-    "stevearc/oil.nvim",
+    "stevearc/oil.nvim", --moved
     opts = {},
     -- Optional dependencies
     dependencies = { "nvim-tree/nvim-web-devicons" },
   },
   {
-    "stevearc/quicker.nvim",
+    "stevearc/quicker.nvim", --moved
     event = "FileType qf",
     ---@module "quicker"
     ---@type quicker.SetupOptions
     opts = {},
   },
   {
-    "folke/flash.nvim",
+    "folke/flash.nvim", --moved
     event = "VeryLazy",
     ---@type Flash.Config
     opts = {
@@ -115,7 +115,7 @@ require("lazy").setup({
     },
   },
   {
-    "rcarriga/nvim-dap-ui",
+    "rcarriga/nvim-dap-ui", --moved
     dependencies = {
       "mfussenegger/nvim-dap",
       "nvim-neotest/nvim-nio",
@@ -138,8 +138,8 @@ require("lazy").setup({
     event = "VeryLazy",
   },
   { "numToStr/Comment.nvim", opts = {}, lazy = false },
-  { "jbyuki/instant.nvim" },
-  { "maxandron/goplements.nvim", ft = "go", opts = {} },
+  { "jbyuki/instant.nvim" }, --unnecessary
+  { "maxandron/goplements.nvim", ft = "go", opts = {} }, --moved
 })
 
 -- starts general settings for Neovim
