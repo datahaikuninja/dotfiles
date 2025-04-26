@@ -51,9 +51,9 @@ cd ~/.hammerspoon/
 ln -snvf ~/ghq/mine/github.com/datahaikuninja/dotfiles/hammerspoon.lua init.lua
 
 # Neovim
-mkdir -p ~/.config/nvim
-cd ~/.config/nvim
-ln -snvf ~/ghq/mine/github.com/datahaikuninja/dotfiles/init.lua init.lua
+mkdir -p ~/.config
+cd ~/.config
+ln -snvf ~/ghq/mine/github.com/datahaikuninja/dotfiles/nvim nvim
 
 # Karabiner-elements
 # 先にKarabiner-elementsを起動する
