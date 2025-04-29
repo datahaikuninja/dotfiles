@@ -1,5 +1,31 @@
 return {
   {
+    "olimorris/codecompanion.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      "j-hui/fidget.nvim",
+    },
+    opts = function(_, opts)
+      local base_opts = {
+        opts = {
+          language = "Japanese",
+        },
+        display = {
+          chat = {
+            auto_scroll = false,
+            show_header_separator = true,
+          },
+        },
+      }
+      local env_opts = require("envs.code-companion").opts
+      return vim.tbl_deep_extend("force", opts, base_opts, env_opts)
+    end,
+    init = function()
+      require("plugins.codecompanion.fidget-spinner"):init()
+    end,
+  },
+  {
     "zbirenbaum/copilot.lua",
     opts = {
       panel = {
@@ -16,55 +42,4 @@ return {
     },
   },
   { "zbirenbaum/copilot-cmp", opts = {} },
-  {
-    "CopilotC-Nvim/CopilotChat.nvim",
-    dependencies = {
-      { "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
-      { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
-    },
-    build = "make tiktoken",
-    config = function()
-      require("CopilotChat").setup({
-        debug = true,
-        window = {
-          layout = "float",
-          width = 0.9,
-          height = 0.9,
-          border = "rounded",
-        },
-      })
-
-      -- Quick chat with your buffer
-      function CopilotChatBuffer()
-        local input = vim.fn.input("Quick Chat: ")
-        if input ~= "" then
-          require("CopilotChat").ask(input, { selection = require("CopilotChat.select").buffer })
-        end
-      end
-
-      vim.keymap.set("n", "<leader>ccq", "<cmd>lua CopilotChatBuffer()<cr>", { noremap = true, silent = true })
-
-      -- display a prompt to the user to select an action from a list of available actions in Copilot Chat.
-      function ShowCopilotChatActionPrompt()
-        local actions = require("CopilotChat.actions")
-        require("CopilotChat.integrations.telescope").pick(actions.prompt_actions())
-      end
-
-      vim.keymap.set(
-        "n",
-        "<leader>ccp",
-        "<cmd>lua ShowCopilotChatActionPrompt()<cr>",
-        { noremap = true, silent = true }
-      )
-
-      function ShowCopilotChatHelpPrompt()
-        local actions = require("CopilotChat.actions")
-        require("CopilotChat.integrations.telescope").pick(actions.help_actions())
-      end
-
-      vim.keymap.set("n", "<leader>cch", "<cmd>lua ShowCopilotChatHelpPrompt()<cr>", { noremap = true, silent = true })
-
-      vim.keymap.set("n", "<leader>cct", "<cmd>CopilotChatToggle<cr>", { noremap = true, silent = true })
-    end,
-  },
 }
