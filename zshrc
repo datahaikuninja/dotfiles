@@ -42,6 +42,20 @@ zinit light zdharma-continuum/fast-syntax-highlighting
 export PATH="/opt/homebrew/opt/binutils/bin:$PATH"
 export PATH="/usr/local/bin:/opt/homebrew/bin:/opt/homebrew/Cellar/git:${HOME}/.asdf/shims/python:${HOME}/sdk/go1.22.12/bin:${HOME}/go/bin:${HOME}/.cargo/bin:/Applications/WezTerm.app/Contents/MacOS/wezterm:/opt/homebrew/opt/mysql-client@8.0/bin:/opt/homebrew/opt/mysql-client@5.7/bin:${HOME}/.asdf/shims/ruby:$PATH"
 
+### $HOME 変数の値に応じて $WORK_ENV を設定
+case "$HOME" in
+  "/Users/takashina.jundai")
+    export WORK_ENV="private"
+    ;;
+  "/Users/takashina")
+    export WORK_ENV="work"
+    ;;
+  *)
+    # 上記以外の場合、WORK_ENV は設定しない (または必要に応じてエラーメッセージなどを表示)
+    # echo "WORK_ENV could not be determined." >&2
+    ;;
+esac
+
 ### for tmux settings
 typeset -U path PATH
 [[ $TMUX = "" ]] && export TERM="xterm-256color"

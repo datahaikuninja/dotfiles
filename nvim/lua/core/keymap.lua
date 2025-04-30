@@ -1,0 +1,5 @@
+vim.keymap.set("c", "<C-p>", "<Up>", { noremap = true })
+vim.keymap.set("c", "<C-n>", "<Down>", { noremap = true })
+vim.keymap.set("n", "<ESC><ESC>", "<cmd>nohlsearch<CR>", { noremap = true })
+vim.keymap.set("t", "<ESC>", "<C-\\><C-n>", { noremap = true })
+vim.keymap.set("n", "<C-t>", "<cmd>tabprevious<CR>", { silent = true })
