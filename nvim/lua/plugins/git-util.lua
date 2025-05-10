@@ -37,6 +37,9 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope.nvim",
+      -- Octo dose not support all commands for snacks.picker
+      -- https://github.com/pwntester/octo.nvim/issues/1027
+      --"folke/snacks.nvim",
       "nvim-tree/nvim-web-devicons",
     },
     cmd = "Octo",

@@ -117,5 +117,18 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end,
 })
 
+-- refer to https://github.com/mason-org/mason-lspconfig.nvim/releases/tag/v2.0.0
+require("mason").setup({})
+require("mason-lspconfig").setup({
+  ensure_installed = {
+    "lua_ls",
+    "pylsp",
+    "terraformls",
+    "tflint",
+    "gopls",
+    "rust_analyzer",
+  },
+})
+
 -- enable all Language Server installed by mason
 vim.lsp.enable(require("mason-lspconfig").get_installed_servers())

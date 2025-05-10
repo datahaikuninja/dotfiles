@@ -31,7 +31,7 @@ require("lazy").setup({
     { import = "plugins.colorscheme" },
     { import = "plugins.treesitter" },
     { import = "plugins.multi-tool" },
-    { import = "plugins.fuzzyfinder" },
+    --{ import = "plugins.fuzzyfinder" },
     { import = "plugins.terminal" },
     { import = "plugins.surround" },
     { import = "plugins.status" },
