@@ -87,20 +87,8 @@ return {
       })
     end,
   },
-  { "williamboman/mason.nvim",   build = ":MasonUpdate", opts = {} },
-  {
-    "williamboman/mason-lspconfig.nvim",
-    opts = {
-      ensure_installed = {
-        "lua_ls",
-        "pylsp",
-        "terraformls",
-        "tflint",
-        "gopls",
-        "rust_analyzer",
-      },
-    },
-  },
+  { "williamboman/mason.nvim" },
+  { "williamboman/mason-lspconfig.nvim" },
   {
     "nvimtools/none-ls.nvim",
     config = function()
@@ -130,5 +118,5 @@ return {
       lightbulb = { sign = false, virtual_text = false },
     },
   },
-  { "maxandron/goplements.nvim", ft = "go",              opts = {} },
+  { "maxandron/goplements.nvim", ft = "go", opts = {} },
 }
