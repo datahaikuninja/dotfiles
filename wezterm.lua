@@ -36,14 +36,16 @@ config.window_background_opacity = 0.8
 -- fonts
 config.font = wezterm.font_with_fallback({
   {
-    family = "JetBrains Mono",
-    --harfbuzz_features = { "calt=0", "clig=0", "liga=0" },
-    weight = "Medium",
-    stretch = "Normal",
-    style = "Normal",
+    --family = "JetBrains Mono",
+    family = "Berkeley Mono",
+    -- harfbuzz_features = { "calt=0", "clig=0", "liga=0" },
+    weight = "Regular",
+    -- stretch = "Normal",
+    -- style = "Normal",
   },
   {
-    family = "HackGen",
+    --family = "HackGen",
+    family = "BerkeleyMono",
     weight = "Regular",
   },
 })
