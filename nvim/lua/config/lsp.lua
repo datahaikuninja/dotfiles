@@ -107,6 +107,20 @@ vim.api.nvim_create_autocmd("LspAttach", {
         })
       end,
     })
+
+    local set = vim.keymap.set
+    set("n", "gd", "<cmd>Lspsaga peek_definition<CR>")
+    set("n", "gK", "<cmd>Lspsaga hover_doc<CR>")
+    -- set("n", "<C-m>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
+    set("n", "gt", "<cmd>Lspsaga peek_type_definition<CR>")
+    set("n", "gn", "<cmd>Lspsaga rename<CR>")
+    -- set("n", "ma", "<cmd>lua vim.lsp.buf.code_action()<CR>") -- replace by actions-preview
+    set("n", "gr", "<cmd>Lspsaga finder<CR>")
+    set("n", "<space>l", "<cmd>Lspsaga show_line_diagnostics<CR>")
+    set("n", "<space>b", "<cmd>Lspsaga show_buf_diagnostics<CR>")
+    set("n", "<space>w", "<cmd>Lspsaga show_workspace_diagnostics ++normal<CR>")
+    set("n", "[d", "<cmd>Lspsaga diagnostic_jump_prev<CR>")
+    set("n", "]d", "<cmd>Lspsaga diagnostic_jump_next<CR>")
   end,
 })
 
