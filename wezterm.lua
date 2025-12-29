@@ -31,7 +31,7 @@ config.color_scheme = "Tokyo Night"
 config.tab_bar_at_bottom = false
 
 -- Window transparency
-config.window_background_opacity = 0.8
+config.window_background_opacity = 1.0
 
 -- fonts
 config.font = wezterm.font_with_fallback({
@@ -44,8 +44,7 @@ config.font = wezterm.font_with_fallback({
     -- style = "Normal",
   },
   {
-    --family = "HackGen",
-    family = "BerkeleyMono",
+    family = "HackGen",
     weight = "Regular",
   },
 })
@@ -61,6 +60,11 @@ config.keys = {
     key = "p",
     mods = "LEADER",
     action = act.PaneSelect,
+  },
+  {
+    key = "Enter",
+    mods = "SHIFT",
+    action = wezterm.action({ SendString = "\x1b\r" }),
   },
   {
     mods = "LEADER",
