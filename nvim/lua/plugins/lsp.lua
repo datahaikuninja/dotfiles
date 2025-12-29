@@ -29,6 +29,7 @@ return {
           { name = "vsnip" },
           { name = "buffer",                 keyword_length = 3 },
           { name = "path" },
+          { name = "skkeleton" },
           { name = "nvim_lsp_signature_help" },
         },
         mapping = cmp.mapping.preset.insert({
