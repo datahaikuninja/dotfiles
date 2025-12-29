@@ -1,7 +1,7 @@
 if os.getenv("WORK_ENV") == "private" then
   return {
     opts = {
-      strategies = {
+      interactions = {
         chat = {
           adapter = "gemini",
           roles = {
@@ -16,6 +16,8 @@ if os.getenv("WORK_ENV") == "private" then
         },
       },
       adapters = {
+        -- this aapter doesn't work after "codecompanion.nvim": { "branch": "main", "commit": "ff3eae6630a019e42c4b113270109000f7ff624e" }
+        -- So, I use Gemini-CLI instead of codecompanion,nvim for private development.
         gemini = function()
           return require("codecompanion.adapters").extend("gemini", {
             schema = {
@@ -34,7 +36,7 @@ if os.getenv("WORK_ENV") == "private" then
 elseif os.getenv("WORK_ENV") == "work" then
   return {
     opts = {
-      strategies = {
+      interactions = {
         chat = {
           adapter = "copilot",
           roles = {
