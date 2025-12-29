@@ -71,6 +71,7 @@ keybindings:
 repoPaths:
   datahaikuninja/*: "$HOME/ghq/mine/github.com/datahaikuninja/*"
   adtech-tver/*: "$HOME/ghq/github.com/adtech-tver/*"
+  tver-org/*: "$HOME/ghq/github.com/tver-org/*"
   sankantsu/*: "$HOME/ghq/default/github.com/sankantsu/*"
 theme:
   ui:
