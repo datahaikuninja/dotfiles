@@ -8,5 +8,11 @@ return {
     styles = {
       comments = { italic = true },
     },
+    on_highlights = function(highlights, colors)
+      highlights.Comment = {
+        fg = "#777ea0",
+        italic = true,
+      }
+    end,
   },
 }
