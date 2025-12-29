@@ -40,6 +40,7 @@ require("lazy").setup({
     { import = "plugins.outline" },
     { import = "plugins.move-cursor" },
     { import = "plugins.lsp" },
+    { import = "plugins.skk" },
     { import = "plugins.debugger" },
     { import = "plugins.git-util" },
     { import = "plugins.markdown" },
