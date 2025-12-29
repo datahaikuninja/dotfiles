@@ -26,6 +26,12 @@ zinit light-mode for \
 #zinit ice compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh' --commented out as I moved to starship
 #zinit light sindresorhus/pure --commented out as I moved to starship
 
+#### zsh options
+setopt SHARE_HISTORY
+setopt Extended_History
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_FIND_NO_DUPS
+
 #### command history press Ctrl+r
 zinit load robobenklein/zdharma-history-search-multi-word
 
@@ -40,7 +46,18 @@ zinit light zdharma-continuum/fast-syntax-highlighting
 
 ### PATH
 export PATH="/opt/homebrew/opt/binutils/bin:$PATH"
-export PATH="/usr/local/bin:/opt/homebrew/bin:/opt/homebrew/Cellar/git:${HOME}/.asdf/shims/python:${HOME}/sdk/go1.22.12/bin:${HOME}/go/bin:${HOME}/.cargo/bin:/Applications/WezTerm.app/Contents/MacOS/wezterm:/opt/homebrew/opt/mysql-client@8.0/bin:/opt/homebrew/opt/mysql-client@5.7/bin:${HOME}/.asdf/shims/ruby:$PATH"
+export PATH="/usr/local/bin:$PATH"
+export PATH="/opt/homebrew/bin:$PATH"
+export PATH="/opt/homebrew/Cellar/git:$PATH"
+export PATH="${HOME}/.asdf/shims/python:$PATH"
+export PATH="${HOME}/sdk/go1.25.5/bin:$PATH"
+export PATH="${HOME}/go/bin:$PATH"
+export PATH="${HOME}/.cargo/bin:$PATH"
+export PATH="/Applications/WezTerm.app/Contents/MacOS/wezterm:$PATH"
+export PATH="/opt/homebrew/opt/mysql-client@8.0/bin:$PATH"
+export PATH="/opt/homebrew/opt/mysql-client@5.7/bin:$PATH"
+export PATH="${HOME}/.asdf/shims/ruby:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 
 ### $HOME 変数の値に応じて $WORK_ENV を設定
 case "$HOME" in
@@ -180,3 +197,8 @@ if [ -f "${HOME}/google-cloud-sdk/completion.zsh.inc" ]; then . "${HOME}/google-
 
 ## kubectl completion
 source <(kubectl completion zsh)
+
+## aqua
+source <(aqua completion zsh)
+aqua_root_path=`aqua root-dir`
+export PATH="${aqua_root_path}/bin:$PATH"
