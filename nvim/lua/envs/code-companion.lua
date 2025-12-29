@@ -16,20 +16,22 @@ if os.getenv("WORK_ENV") == "private" then
         },
       },
       adapters = {
-        -- this aapter doesn't work after "codecompanion.nvim": { "branch": "main", "commit": "ff3eae6630a019e42c4b113270109000f7ff624e" }
+        -- Starting around December 2025, I'm frequently getting 429 errors when sending requests to gemini-2.0-flash-lite in the Code Companion chat.
         -- So, I use Gemini-CLI instead of codecompanion,nvim for private development.
-        gemini = function()
-          return require("codecompanion.adapters").extend("gemini", {
-            schema = {
-              model = {
-                default = "gemini-2.0-flash-lite",
+        http = {
+          gemini = function()
+            return require("codecompanion.adapters").extend("gemini", {
+              schema = {
+                model = {
+                  default = "gemini-2.0-flash-lite",
+                },
               },
-            },
-            env = {
-              api_key = "cmd: cat /Users/takashina.jundai/gemini/api_key.txt | xargs echo -n",
-            },
-          })
-        end,
+              env = {
+                api_key = "cmd: cat /Users/takashina.jundai/gemini/api_key.txt | xargs echo -n",
+              },
+            })
+          end,
+        },
       },
     },
   }
