@@ -202,3 +202,6 @@ source <(kubectl completion zsh)
 source <(aqua completion zsh)
 aqua_root_path=`aqua root-dir`
 export PATH="${aqua_root_path}/bin:$PATH"
+
+### deno
+. "$HOME/.deno/env"
