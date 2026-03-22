@@ -32,13 +32,16 @@ setopt Extended_History
 setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_FIND_NO_DUPS
 
-#### command history press Ctrl+r
+#### command history press Ctrl+r (turbo mode: load after prompt)
+zinit ice wait lucid
 zinit load robobenklein/zdharma-history-search-multi-word
 
-#### auto suggest
+#### auto suggest (turbo mode)
+zinit ice wait lucid atload'_zsh_autosuggest_start'
 zinit light zsh-users/zsh-autosuggestions
 
-#### syntax-highlighting
+#### syntax-highlighting (turbo mode)
+zinit ice wait lucid
 zinit light zdharma-continuum/fast-syntax-highlighting
 
 #### asdf(version control system)
@@ -118,7 +121,12 @@ alias mysql80='/opt/homebrew/opt/mysql-client@8.0/bin/mysql'
 #### git-completion
 fpath=(~/.zsh/completion $fpath)
 autoload -U compinit
-compinit -u
+# compinit のキャッシュ: dump が24時間以内ならスキップ
+if [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24) ]]; then
+  compinit -u
+else
+  compinit -C
+fi
 
 ### fzf default 
 #export FZF_DEFAULT_COMMAND='fd --type file --color=always'
@@ -195,13 +203,24 @@ if [ -f "${HOME}/google-cloud-sdk/path.zsh.inc" ]; then . "${HOME}/google-cloud-
 # The next line enables shell command completion for gcloud.
 if [ -f "${HOME}/google-cloud-sdk/completion.zsh.inc" ]; then . "${HOME}/google-cloud-sdk/completion.zsh.inc"; fi
 
-## kubectl completion
-source <(kubectl completion zsh)
+## kubectl completion (cached)
+_kubectl_comp_cache="$HOME/.zsh/cache/kubectl_completion.zsh"
+if [[ ! -f "$_kubectl_comp_cache" ]] || [[ $(command -v kubectl) -nt "$_kubectl_comp_cache" ]]; then
+  mkdir -p "$HOME/.zsh/cache"
+  kubectl completion zsh > "$_kubectl_comp_cache"
+fi
+source "$_kubectl_comp_cache"
+unset _kubectl_comp_cache
 
-## aqua
-source <(aqua completion zsh)
-aqua_root_path=`aqua root-dir`
-export PATH="${aqua_root_path}/bin:$PATH"
+## aqua (cached)
+_aqua_comp_cache="$HOME/.zsh/cache/aqua_completion.zsh"
+if [[ ! -f "$_aqua_comp_cache" ]] || [[ $(command -v aqua) -nt "$_aqua_comp_cache" ]]; then
+  mkdir -p "$HOME/.zsh/cache"
+  aqua completion zsh > "$_aqua_comp_cache"
+fi
+source "$_aqua_comp_cache"
+unset _aqua_comp_cache
+export PATH="$(aqua root-dir)/bin:$PATH"
 
 ### deno
 . "$HOME/.deno/env"
