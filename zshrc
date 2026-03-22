@@ -222,5 +222,72 @@ source "$_aqua_comp_cache"
 unset _aqua_comp_cache
 export PATH="$(aqua root-dir)/bin:$PATH"
 
+### claude-work: GitHub issue を別 WezTerm Workspace で Claude に作業させる
+function claude-work() {
+  local issue_number="$1"
+  local repo_dir="${2:-.}"
+
+  if [[ -z "$issue_number" ]]; then
+    echo "Usage: claude-work <issue-number> [repo-dir]"
+    return 1
+  fi
+
+  repo_dir=$(cd "$repo_dir" && pwd)
+
+  local issue_title
+  issue_title=$(gh issue view "$issue_number" --json title -q '.title' 2>/dev/null)
+  if [[ $? -ne 0 ]]; then
+    echo "Error: could not fetch issue #${issue_number}"
+    return 1
+  fi
+
+  local repo_name=$(basename "$repo_dir")
+  local workspace_name="${repo_name}/issue-${issue_number}"
+  wezterm cli spawn --new-window --workspace "$workspace_name" -- \
+    bash -lc "
+      export CLAUDE_WORK_NOTIFY=1
+      export CLAUDE_WORKSPACE_NAME='${workspace_name}'
+      cd '${repo_dir}'
+      sleep 1
+      claude --worktree --permission-mode auto \
+        'Work on GitHub issue #${issue_number} (${issue_title}). First, run gh issue view ${issue_number} to review the issue details, then create a branch and start implementation.'
+    "
+
+  echo "Started Claude Code in workspace '${workspace_name}'"
+  echo "Use LEADER+s to switch workspaces"
+}
+
+#### fzf issue select + claude-work
+function fzf_claude_work() {
+  local selected
+  selected=$(gh issue list --limit 50 --json number,title \
+    --template '{{range .}}{{printf "\033[32m%-6v\033[0m %s\n" .number .title}}{{end}}' \
+    | fzf --query="$1" --no-multi --select-1 --exit-0)
+  if [[ -n "$selected" ]]; then
+    local issue_number
+    issue_number=$(echo "$selected" | awk '{print $1}')
+    claude-work "$issue_number"
+  fi
+}
+alias cw='fzf_claude_work'
+
+#### claude-work ログ閲覧（Claude の内部セッション JSONL を直接読む）
+function claude-work-log() {
+  local log_file
+  log_file=$(find "$HOME/.claude/projects" -name "*.jsonl" -print0 2>/dev/null \
+    | xargs -0 ls -t 2>/dev/null \
+    | fzf --no-multi --select-1 --exit-0)
+  if [[ -n "$log_file" ]]; then
+    jq '
+      select(.type == "assistant") |
+      .message.content[] |
+      if .type == "text" then {"display": ("--- text ---\n" + .text)}
+      elif .type == "tool_use" then {"display": ("--- tool: " + .name + " ---"), "input": .input}
+      else empty end
+    ' "$log_file" | jq -rs '.[] | .display, (if .input then .input else empty end)' | bat --language=markdown --style=plain
+  fi
+}
+alias cwl='claude-work-log'
+
 ### deno
 . "$HOME/.deno/env"
