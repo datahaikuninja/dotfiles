@@ -32,23 +32,4 @@ return {
     "sindrets/diffview.nvim",
     opts = {},
   },
-  {
-    "pwntester/octo.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-telescope/telescope.nvim",
-      -- Octo dose not support all commands for snacks.picker
-      -- https://github.com/pwntester/octo.nvim/issues/1027
-      --"folke/snacks.nvim",
-      "nvim-tree/nvim-web-devicons",
-    },
-    cmd = "Octo",
-    config = function()
-      require("octo").setup({
-        enable_builtin = true,
-      })
-      vim.cmd([[hi OctoEditable guibg=none]])
-      vim.keymap.set("n", "<leader>o", "<cmd>Octo<CR>", { noremap = true })
-    end,
-  },
 }
