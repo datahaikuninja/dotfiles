@@ -15,7 +15,7 @@ issuesSections:
 defaults:
   preview:
     open: true
-    width: 50
+    width: 100
   prsLimit: 20
   issuesLimit: 20
   view: prs
@@ -63,11 +63,9 @@ keybindings:
         /Applications/WezTerm.app/Contents/MacOS/wezterm cli spawn --cwd {{.RepoPath}} -- \
         bash -c '/Applications/WezTerm.app/Contents/MacOS/wezterm cli set-tab-title {{.RepoName}}#{{.PrNumber}} &&'\
         'gh pr checkout {{.PrNumber}} &&'\
-        'nvim -c '\
-        '  ":execute '"'"'DiffviewOpen origin/$(gh pr status --json baseRefName -q .currentBranch.baseRefName)...{{.HeadRefName}}'"'"\
-        '   | :tabonly"' \
+        'BASE=origin/$(gh pr view {{.PrNumber}} --json baseRefName -q .baseRefName) &&'\
+        'nvim $(git diff --name-only $BASE...HEAD) -c "lua vim.defer_fn(function() require('"'"'gitsigns'"'"').change_base('"'"'${BASE}'"'"', true) end, 200)"; exec $SHELL' \
         > /dev/null 2>&1
-        # tmux new-session -d -c {{.RepoPath}} -s {{.RepoName}}#{{.PrNumber}} 'gh pr checkout {{.PrNumber}} && nvim -c ":DiffviewOpen origin/$(gh pr status --json baseRefName -q '.currentBranch.baseRefName')...{{.HeadRefName}}"' \; attach >/dev/null 2>&1
 repoPaths:
   datahaikuninja/*: "$HOME/ghq/mine/github.com/datahaikuninja/*"
   adtech-tver/*: "$HOME/ghq/github.com/adtech-tver/*"
