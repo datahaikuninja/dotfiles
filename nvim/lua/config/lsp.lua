@@ -57,6 +57,7 @@ vim.lsp.config("gopls", {
 
 -- config for rust-analyzer
 vim.lsp.config("rust_analyzer", {
+  cmd = { vim.fn.expand("~/.cargo/bin/rust-analyzer") },
   settings = {
     ["rust-analyzer"] = {
       check = {
@@ -140,9 +141,9 @@ require("mason-lspconfig").setup({
     "terraformls",
     "tflint",
     "gopls",
-    "rust_analyzer",
   },
 })
 
 -- enable all Language Server installed by mason
 vim.lsp.enable(require("mason-lspconfig").get_installed_servers())
+vim.lsp.enable("rust_analyzer")
