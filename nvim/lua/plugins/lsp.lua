@@ -24,10 +24,10 @@ return {
           documentation = cmp.config.window.bordered(),
         },
         sources = {
-          { name = "copilot",                keyword_length = 2 },
+          { name = "copilot", keyword_length = 2 },
           { name = "nvim_lsp" },
           { name = "vsnip" },
-          { name = "buffer",                 keyword_length = 3 },
+          { name = "buffer", keyword_length = 3 },
           { name = "path" },
           { name = "skkeleton" },
           { name = "nvim_lsp_signature_help" },
