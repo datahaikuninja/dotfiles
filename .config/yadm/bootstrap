@@ -20,8 +20,13 @@ step "mise"
 if ! command -v mise >/dev/null 2>&1; then
   curl -fsSL https://mise.run | MISE_INSTALL_PATH="$BIN_DIR/mise" sh
 fi
+# Unauthenticated GitHub API allows 60 req/h; pass GITHUB_TOKEN to avoid 403s
 if [[ -z "${BOOTSTRAP_SKIP_TOOLS:-}" ]]; then
-  mise install -y
+  mise install -y || {
+    echo "mise install failed. On GitHub 403, re-run with a token:"
+    echo "  GITHUB_TOKEN=<token> yadm bootstrap"
+    exit 1
+  }
 fi
 eval "$(mise activate bash --shims)"
 
@@ -85,9 +90,7 @@ GUI apps (download from vendor):
   - WezTerm (nightly)      https://wezterm.org/install/macos.html
   - Hammerspoon            https://www.hammerspoon.org/
   - Karabiner-Elements     https://karabiner-elements.pqrs.org/
-  - Raycast                https://www.raycast.com/
   - Slack                  https://slack.com/downloads/mac  (or: mas install 803453959)
-  - Visual Studio Code     https://code.visualstudio.com/
   - Miro                   https://miro.com/apps/
 Docker: colima start --cpus 4 --memory 8 --vz-rosetta
 Fonts: Berkeley Mono (paid; copy from backup into ~/Library/Fonts)

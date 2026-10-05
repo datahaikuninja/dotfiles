@@ -19,6 +19,9 @@ curl -fsSL https://raw.githubusercontent.com/datahaikuninja/dotfiles/main/bootst
 
 To try a branch: `curl ... | DOTFILES_BRANCH=<branch> bash`.
 
+`mise install` hits the GitHub API (60 req/h unauthenticated). If it fails with
+403, create a token on another device and re-run `GITHUB_TOKEN=<token> yadm bootstrap`.
+
 ## Layout
 
 | Path | Tool |
@@ -42,7 +45,8 @@ dotfiles   # cd ~ && yadm enter: subshell where nvim/lazygit see the yadm repo
 ylg        # lazygit on the yadm repo
 
 mise use -g <tool>@<version>   # add a tool (updates .config/mise/config.toml)
-mise upgrade                   # upgrade tools pinned to "latest"
+mise upgrade                   # only tools set to "latest"; pinned ones stay put
+mise outdated                  # see what a pinned tool could be bumped to
 ```
 
 ## Containers
