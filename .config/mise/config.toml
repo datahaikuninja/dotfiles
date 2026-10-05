@@ -9,7 +9,7 @@
 
 [tools]
 # Runtimes
-go = "1.25.12"
+go = "1.25.13"
 node = "22.21.1"
 python = "3.14.7"
 ruby = "3.3.1" # precompiled by default (ruby.precompiled_url)
