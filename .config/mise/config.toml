@@ -52,3 +52,12 @@ istioctl = "latest"
 go-jsonnet = "latest"
 k6 = "latest"
 "pipx:aws2-wrap" = "latest"
+
+# Containers: colima (vz + virtiofs by default) + docker CLI
+colima = "latest"
+lima = "latest" # colima drives limactl
+docker-cli = "latest"
+# CLI plugins must live in ~/.docker/cli-plugins; relink on every install
+"aqua:docker/buildx" = { version = "latest", postinstall = 'mkdir -p "$HOME/.docker/cli-plugins" && ln -sf "$MISE_TOOL_INSTALL_PATH/docker-cli-plugin-docker-buildx" "$HOME/.docker/cli-plugins/docker-buildx"' }
+docker-compose = { version = "latest", postinstall = 'mkdir -p "$HOME/.docker/cli-plugins" && ln -sf "$MISE_TOOL_INSTALL_PATH/docker-compose" "$HOME/.docker/cli-plugins/docker-compose"' }
+"github:docker/docker-credential-helpers" = { version = "latest", asset_pattern = "docker-credential-osxkeychain-*.darwin-arm64", bin = "docker-credential-osxkeychain" }

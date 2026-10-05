@@ -59,6 +59,13 @@ if [[ ! -f "$HOME/Library/Fonts/HackGen-Regular.ttf" ]]; then
   rm -rf "$tmp"
 fi
 
+step "docker config"
+# Keep registry credentials in Keychain instead of base64 in config.json
+if [[ ! -f "$HOME/.docker/config.json" ]]; then
+  mkdir -p "$HOME/.docker"
+  printf '{\n  "credsStore": "osxkeychain"\n}\n' > "$HOME/.docker/config.json"
+fi
+
 step "Google Cloud SDK"
 # Official tarball; .zshrc already sources path/completion, so skip rc edits.
 # CLT's python3 is too old for gcloud, so point it at mise's python.
@@ -78,11 +85,11 @@ GUI apps (download from vendor):
   - WezTerm (nightly)      https://wezterm.org/install/macos.html
   - Hammerspoon            https://www.hammerspoon.org/
   - Karabiner-Elements     https://karabiner-elements.pqrs.org/
-  - OrbStack               https://orbstack.dev/  (provides docker CLI)
   - Raycast                https://www.raycast.com/
   - Slack                  https://slack.com/downloads/mac  (or: mas install 803453959)
   - Visual Studio Code     https://code.visualstudio.com/
   - Miro                   https://miro.com/apps/
+Docker: colima start --cpus 4 --memory 8 --vz-rosetta
 Fonts: Berkeley Mono (paid; copy from backup into ~/Library/Fonts)
 Auth:  gh auth login / gcloud auth login / gcloud auth application-default login
 Then:  open a new WezTerm window and run `nvim` to sync plugins

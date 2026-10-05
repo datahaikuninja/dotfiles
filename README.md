@@ -45,8 +45,19 @@ mise use -g <tool>@<version>   # add a tool (updates .config/mise/config.toml)
 mise upgrade                   # upgrade tools pinned to "latest"
 ```
 
+## Containers
+
+colima + docker CLI (buildx / compose plugins and the osxkeychain credential
+helper come from mise). First start creates the VM and the `colima` docker context:
+
+```shell
+colima start --cpus 4 --memory 8 --vz-rosetta   # vz + virtiofs are defaults
+docker run --rm hello-world
+```
+
+`--vz-rosetta` lets amd64-only images (e.g. `mysql:5.7`) run fast.
+
 ## Not covered by mise
 
 - GUI apps: install from vendor sites (list printed by `yadm bootstrap`).
-  OrbStack provides `docker`.
 - MySQL client: `mysql80` / `mysql57` run in containers (see `.zshrc`).
