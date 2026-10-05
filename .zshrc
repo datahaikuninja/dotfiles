@@ -44,23 +44,13 @@ zinit light zsh-users/zsh-autosuggestions
 zinit ice wait lucid
 zinit light zdharma-continuum/fast-syntax-highlighting
 
-#### asdf(version control system)
-#zinit light asdf-vm/asdf --commented out as I moved to homebrew
-
 ### PATH
-export PATH="/opt/homebrew/opt/binutils/bin:$PATH"
-export PATH="/usr/local/bin:$PATH"
-export PATH="/opt/homebrew/bin:$PATH"
-export PATH="/opt/homebrew/Cellar/git:$PATH"
-export PATH="${HOME}/.asdf/shims/python:$PATH"
-export PATH="${HOME}/sdk/go1.25.5/bin:$PATH"
 export PATH="${HOME}/go/bin:$PATH"
 export PATH="${HOME}/.cargo/bin:$PATH"
-export PATH="/Applications/WezTerm.app/Contents/MacOS/wezterm:$PATH"
-export PATH="/opt/homebrew/opt/mysql-client@8.0/bin:$PATH"
-export PATH="/opt/homebrew/opt/mysql-client@5.7/bin:$PATH"
-export PATH="${HOME}/.asdf/shims/ruby:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
+
+### mise: runtimes and CLI tools (~/.config/mise/config.toml)
+eval "$(mise activate zsh)"
 
 ### $HOME 変数の値に応じて $WORK_ENV を設定
 case "$HOME" in
@@ -109,14 +99,13 @@ alias lg='lazygit'
 #### gh-dash
 alias ghd='gh dash'
 
-#### dotfiles
-alias dotfiles="cd ${HOME}/ghq/mine/github.com/datahaikuninja/dotfiles"
+#### dotfiles (yadm): subshell with GIT_DIR set, so nvim/lazygit see the repo
+alias dotfiles='cd ~ && yadm enter'
+alias ylg='cd ~ && yadm enter lazygit'
 
-#### mysql57
-alias mysql57='/opt/homebrew/opt/mysql-client@5.7/bin/mysql'
-
-#### mysql80
-alias mysql80='/opt/homebrew/opt/mysql-client@8.0/bin/mysql'
+#### mysql client via container (no Homebrew)
+function mysql80() { docker run --rm -it --network host mysql:8.0 mysql "$@" }
+function mysql57() { docker run --rm -it --network host --platform linux/amd64 mysql:5.7 mysql "$@" }
 
 #### git-completion
 fpath=(~/.zsh/completion $fpath)
@@ -146,7 +135,7 @@ alias repo='moveRepo'
 #### fzf git add
 function fzf_git_add() {
     local selected
-    selected=$(unbuffer git status -s | fzf -m --ansi --preview="echo {} | awk '{print \$2}' | xargs git diff --color" | awk '{print $2}')
+    selected=$(git -c color.status=always status -s | fzf -m --ansi --preview="echo {} | awk '{print \$2}' | xargs git diff --color" | awk '{print $2}')
     if [[ -n "$selected" ]]; then
         git add `paste -d " " -s - <<< $selected`
     fi
@@ -180,7 +169,7 @@ alias fse='fzf_search_edit'
 #### fzf cd
 function fzf_cd() {
     local dir
-    dir=$(fd --type d | fzf --query="$1" --no-multi --select-1 --exit-0 --preview 'tree -C {} | head -n 100')
+    dir=$(fd --type d | fzf --query="$1" --no-multi --select-1 --exit-0 --preview 'fd . {} --max-depth 2 --color=always | head -n 100')
     if [[ -n $dir ]]; then
         cd "$dir"
     fi
@@ -190,12 +179,9 @@ alias fcd='fzf_cd'
 ## starship
 eval "$(starship init zsh)"
 
-## asdf
-. /opt/homebrew/opt/asdf/libexec/asdf.sh
-
 ## terragrunt: eanble tab completion
 autoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C /opt/homebrew/bin/terragrunt terragrunt
+complete -o nospace -C terragrunt terragrunt
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f "${HOME}/google-cloud-sdk/path.zsh.inc" ]; then . "${HOME}/google-cloud-sdk/path.zsh.inc"; fi
@@ -203,24 +189,21 @@ if [ -f "${HOME}/google-cloud-sdk/path.zsh.inc" ]; then . "${HOME}/google-cloud-
 # The next line enables shell command completion for gcloud.
 if [ -f "${HOME}/google-cloud-sdk/completion.zsh.inc" ]; then . "${HOME}/google-cloud-sdk/completion.zsh.inc"; fi
 
+# gcloud: use mise's python (runtime symlink tracks the 3.14.x patch)
+_mise_py="${HOME}/.local/share/mise/installs/python/3.14/bin/python3"
+[[ -x "$_mise_py" ]] && export CLOUDSDK_PYTHON="$_mise_py"
+unset _mise_py
+
 ## kubectl completion (cached)
 _kubectl_comp_cache="$HOME/.zsh/cache/kubectl_completion.zsh"
-if [[ ! -f "$_kubectl_comp_cache" ]] || [[ $(command -v kubectl) -nt "$_kubectl_comp_cache" ]]; then
-  mkdir -p "$HOME/.zsh/cache"
-  kubectl completion zsh > "$_kubectl_comp_cache"
+if (( $+commands[kubectl] )); then
+  if [[ ! -f "$_kubectl_comp_cache" ]] || [[ $commands[kubectl] -nt "$_kubectl_comp_cache" ]]; then
+    mkdir -p "$HOME/.zsh/cache"
+    kubectl completion zsh > "$_kubectl_comp_cache"
+  fi
+  source "$_kubectl_comp_cache"
 fi
-source "$_kubectl_comp_cache"
 unset _kubectl_comp_cache
-
-## aqua (cached)
-_aqua_comp_cache="$HOME/.zsh/cache/aqua_completion.zsh"
-if [[ ! -f "$_aqua_comp_cache" ]] || [[ $(command -v aqua) -nt "$_aqua_comp_cache" ]]; then
-  mkdir -p "$HOME/.zsh/cache"
-  aqua completion zsh > "$_aqua_comp_cache"
-fi
-source "$_aqua_comp_cache"
-unset _aqua_comp_cache
-export PATH="$(aqua root-dir)/bin:$PATH"
 
 ### claude-work: GitHub issue を別 WezTerm Workspace で Claude に作業させる
 function claude-work() {
@@ -289,5 +272,3 @@ function claude-work-log() {
 }
 alias cwl='claude-work-log'
 
-### deno
-. "$HOME/.deno/env"

@@ -1,0 +1,54 @@
+# Global tools. Replaces Homebrew formulae, asdf and aqua.
+# Short names resolve via `mise registry <name>` (mostly aqua backend).
+
+[tools]
+# Runtimes
+go = "1.25.12"
+node = "22.21.1"
+python = "3.14.7"
+ruby = "3.3.1" # precompiled by default (ruby.precompiled_url)
+deno = "latest"
+rust = { version = "stable", components = "rust-analyzer,clippy,rustfmt" }
+uv = "latest" # also used by the pipx backend
+
+# Editor / shell
+neovim = "latest"
+starship = "latest"
+direnv = "latest"
+fzf = "latest"
+ripgrep = "latest"
+fd = "latest"
+bat = "latest"
+jq = "latest"
+yq = "latest"
+viddy = "latest" # replaces `watch`
+cloc = "latest"
+typst = "latest"
+mas = "latest"   # Mac App Store CLI
+
+# Git
+ghq = "latest"
+gh = "latest"
+lazygit = "latest"
+delta = "latest"
+actionlint = "latest"
+
+# Go tooling
+golangci-lint = "latest"
+staticcheck = "latest"
+"go:golang.org/x/tools/gopls" = "latest"
+"go:github.com/go-delve/delve/cmd/dlv" = "latest"
+"go:github.com/rakyll/hey" = "latest"
+
+# Infra
+terraform = "1.11.0"
+terragrunt = "latest"
+tflint = "latest"
+terraform-docs = "latest"
+kubectl = "latest"
+helm = "latest"
+argocd = "latest"
+istioctl = "latest"
+go-jsonnet = "latest"
+k6 = "latest"
+"pipx:aws2-wrap" = "latest"
