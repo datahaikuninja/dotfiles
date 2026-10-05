@@ -32,4 +32,15 @@ return {
     "sindrets/diffview.nvim",
     opts = {},
   },
+  {
+    "linrongbin16/gitlinker.nvim",
+    cmd = "GitLink",
+    opts = {},
+    keys = {
+      -- カーソル行のパーマリンクをクリップボードにコピー
+      { "<leader>gy", "<cmd>GitLink<cr>", mode = { "n", "v" }, desc = "Copy git permalink to clipboard" },
+      -- ブラウザで開く
+      { "<leader>go", "<cmd>GitLink!<cr>", mode = { "n", "v" }, desc = "Open git permalink in browser" },
+    },
+  },
 }
