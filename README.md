@@ -13,6 +13,8 @@ curl -fsSL https://raw.githubusercontent.com/datahaikuninja/dotfiles/main/bootst
    `~/.local/bin`, and runs `yadm clone`.
 2. `yadm bootstrap` (`.config/yadm/bootstrap`) runs the rest:
    - sparse-checkout so that `README.md`, `bootstrap.sh` and `docs/` stay out of `$HOME`
+   - stops if a stray SDK is newer than the Command Line Tools (its linker
+     can't use it, so C builds like treesitter parsers fail)
    - Rosetta, mise + `mise install`, the gh-dash extension, git completion,
      the SKK dictionary, the HackGen font, Google Cloud SDK
    - prints the GUI apps and auth steps that still need to be done by hand

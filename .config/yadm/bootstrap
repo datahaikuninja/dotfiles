@@ -11,6 +11,22 @@ step() { printf '\n\033[1;34m==> %s\033[0m\n' "$*"; }
 step "sparse-checkout"
 yadm sparse-checkout set --no-cone '/*' '!/README.md' '!/bootstrap.sh' '!/docs/'
 
+step "Command Line Tools SDK"
+# A stray newer SDK (beta/restore leftover) gets picked by clang, but the older
+# ld can't parse its .tbd stubs, so every C build (treesitter, ruby) fails.
+# Compare major versions only; CLT x.y normally ships an SDK x.(y-1).
+if [[ "$(xcode-select -p)" == /Library/Developer/CommandLineTools ]] &&
+  clt="$(pkgutil --pkg-info com.apple.pkg.CLTools_Executables 2>/dev/null |
+    awk '/^version:/ {print $2}')" && [[ -n "$clt" ]] &&
+  sdk="$(xcrun --show-sdk-version)"; then
+  if (( ${sdk%%.*} > ${clt%%.*} )); then
+    echo "SDK $sdk is newer than Command Line Tools $clt; its linker can't use it."
+    echo "Remove the stray SDK and its symlink, then re-run:"
+    echo "  sudo rm -rf" /Library/Developer/CommandLineTools/SDKs/MacOSX"${sdk%%.*}"*.sdk
+    exit 1
+  fi
+fi
+
 step "Rosetta (needed by Google Japanese IME)"
 if [[ ! -f /Library/Apple/usr/share/rosetta/rosetta ]]; then
   sudo softwareupdate --install-rosetta --agree-to-license
