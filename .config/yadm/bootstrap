@@ -1,0 +1,99 @@
+#!/bin/bash
+# Run by `yadm bootstrap` (bootstrap.sh calls it after cloning). Safe to re-run.
+set -euo pipefail
+
+BIN_DIR="$HOME/.local/bin"
+export PATH="$BIN_DIR:$PATH"
+
+step() { printf '\n\033[1;34m==> %s\033[0m\n' "$*"; }
+
+# Repo-only files stay out of $HOME
+step "sparse-checkout"
+yadm sparse-checkout set --no-cone '/*' '!/README.md' '!/bootstrap.sh' '!/docs/'
+
+step "Rosetta (needed by Google Japanese IME)"
+if [[ ! -f /Library/Apple/usr/share/rosetta/rosetta ]]; then
+  sudo softwareupdate --install-rosetta --agree-to-license
+fi
+
+step "mise"
+if ! command -v mise >/dev/null 2>&1; then
+  curl -fsSL https://mise.run | MISE_INSTALL_PATH="$BIN_DIR/mise" sh
+fi
+# Unauthenticated GitHub API allows 60 req/h; pass GITHUB_TOKEN to avoid 403s
+if [[ -z "${BOOTSTRAP_SKIP_TOOLS:-}" ]]; then
+  mise install -y || {
+    echo "mise install failed. On GitHub 403, re-run with a token:"
+    echo "  GITHUB_TOKEN=<token> yadm bootstrap"
+    exit 1
+  }
+fi
+eval "$(mise activate bash --shims)"
+
+step "gh extensions"
+if command -v gh >/dev/null 2>&1; then
+  if [[ "$(gh extension list 2>/dev/null)" != *gh-dash* ]]; then
+    gh extension install dlvhdr/gh-dash ||
+      echo "skip: run 'gh auth login' then 'gh extension install dlvhdr/gh-dash'"
+  fi
+fi
+
+step "git completion"
+mkdir -p "$HOME/.zsh/completion"
+curl -fsSLo "$HOME/.zsh/completion/git-completion.bash" \
+  https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash
+curl -fsSLo "$HOME/.zsh/completion/_git" \
+  https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.zsh
+
+step "SKK dictionary"
+if [[ ! -f "$HOME/.skk/SKK-JISYO.L" ]]; then
+  mkdir -p "$HOME/.skk"
+  curl -fsSLo "$HOME/.skk/SKK-JISYO.L" \
+    https://raw.githubusercontent.com/skk-dev/dict/master/SKK-JISYO.L
+fi
+
+step "HackGen font"
+if [[ ! -f "$HOME/Library/Fonts/HackGen-Regular.ttf" ]]; then
+  tmp="$(mktemp -d)"
+  url="$(curl -fsSL https://api.github.com/repos/yuru7/HackGen/releases/latest |
+    grep -o 'https://[^"]*/HackGen_v[^"]*\.zip')"
+  curl -fsSLo "$tmp/hackgen.zip" "$url"
+  unzip -q "$tmp/hackgen.zip" -d "$tmp"
+  mkdir -p "$HOME/Library/Fonts"
+  find "$tmp" -name '*.ttf' -exec cp {} "$HOME/Library/Fonts/" \;
+  rm -rf "$tmp"
+fi
+
+step "docker config"
+# Keep registry credentials in Keychain instead of base64 in config.json
+if [[ ! -f "$HOME/.docker/config.json" ]]; then
+  mkdir -p "$HOME/.docker"
+  printf '{\n  "credsStore": "osxkeychain"\n}\n' > "$HOME/.docker/config.json"
+fi
+
+step "Google Cloud SDK"
+# Official tarball; .zshrc already sources path/completion, so skip rc edits.
+# CLT's python3 is too old for gcloud, so point it at mise's python.
+if ! "$HOME/google-cloud-sdk/bin/gcloud" version >/dev/null 2>&1; then
+  rm -rf "$HOME/google-cloud-sdk"
+  curl -fsSL https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-darwin-arm.tar.gz |
+    tar -xz -C "$HOME"
+  CLOUDSDK_PYTHON="$(mise which python3)" "$HOME/google-cloud-sdk/install.sh" --quiet \
+    --path-update=false --command-completion=false --usage-reporting=false
+fi
+
+step "Manual steps left"
+cat <<'EOF'
+GUI apps (download from vendor):
+  - Google Chrome          https://www.google.com/chrome/
+  - Google Japanese IME    https://www.google.co.jp/ime/
+  - WezTerm (nightly)      https://wezterm.org/install/macos.html
+  - Hammerspoon            https://www.hammerspoon.org/
+  - Karabiner-Elements     https://karabiner-elements.pqrs.org/
+  - Slack                  https://slack.com/downloads/mac  (or: mas install 803453959)
+  - Miro                   https://miro.com/apps/
+Docker: colima start --cpus 4 --memory 8 --vz-rosetta
+Fonts: Berkeley Mono (paid; copy from backup into ~/Library/Fonts)
+Auth:  gh auth login / gcloud auth login / gcloud auth application-default login
+Then:  open a new WezTerm window and run `nvim` to sync plugins
+EOF

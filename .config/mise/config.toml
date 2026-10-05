@@ -1,0 +1,69 @@
+# Global tools. Replaces Homebrew formulae, asdf and aqua.
+# Short names resolve via `mise registry <name>` (mostly aqua backend).
+#
+# Version policy:
+#   - Pinned: tools whose upgrades can break config, plugins or work output.
+#     Bump deliberately: `mise use -g <tool>@<version>`, then test.
+#   - "latest": stateless leaf CLIs where a new release is low-risk.
+#     `mise upgrade` only touches these.
+
+[tools]
+# Runtimes
+go = "1.25.12"
+node = "22.21.1"
+python = "3.14.7"
+ruby = "3.3.1" # precompiled by default (ruby.precompiled_url)
+deno = "latest"
+rust = { version = "stable", components = "rust-analyzer,clippy,rustfmt" }
+uv = "latest" # also used by the pipx backend
+
+# Editor / shell
+neovim = "0.11.5" # plugins are locked in .config/nvim/lazy-lock.json
+starship = "1.23.0"
+direnv = "2.36.0"
+fzf = "0.61.3"
+ripgrep = "latest"
+fd = "latest"
+bat = "latest"
+jq = "latest"
+yq = "latest"
+viddy = "latest" # replaces `watch`
+cloc = "latest"
+typst = "latest"
+mas = "latest"   # Mac App Store CLI
+
+# Git
+ghq = "1.9.3"
+gh = "2.89.0"
+lazygit = "0.49.0"
+delta = "0.18.2"
+actionlint = "latest"
+
+# Go tooling
+golangci-lint = "2.12.2"
+staticcheck = "2026.2.1"
+"go:golang.org/x/tools/gopls" = "0.21.1"
+"go:github.com/go-delve/delve/cmd/dlv" = "1.27.2" # must support the Go version above
+"go:github.com/rakyll/hey" = "latest"
+
+# Infra
+terraform = "1.11.0"
+terragrunt = "0.77.22"
+tflint = "0.56.0"
+terraform-docs = "0.20.0"
+kubectl = "1.33.0"
+helm = "3.17.3"
+argocd = "3.4.1"
+istioctl = "1.24.2"
+go-jsonnet = "latest"
+k6 = "1.5.0"
+"pipx:aws2-wrap" = "latest"
+
+# Containers: colima (vz + virtiofs by default) + docker CLI
+colima = "0.10.1"
+lima = "2.0.3" # colima drives limactl; bump together with colima
+docker-cli = "latest"
+# CLI plugins must live in ~/.docker/cli-plugins; relink on every install
+"aqua:docker/buildx" = { version = "latest", postinstall = 'mkdir -p "$HOME/.docker/cli-plugins" && ln -sf "$MISE_TOOL_INSTALL_PATH/docker-cli-plugin-docker-buildx" "$HOME/.docker/cli-plugins/docker-buildx"' }
+docker-compose = { version = "latest", postinstall = 'mkdir -p "$HOME/.docker/cli-plugins" && ln -sf "$MISE_TOOL_INSTALL_PATH/docker-compose" "$HOME/.docker/cli-plugins/docker-compose"' }
+"github:docker/docker-credential-helpers" = { version = "latest", asset_pattern = "docker-credential-osxkeychain-*.darwin-arm64", bin = "docker-credential-osxkeychain" }
