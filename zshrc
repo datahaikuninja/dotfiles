@@ -53,7 +53,7 @@ export PATH="/usr/local/bin:$PATH"
 export PATH="/opt/homebrew/bin:$PATH"
 export PATH="/opt/homebrew/Cellar/git:$PATH"
 export PATH="${HOME}/.asdf/shims/python:$PATH"
-export PATH="${HOME}/sdk/go1.25.5/bin:$PATH"
+export PATH="${HOME}/sdk/go1.25.12/bin:$PATH"
 export PATH="${HOME}/go/bin:$PATH"
 export PATH="${HOME}/.cargo/bin:$PATH"
 export PATH="/Applications/WezTerm.app/Contents/MacOS/wezterm:$PATH"
@@ -61,6 +61,8 @@ export PATH="/opt/homebrew/opt/mysql-client@8.0/bin:$PATH"
 export PATH="/opt/homebrew/opt/mysql-client@5.7/bin:$PATH"
 export PATH="${HOME}/.asdf/shims/ruby:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/istio-1.24.2/bin:$PATH"
+export CLOUDSDK_PYTHON="${HOME}/.asdf/installs/python/3.14.7/bin/python3.14"
 
 ### $HOME 変数の値に応じて $WORK_ENV を設定
 case "$HOME" in
