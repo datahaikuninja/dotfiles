@@ -1,0 +1,9 @@
+onboarding = false
+
+[update]
+# Versions are managed by mise; bump with `mise use -g herdr@<version>`
+version_check = false
+
+[ui.toast]
+# OS notification when a background pane is done or blocked (replaces notify.sh)
+delivery = "system"
