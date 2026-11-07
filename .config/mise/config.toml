@@ -28,6 +28,7 @@ bat = "latest"
 jq = "latest"
 yq = "latest"
 viddy = "latest" # replaces `watch`
+herdr = "0.9.5"  # coding-agent multiplexer; v0.x with frequent hotfixes, bump deliberately
 cloc = "latest"
 typst = "latest"
 mas = "latest"   # Mac App Store CLI
