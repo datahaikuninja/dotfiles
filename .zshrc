@@ -205,6 +205,17 @@ if (( $+commands[kubectl] )); then
 fi
 unset _kubectl_comp_cache
 
+## herdr completion (cached)
+_herdr_comp_cache="$HOME/.zsh/cache/herdr_completion.zsh"
+if (( $+commands[herdr] )); then
+  if [[ ! -f "$_herdr_comp_cache" ]] || [[ $commands[herdr] -nt "$_herdr_comp_cache" ]]; then
+    mkdir -p "$HOME/.zsh/cache"
+    herdr completion zsh > "$_herdr_comp_cache"
+  fi
+  source "$_herdr_comp_cache"
+fi
+unset _herdr_comp_cache
+
 ### claude-work: GitHub issue を別 WezTerm Workspace で Claude に作業させる
 function claude-work() {
   local issue_number="$1"
