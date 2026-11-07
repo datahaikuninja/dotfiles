@@ -4,6 +4,17 @@ onboarding = false
 # Versions are managed by mise; bump with `mise use -g herdr@<version>`
 version_check = false
 
+[keys]
+# Navigate mode (prefix+w): j/k move between workspaces instead of panes
+navigate_workspace_up = "k"
+navigate_workspace_down = "j"
+navigate_pane_up = "shift+k"
+navigate_pane_down = "shift+j"
+
 [ui.toast]
 # OS notification when a background pane is done or blocked (replaces notify.sh)
 delivery = "system"
+
+[experimental]
+# Switch to an ASCII input source in prefix mode so keys bypass the Japanese IME
+switch_ascii_input_source_in_prefix = true
