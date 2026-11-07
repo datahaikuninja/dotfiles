@@ -46,6 +46,14 @@ if [[ -z "${BOOTSTRAP_SKIP_TOOLS:-}" ]]; then
 fi
 eval "$(mise activate bash --shims)"
 
+step "yadm push credentials"
+# Push as the personal account even when gh's active account is a work one.
+# The empty helper drops the global gh helper, which only serves the active account.
+yadm gitconfig --unset-all credential.https://github.com.helper || true
+yadm gitconfig --add credential.https://github.com.helper ''
+yadm gitconfig --add credential.https://github.com.helper \
+  '!f() { test "$1" = get && echo username=datahaikuninja && echo "password=$(gh auth token --user datahaikuninja)"; }; f'
+
 step "gh extensions"
 if command -v gh >/dev/null 2>&1; then
   if [[ "$(gh extension list 2>/dev/null)" != *gh-dash* ]]; then
@@ -111,5 +119,6 @@ GUI apps (download from vendor):
 Docker: colima start --cpus 4 --memory 8 --vz-rosetta
 Fonts: Berkeley Mono (paid; copy from backup into ~/Library/Fonts)
 Auth:  gh auth login / gcloud auth login / gcloud auth application-default login
+       gh auth login as datahaikuninja too (yadm push uses that account's token)
 Then:  open a new WezTerm window and run `nvim` to sync plugins
 EOF
